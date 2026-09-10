@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dossier n°8 — Dynamiques sociodémographiques — Rémy Daura</title>
+<title>Dossier n°8 — Profil des étudiants Data — Rémy Daura</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -23,10 +23,11 @@
 <div class="case-head">
   <div class="wrap">
     <span class="dossier-num mono">DOSSIER N°08</span>
-    <h1>Dynamiques sociodémographiques</h1>
-    <p class="prose">Modélisation et transformation de données démographiques dans un entrepôt de données cloud, avec des tests de qualité intégrés au pipeline.</p>
+    <h1>Le profil des étudiants Data, sans reprise manuelle d'une année sur l'autre</h1>
+    <p class="prose">Un pipeline dbt/Snowflake entièrement automatisé pour dresser le profil sociodémographique des étudiants d'un organisme de formation — qui a aussi mis au jour une baisse d'effectifs préoccupante.</p>
     <div class="case-meta">
-      <span><b>Outils</b> dbt, Snowflake, SQL</span>
+      <span><b>Outils</b> dbt, Snowflake, SQL, données INSEE</span>
+      <span><b>Livrables</b> Pipeline automatisé, présentation, fichier d'analyse final</span>
     </div>
   </div>
 </div>
@@ -35,8 +36,7 @@
   <div class="wrap">
     <h2>Contexte</h2>
     <div class="body">
-      <p>Analyse de l'évolution de dynamiques sociodémographiques à partir de données structurées dans un entrepôt cloud (Snowflake), transformées via dbt.</p>
-      <p class="placeholder-note">Section à compléter avec le contexte précis du projet (source des données, période, échelle géographique).</p>
+      <p>Un organisme de formation en forte croissance sur ses filières Data doit, pour continuer à bien accompagner ses étudiants, commencer par les connaître précisément.</p>
     </div>
   </div>
 </div>
@@ -45,7 +45,7 @@
   <div class="wrap">
     <h2>Besoin métier</h2>
     <div class="body">
-      <p class="placeholder-note">Section à compléter : quelle décision ou quel usage ces analyses devaient-elles éclairer ?</p>
+      <p>Trois objectifs fixés par la commanditaire : définir le profil type des étudiants (âge, origine géographique), mesurer l'évolution de ces profils au fil des années, et les comparer à la population française grâce aux données de l'INSEE.</p>
     </div>
   </div>
 </div>
@@ -54,8 +54,11 @@
   <div class="wrap">
     <h2>Démarche</h2>
     <div class="body">
-      <p>Le pipeline de transformation a été construit avec dbt, avec des <strong>tests de qualité de données déclarés directement dans le schéma</strong> (unicité, non-nullité, valeurs attendues) — une approche conceptuellement proche de celle développée plus tard dans le dossier n°13, mais appliquée ici dans un contexte SQL/entrepôt cloud plutôt que Python.</p>
-      <p class="placeholder-note">Section à compléter : modèles dbt construits, volumétrie des données, requêtes ou analyses SQL clés.</p>
+      <p>L'objectif n'était pas de produire un rapport ponctuel, mais un processus automatisé et pérenne : les fichiers bruts internes sont chargés dans Snowflake, puis nettoyés, testés et transformés via dbt de bout en bout.</p>
+      <p>La conformité RGPD a été pensée dès la conception : données pseudonymisées via un identifiant unique, principe de minimisation appliqué en supprimant les données superflues, et traitement transparent des valeurs manquantes — une catégorie "Non renseigné" plutôt qu'une suppression de ligne, pour ne pas fausser les effectifs totaux.</p>
+      <p>Le point de vigilance le plus important est apparu en phase de fiabilisation : le fichier source comptait une ligne par <em>inscription</em>, pas par <em>étudiant</em>. Un étudiant réinscrit plusieurs fois était donc compté en double, voire en triple. Une règle de dédoublonnement — ne conserver que l'inscription la plus récente par étudiant — a été codée directement dans dbt, plutôt que corrigée à la main.</p>
+      <p>L'architecture technique distingue trois niveaux dans Snowflake : des tables brutes physiques (<code>raw_students</code>, <code>raw_insee</code>), des vues de nettoyage dbt non matérialisées pour économiser le stockage (<code>stg_students</code>, <code>stg_insee</code>), et une table finale matérialisée (<code>mart_student_profiling</code>) pour un accès instantané aux statistiques. Des tests de qualité sont codés dans le schéma dbt : unicité et non-nullité sur l'identifiant étudiant, valeurs acceptées sur le genre.</p>
+      <p>L'enrichissement avec les données INSEE a demandé un travail d'harmonisation : orthographe exacte des régions françaises, alignement des tranches d'âge.</p>
     </div>
   </div>
 </div>
@@ -64,7 +67,13 @@
   <div class="wrap">
     <h2>Résultats</h2>
     <div class="body">
-      <p class="placeholder-note">Section à compléter avec les résultats et livrables précis de ce projet.</p>
+      <div class="result-grid">
+        <div class="r"><b>255→69</b><span>évolution des inscriptions entre 2022 et 2025</span></div>
+        <div class="r"><b>41%→20%</b><span>part de femmes, de l'année 2023 à la stagnation actuelle</span></div>
+        <div class="r"><b>257</b><span>étudiants dans la seule tranche 30-34 ans</span></div>
+      </div>
+      <p style="margin-top:28px">Le profil qui se dégage est celui d'un public de professionnels en reconversion (25-39 ans très majoritaires, pas de profils post-bac), fortement concentré en Île-de-France (336 étudiants, contre 63 en Occitanie et 52 en Auvergne-Rhône-Alpes).</p>
+      <p>Trois recommandations en ont découlé : auditer en urgence les canaux d'acquisition face à la chute des effectifs, comprendre ce qui a permis la quasi-parité de 2023 pour tenter de le reproduire, et orienter une partie du budget d'acquisition vers les régions hors Île-de-France.</p>
     </div>
   </div>
 </div>
@@ -73,7 +82,11 @@
   <div class="wrap">
     <h2>Limites et pistes</h2>
     <div class="body">
-      <p class="placeholder-note">Section à compléter.</p>
+      <ul>
+        <li>La qualité de la donnée sur le genre s'est nettement améliorée dans le temps (63% de valeurs non renseignées en 2022), ce qui limite la comparabilité des tout premiers chiffres de parité.</li>
+        <li>Les causes de la chute des inscriptions et du recul de la parité depuis 2024 restent à investiguer côté métier — le pipeline mesure et fiabilise, il n'explique pas à lui seul les causes.</li>
+        <li>Le pipeline dbt est conçu pour être rejoué automatiquement à l'arrivée d'une nouvelle promotion, sans reprise manuelle : les tests de qualité s'exécutent avant même que les nouveaux chiffres soient exploités.</li>
+      </ul>
     </div>
   </div>
 </div>

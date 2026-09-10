@@ -1,0 +1,322 @@
+:root {
+  --paper: #EDEFEA;
+  --paper-alt: #E2E5D8;
+  --ink: #1E2A32;
+  --ink-muted: #5C6B67;
+  --rule: #C7CBB8;
+  --stamp: #A8382B;
+  --stamp-soft: #E9DCCB;
+  --max: 760px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--stamp-soft); }
+
+a {
+  color: var(--ink);
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+}
+a:hover { text-decoration-color: var(--stamp); color: var(--stamp); }
+
+h1, h2, h3 {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 500;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.mono {
+  font-family: "IBM Plex Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.prose { max-width: var(--max); }
+
+/* ---------- Header ---------- */
+.site-header {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.site-header .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.site-header .brand {
+  font-family: "Spectral", serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.site-header nav a {
+  margin-left: 28px;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.site-header nav a:hover { color: var(--stamp); }
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 88px 0 64px;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 48px;
+  align-items: start;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  max-width: 11ch;
+}
+.hero .role {
+  margin: 18px 0 22px;
+  color: var(--ink-muted);
+  font-size: 1.15rem;
+  max-width: 42ch;
+}
+.hero .links { display: flex; gap: 22px; flex-wrap: wrap; }
+.hero .links a { font-size: 0.95rem; }
+
+.seal {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  border: 1.5px solid var(--stamp);
+  color: var(--stamp);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  transform: rotate(-6deg);
+  justify-self: end;
+  padding: 10px;
+}
+.seal strong {
+  display: block;
+  font-family: "Spectral", serif;
+  font-size: 1.5rem;
+  font-style: normal;
+}
+
+.stat-strip {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.stat-strip .stat b {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.6rem;
+  color: var(--stamp);
+}
+.stat-strip .stat span {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Section shell ---------- */
+.section { padding: 72px 0; border-bottom: 1px solid var(--rule); }
+.section:last-of-type { border-bottom: none; }
+.section h2 { font-size: 1.7rem; margin-bottom: 14px; }
+.section .lede { color: var(--ink-muted); max-width: 56ch; margin-bottom: 40px; }
+
+/* ---------- Skills ---------- */
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+.skill-tag {
+  flex: 1 1 150px;
+  box-sizing: border-box;
+  background: var(--paper);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 16px 18px;
+  font-size: 0.95rem;
+}
+.skill-tag small {
+  display: block;
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  margin-top: 3px;
+}
+
+/* ---------- Veille (evidence board) ---------- */
+.veille-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.veille-table th, .veille-table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.veille-table th {
+  font-family: "Spectral", serif;
+  font-weight: 500;
+  font-size: 1rem;
+  border-bottom: 1.5px solid var(--ink);
+}
+.veille-table td.hit { color: var(--ink); }
+.veille-table td.miss { color: var(--ink-muted); }
+.veille-note {
+  margin-top: 22px;
+  padding: 18px 22px;
+  background: var(--stamp-soft);
+  border-left: 3px solid var(--stamp);
+  max-width: var(--max);
+  font-size: 0.95rem;
+}
+
+/* ---------- Dossiers (flagship projects) ---------- */
+.dossiers {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+.dossier-card {
+  flex: 1 1 calc(50% - 1px);
+  min-width: 280px;
+  box-sizing: border-box;
+  background: var(--paper);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+}
+.dossier-num {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--stamp);
+  letter-spacing: 0.03em;
+}
+.dossier-card h3 {
+  font-size: 1.35rem;
+  margin: 10px 0 10px;
+}
+.dossier-card p { color: var(--ink-muted); font-size: 0.95rem; flex-grow: 1; }
+.dossier-tags { margin: 14px 0 16px; font-size: 0.82rem; color: var(--ink-muted); }
+.dossier-card .go {
+  font-size: 0.92rem;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+/* ---------- Pieces jointes (secondary projects) ---------- */
+.pieces-list { border-top: 1px solid var(--rule); }
+.piece-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+  gap: 20px;
+}
+.piece-row .name { font-family: "Spectral", serif; font-size: 1.05rem; }
+.piece-row .desc { color: var(--ink-muted); font-size: 0.9rem; flex: 1; padding: 0 24px; }
+.piece-row a { font-size: 0.88rem; white-space: nowrap; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: 40px 0 60px;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---------- Detail page (case file) ---------- */
+.case-head { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+.case-head .dossier-num { font-size: 0.85rem; }
+.case-head h1 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin: 12px 0 16px; max-width: 20ch; }
+.case-meta { display: flex; gap: 32px; flex-wrap: wrap; margin-top: 24px; font-size: 0.88rem; color: var(--ink-muted); }
+.case-meta b { color: var(--ink); font-weight: 600; }
+
+.case-section { padding: 44px 0; border-bottom: 1px solid var(--rule); }
+.case-section:last-of-type { border-bottom: none; }
+.case-section h2 {
+  font-size: 0.85rem;
+  text-transform: none;
+  color: var(--stamp);
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.case-section .body { max-width: var(--max); }
+.case-section .body p { margin: 0 0 16px; }
+.case-section .body ul { margin: 0 0 16px; padding-left: 20px; }
+.case-section .body li { margin-bottom: 8px; }
+
+.result-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 8px;
+}
+.result-grid .r { flex: 1 1 140px; }
+.result-grid .r b {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.9rem;
+  color: var(--stamp);
+}
+.result-grid .r span { color: var(--ink-muted); font-size: 0.88rem; }
+
+.placeholder-note {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  font-style: italic;
+  border-left: 2px solid var(--rule);
+  padding-left: 12px;
+  margin-top: 14px;
+}
+
+@media (max-width: 720px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .seal { justify-self: start; }
+  .piece-row { flex-direction: column; gap: 4px; }
+  .piece-row .desc { padding: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°12 — Détection de faux billets — Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°12</span>
+    <h1>Détection automatique de faux billets</h1>
+    <p class="prose">Construire, comparer et choisir un algorithme de machine learning capable de distinguer un vrai billet d'un faux à partir de six mesures géométriques.</p>
+    <div class="case-meta">
+      <span><b>Client</b> ONCFM (organisation de lutte contre le faux-monnayage)</span>
+      <span><b>Outils</b> Python, Scikit-learn, Pandas</span>
+      <span><b>Livrables</b> Notebook, script de production, support de soutenance</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>L'ONCFM dispose d'une machine qui mesure six caractéristiques géométriques de chaque billet scanné (longueur, hauteurs, marges, diagonale). L'organisation souhaite un algorithme capable de différencier automatiquement les vrais des faux billets à partir de ces seules mesures.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Le critère de réussite n'est pas la précision globale, mais la capacité à <strong>identifier un maximum de faux billets</strong> — un faux billet non détecté a un coût opérationnel bien plus élevé qu'un vrai billet contrôlé par erreur. Le livrable devait aussi être utilisable directement par des équipes non techniques, via une simple ligne de commande.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>L'analyse exploratoire et une analyse en composantes principales ont d'abord permis d'identifier les variables réellement discriminantes : la longueur et les marges séparent nettement les vraies et les fausses coupures, la diagonale n'apporte presque rien seule.</p>
+      <p>Le prétraitement a été construit avec une attention particulière portée à la fuite de données : séparation train/test réalisée <em>avant</em> toute transformation, imputation des valeurs manquantes par KNNImputer calibrée uniquement sur le train, standardisation des variables.</p>
+      <p>Quatre algorithmes ont été mis en concurrence, comme demandé par le cahier des charges : régression logistique, KNN, Random Forest, et K-means — ce dernier entraîné sans étiquettes puis interprété a posteriori via la composition de ses clusters.</p>
+      <p>Le modèle final n'a pas été choisi sur la seule performance : à égalité stricte entre trois modèles, la simplicité et l'interprétabilité ont fait la différence.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>99%</b><span>d'accuracy sur le jeu de test</span></div>
+        <div class="r"><b>98%</b><span>de recall sur la classe "faux billet"</span></div>
+        <div class="r"><b>4</b><span>algorithmes comparés et interprétés</span></div>
+      </div>
+      <p style="margin-top:28px">La régression logistique a été retenue comme modèle final : performance strictement identique au Random Forest (mêmes erreurs, même recall), mais directement interprétable via ses coefficients — un argument décisif pour expliquer une décision à des équipes non techniques. Le livrable final inclut un script en ligne de commande capable de traiter un billet unique ou un fichier complet, avec les probabilités associées à chaque prédiction.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>Trois billets aux mesures proches de la frontière vrai/faux restent mal classés par les trois modèles supervisés, quel que soit l'algorithme — un signe que la limite vient des données elles-mêmes, pas d'un choix de modèle.</li>
+        <li>L'échantillon (1500 billets) mériterait d'être confirmé sur un volume de production plus large avant un déploiement à grande échelle.</li>
+        <li>Le seuil de décision pourrait être ajusté selon le coût métier réel d'un faux positif par rapport à un faux négatif.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura — Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

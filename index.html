@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rémy Daura — Data Analyst</title>
+<meta name="description" content="Portfolio de Rémy Daura, Data Analyst — dossiers de projets, veille technologique et compétences.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="#competences">Compétences</a>
+      <a href="#veille">Veille</a>
+      <a href="#projets">Projets</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Chaque donnée laisse une trace.</h1>
+      <p class="role">Data Analyst — Python, SQL, Power BI. Je passe mon temps à trouver ce qui cloche dans un jeu de données avant que ça ne devienne un problème pour quelqu'un d'autre.</p>
+      <div class="links">
+        <a href="https://github.com/RemyDaura" target="_blank" rel="noopener">GitHub</a>
+        <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#">CV (PDF)</a>
+        <a href="mailto:#">Email</a>
+      </div>
+    </div>
+    <div class="seal">DOSSIER<strong>N°01</strong>OUVERT</div>
+  </div>
+
+  <div class="wrap stat-strip">
+    <div class="stat"><b>12</b><span>dossiers instruits</span></div>
+    <div class="stat"><b>9</b><span>catégories d'anomalies retrouvées automatiquement (P13)</span></div>
+    <div class="stat"><b>99%</b><span>de précision sur la détection de faux billets (P12)</span></div>
+  </div>
+</section>
+
+<section class="section" id="competences">
+  <div class="wrap">
+    <h2>Compétences</h2>
+    <p class="lede">Ce que je mobilise le plus souvent, du recueil de la donnée à sa restitution.</p>
+    <div class="skills-grid">
+      <div class="skill-tag">Python<small>Pandas, NumPy, Scikit-learn</small></div>
+      <div class="skill-tag">SQL<small>Requêtes, jointures, modélisation</small></div>
+      <div class="skill-tag">Power BI<small>DAX, tableaux de bord</small></div>
+      <div class="skill-tag">Machine Learning<small>Classification, clustering</small></div>
+      <div class="skill-tag">dbt / Snowflake<small>Transformation, tests de données</small></div>
+      <div class="skill-tag">Validation de données<small>Pandera, Great Expectations</small></div>
+      <div class="skill-tag">Statistiques<small>Tests, ACP, corrélation</small></div>
+      <div class="skill-tag">Excel<small>TCD, analyse de Pareto</small></div>
+      <div class="skill-tag">Communication<small>Restitution à des non-techniques</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="veille">
+  <div class="wrap">
+    <h2>Veille technologique</h2>
+    <p class="lede">Extrait de la veille menée sur le Projet 13 : comparer des méthodes de fiabilisation de données avant de choisir, plutôt que de choisir par habitude.</p>
+
+    <table class="veille-table">
+      <thead>
+        <tr><th>Méthode</th><th>Ce qu'elle a détecté</th><th>Limite observée</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pandera</td>
+          <td class="hit">5/5 anomalies de prix et de stock, en ~9 lignes de code</td>
+          <td class="miss">Ne détecte que les règles explicitement écrites</td>
+        </tr>
+        <tr>
+          <td>Great Expectations</td>
+          <td class="hit">Mêmes résultats que Pandera, plus un rapport HTML automatique</td>
+          <td class="miss">~65% de code en plus pour la même couverture</td>
+        </tr>
+        <tr>
+          <td>IA générative, données brutes</td>
+          <td class="hit">A trouvé 2 catégories d'anomalies absentes des deux schémas ci-dessus, sans indice préalable</td>
+          <td class="miss">Résultat non reproductible automatiquement</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="veille-note">Ce test a aussi révélé deux angles morts dans mon propre schéma de validation — corrigés depuis. Détail complet dans le <a href="p13.html">dossier n°13</a>.</p>
+  </div>
+</section>
+
+<section class="section" id="projets">
+  <div class="wrap">
+    <h2>Dossiers principaux</h2>
+    <p class="lede">Quatre projets présentés en détail : le besoin métier, la démarche suivie, et ce qui en est ressorti.</p>
+
+    <div class="dossiers">
+      <div class="dossier-card">
+        <span class="dossier-num">DOSSIER N°13</span>
+        <h3>Piloter un projet data augmenté par l'IA</h3>
+        <p>Fiabiliser un pipeline de données existant : comparaison de trois méthodes de validation, dont une découverte inattendue sur les limites de mon propre code.</p>
+        <div class="dossier-tags">Python · Pandera · Gestion de projet · Veille</div>
+        <a class="go" href="p13.html">Consulter le dossier</a>
+      </div>
+
+      <div class="dossier-card">
+        <span class="dossier-num">DOSSIER N°12</span>
+        <h3>Détection de faux billets</h3>
+        <p>Quatre algorithmes mis en concurrence pour distinguer automatiquement les vrais des faux billets, avec un modèle final choisi pour son interprétabilité.</p>
+        <div class="dossier-tags">Python · Scikit-learn · Machine Learning</div>
+        <a class="go" href="p12.html">Consulter le dossier</a>
+      </div>
+
+      <div class="dossier-card">
+        <span class="dossier-num">DOSSIER N°10</span>
+        <h3>Accès à l'eau potable dans le monde</h3>
+        <p>Un tableau de bord pour rendre lisibles des données d'accès à l'eau potable à l'échelle mondiale, destiné à un public non technique.</p>
+        <div class="dossier-tags">Power BI · DAX · Data storytelling</div>
+        <a class="go" href="p10.html">Consulter le dossier</a>
+      </div>
+
+      <div class="dossier-card">
+        <span class="dossier-num">DOSSIER N°08</span>
+        <h3>Dynamiques sociodémographiques</h3>
+        <p>Modélisation et transformation de données démographiques dans un entrepôt cloud, avec des tests de qualité intégrés au pipeline.</p>
+        <div class="dossier-tags">dbt · Snowflake · SQL</div>
+        <a class="go" href="p8.html">Consulter le dossier</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Pièces jointes au dossier</h2>
+    <p class="lede">Huit projets supplémentaires, du plus récent au plus ancien — code et détails sur GitHub.</p>
+
+    <div class="pieces-list">
+      <div class="piece-row">
+        <span class="name">Segmentation de pays par ACP et K-means</span>
+        <span class="desc">Étude de marché internationale, clustering non supervisé sur 174 pays.</span>
+        <a href="https://github.com/RemyDaura" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Analyse des ventes d'une librairie</span>
+        <span class="desc">Tests statistiques sur des données de vente e-commerce.</span>
+        <a href="https://github.com/RemyDaura/DA-Projet9-Analyse-Ventes-Librairie-Python" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Bottleneck — nettoyage de données</span>
+        <span class="desc">Rapprochement de 3 sources de données pour un caviste ; base du dossier n°13.</span>
+        <a href="https://github.com/RemyDaura/DA-Projet6-Optimisation-Gestion-Donnees-Python" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Tableau de bord dynamique Power BI</span>
+        <span class="desc">Suivi de projet pour l'entreprise Sanitoral.</span>
+        <a href="https://github.com/RemyDaura/DA-Projet7-Creation-Tableau-Dynamique-Power-BI" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Étude immobilière</span>
+        <span class="desc">Manipulation et analyse de données immobilières en SQL.</span>
+        <a href="https://github.com/RemyDaura/DA-Projet5-Immobilier-SQL" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Étude de santé publique</span>
+        <span class="desc">Nettoyage et fusion de fichiers volumineux sur l'insécurité alimentaire.</span>
+        <a href="https://github.com/RemyDaura/DA-Projet4-Etude-Sante-Python" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Requêtes SQL</span>
+        <span class="desc">Extraction et analyse de données via requêtes SQL.</span>
+        <a href="https://github.com/RemyDaura/DA-Projet3-Requetes-SQL" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Analyse des ventes d'un e-commerce</span>
+        <span class="desc">Premier projet : KPI, loi de Pareto et courbe de Lorenz sous Excel.</span>
+        <a href="https://github.com/RemyDaura/DA-Projet2-Analyse-Ventes-Excel" target="_blank" rel="noopener">Voir le code</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="contact">
+  <div class="wrap site-footer">
+    <span>Rémy Daura — Data Analyst</span>
+    <span>Contact : email à compléter · LinkedIn à compléter</span>
+  </div>
+</footer>
+
+</body>
+</html>

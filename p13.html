@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°13 — Piloter un projet data augmenté par l'IA — Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°13</span>
+    <h1>Piloter un projet data augmenté par l'IA</h1>
+    <p class="prose">Fiabiliser le contrôle qualité d'un pipeline de données existant, en comparant trois méthodes de validation plutôt qu'en choisissant par habitude — et en documentant honnêtement ce qui a changé de direction en cours de route.</p>
+    <div class="case-meta">
+      <span><b>Contexte</b> Projet de fin de formation, OpenClassrooms</span>
+      <span><b>Outils</b> Python, Pandera, Great Expectations, IA générative</span>
+      <span><b>Durée</b> ~3 semaines</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>Dernier projet de la formation Data Analyst : deux missions distinctes, améliorer un livrable déjà produit (le dossier n°6, sur les données d'un caviste) grâce à l'IA de façon critique et documentée, puis construire le portfolio que vous consultez en ce moment.</p>
+      <p>Ce dossier détaille la première mission : comment décider, avec méthode plutôt qu'avec un a priori, quel outil utiliser pour fiabiliser un pipeline de données.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Le dossier n°6 identifiait manuellement 9 catégories d'anomalies dans les données d'un caviste (prix négatifs, stocks incohérents, doublons, identifiants cassés entre systèmes), réparties dans une dizaine de blocs de code distincts. Rien ne garantissait que ces vérifications seraient rejouées à l'identique sur un futur export, et rien n'alertait automatiquement en cas de nouvelle anomalie.</p>
+      <p>Objectif : centraliser ces règles de qualité de façon reproductible et automatisable, sans complexifier l'outillage au-delà des besoins réels d'une petite structure sans équipe data dédiée.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>Trois méthodes ont été comparées, d'abord sur documentation sourcée puis par test réel sur les données :</p>
+      <ul>
+        <li><strong>Pandera</strong> — schéma de validation Python léger, testé sur les données brutes</li>
+        <li><strong>Great Expectations</strong> — testé sur les mêmes règles, pour une comparaison directe plutôt qu'une lecture de documentation</li>
+        <li><strong>IA générative directe</strong> — les fichiers bruts transmis à une IA, dans une conversation neuve, sans indication préalable sur ce qu'il fallait chercher</li>
+      </ul>
+      <p>La troisième méthode a produit le résultat le plus intéressant du projet : elle a retrouvé la quasi-totalité des anomalies déjà connues, mais a surtout révélé <strong>deux angles morts dans mon propre schéma Pandera</strong> — une règle de cohérence de stock qui ne testait qu'un seul sens, et un calcul d'anomalie qui fusionnait par erreur deux causes distinctes. Elle a aussi trouvé deux catégories d'anomalies entièrement nouvelles (doublons de fiches, compteurs de ventes négatifs) qu'aucun des deux schémas ne testait.</p>
+      <p>Plutôt que de choisir un outil et de m'y tenir, la démarche retenue a donc évolué : utiliser l'IA générative en amont pour explorer un nouveau jeu de données, puis formaliser les règles confirmées dans un schéma Pandera reproductible.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>8/9</b><span>catégories d'anomalies retrouvées automatiquement</span></div>
+        <div class="r"><b>2</b><span>bugs de reproductibilité trouvés et corrigés dans le notebook original</span></div>
+        <div class="r"><b>+65%</b><span>de code nécessaire pour Great Expectations, pour une couverture identique à Pandera</span></div>
+      </div>
+      <p style="margin-top:28px">Le notebook original ne s'exécutait d'ailleurs pas entièrement sans intervention avant cette mission : une colonne était supprimée deux fois, et une variable de marge était calculée sur le mauvais tableau de données. Les deux ont été corrigées et documentées directement dans le notebook amélioré.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>Le risque de collision d'identifiants trouvé par la méthode IA (deux codes non standards réutilisant un identifiant déjà attribué) reste documenté mais pas encore traduit en règle automatisée.</li>
+        <li>La méthode IA générative n'est pas reproductible automatiquement d'une exécution à l'autre : elle sert à explorer, pas à surveiller en continu.</li>
+        <li>Le choix de Pandera plutôt que Great Expectations serait à réévaluer si le volume de données ou le nombre d'équipes impliquées venait à grandir significativement.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura — Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

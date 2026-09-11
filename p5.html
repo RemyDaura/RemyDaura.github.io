@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°5 - DATAImmo - Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura/DA-Projet5-Immobilier-SQL" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°05</span>
+    <h1>Concevoir une base immobilière prête pour la décision</h1>
+    <p class="prose">Projet DATAImmo : concevoir, implémenter et interroger une base de données immobilière normalisée, conforme et déjà exploitable pour des analyses stratégiques.</p>
+    <div class="case-meta">
+      <span><b>Outils</b> MySQL, SQL (fonctions de fenêtre, agrégation conditionnelle)</span>
+      <span><b>Sources</b> Transactions DVF, population INSEE, référentiel géographique</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>Le projet DATAImmo vise à améliorer la prévision des prix immobiliers. La première phase consiste à concevoir une base de données qui consolide des transactions brutes (DVF), les données de population INSEE, et un référentiel géographique.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Transformer des données brutes et éclatées en un système d'aide à la décision, capable de répondre à trois besoins stratégiques : la valorisation (cibler les biens de luxe), la pression démographique (mesurer le turnover du marché), et la segmentation (analyser les primes de prix selon le type de bien).</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>Un dictionnaire de données a d'abord validé la qualité du modèle : atomicité de chaque variable, typage précis, et surtout confirmation qu'aucune donnée à caractère personnel n'est stockée - seulement des informations transactionnelles, statistiques et géographiques.</p>
+      <p>Le schéma respecte la troisième forme normale (3NF), avec cinq entités liées en cascade : VENTE → BIEN → COMMUNE, complétées par DÉPARTEMENT et RÉGION, pour analyser un bien à n'importe quel niveau géographique sans jamais dupliquer une information.</p>
+      <p>Une fois le schéma validé, les tables ont été créées dans MySQL avec une attention particulière portée à l'intégrité : conversion de <code>date_mutation</code> en type DATE (indispensable pour des comparaisons trimestrielles fiables), activation de toutes les clés étrangères, et création d'un index sur la colonne géographique la plus sollicitée pour accélérer les requêtes d'analyse.</p>
+      <p>Trois requêtes ont ensuite démontré la capacité analytique de la base : un classement des 3 communes les plus chères par département via une fonction de fenêtre <code>RANK() OVER (PARTITION BY ...)</code> ; un ratio de transactions pour 1000 habitants pour mesurer le dynamisme démographique ; et une agrégation conditionnelle (<code>AVG</code> avec <code>CASE WHEN</code>) pour comparer en une seule requête le prix au m² des appartements 2 et 3 pièces.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>5</b><span>entités normalisées en 3NF, sans redondance</span></div>
+        <div class="r"><b>3</b><span>requêtes analytiques stratégiques livrées et fonctionnelles</span></div>
+        <div class="r"><b>100%</b><span>conformité RGPD (aucune donnée personnelle stockée)</span></div>
+      </div>
+      <p style="margin-top:28px">La base est passée d'un schéma théorique à une implémentation physique robuste, intègre et optimisée pour les requêtes géographiques les plus fréquentes - la première phase du projet DATAImmo est validée.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>Le nettoyage final des valeurs aberrantes (outliers) reste à finaliser avant une exploitation à grande échelle.</li>
+        <li>Des vues analytiques dédiées restent à créer pour faciliter la reprise du travail par une équipe de data scientists.</li>
+        <li>Prochaine étape du projet DATAImmo : la modélisation prédictive du prix de vente, qui s'appuiera directement sur cette base.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura - Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

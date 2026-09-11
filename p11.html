@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°11 - La Poule qui Chante - Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°11</span>
+    <h1>168 pays, 4 groupes, 30 marchés prioritaires</h1>
+    <p class="prose">Une étude de marché à l'export pour un producteur de volaille bio, sans présélection de pays - la segmentation seule a désigné les cibles.</p>
+    <div class="case-meta">
+      <span><b>Client</b> La Poule qui Chante (entreprise fictive)</span>
+      <span><b>Outils</b> Python, ACP, CAH, K-means</span>
+      <span><b>Cadre</b> Analyse PESTEL</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>La Poule qui Chante souhaite exporter son poulet bio et cherche à identifier les marchés les plus attractifs, sans aucune présélection de pays a priori.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Répondre objectivement à trois questions : où existe déjà une demande en volaille importée ? Quels marchés ont le pouvoir d'achat pour un produit bio premium ? Et comment regrouper les pays pour cibler efficacement plutôt que les analyser un par un ?</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>Trois sources (FAO, Banque mondiale) ont été croisées pour obtenir un dataset complet de 168 pays et 12 variables, sans aucune valeur manquante. Les variables ont été sélectionnées selon le cadre PESTEL (économique, social, technologique, environnemental) ; la dimension politique a été testée puis explicitement écartée, sa distribution étant trop resserrée pour séparer efficacement les pays. Cinq variables ont été construites par feature engineering (ratios et indicateurs composites).</p>
+      <p>Une ACP a résumé ces 12 variables en 3 axes retenus (60,6% de variance expliquée), un compromis assumé entre rigueur statistique et lisibilité graphique pour un public non technique. Le premier axe oppose les pays riches et urbains aux grands pays agricoles ; le second oppose les pays dépendants des importations de volaille aux pays autosuffisants.</p>
+      <p>Deux méthodes de clustering indépendantes ont été utilisées : une CAH (méthode de Ward) et un K-means (testé à K=4, 8 et 10 via coefficient de silhouette, indice de Davies-Bouldin et méthode du coude). Les deux convergent vers 4 groupes, réalisés directement sur les 12 variables standardisées plutôt que sur les axes de l'ACP, pour ne perdre aucune précision. Le Brésil et les États-Unis, outliers extrêmes en tant que premiers exportateurs mondiaux, ont été exclus du clustering : ce sont des concurrents à l'export, pas des marchés cibles.</p>
+      <p>La concordance entre les deux méthodes dépasse 90%, confirmée par l'Adjusted Rand Index (une métrique insensible au numérotage arbitraire des clusters) - preuve que les groupes reflètent une structure réelle des données, pas un artefact de l'algorithme.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>168</b><span>pays analysés, 4 groupes robustes identifiés</span></div>
+        <div class="r"><b>30</b><span>pays en cible prioritaire (importateurs structurellement dépendants)</span></div>
+        <div class="r"><b>&gt;90%</b><span>de concordance entre deux méthodes de clustering indépendantes</span></div>
+      </div>
+      <p style="margin-top:28px">Un indicateur de distance au centroïde a permis de prioriser les pays au sein même du groupe cible : la Dominique, Cabo Verde, le Suriname, le Gabon et les Bahamas ressortent comme les 5 premiers marchés à adresser. Les recommandations s'organisent sur trois horizons : attaquer ce groupe prioritaire à court terme, pénétrer les marchés développés du groupe secondaire à moyen terme avec une stratégie premium différenciée (Label Rouge, traçabilité, bien-être animal), et surveiller à long terme des marchés émergents comme l'Algérie, le Sénégal ou le Maroc.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>Les données datent de 2017 : les plus complètes disponibles au moment de l'étude, mais certains marchés ont pu évoluer depuis.</li>
+        <li>L'analyse est purement quantitative : elle n'intègre pas les barrières non tarifaires (normes sanitaires, réglementations locales à chaque pays).</li>
+        <li>La logistique (distances, coûts de transport, droits de douane) n'a pas été modélisée et devra être intégrée dans une analyse de faisabilité pays par pays avant tout engagement commercial.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura - Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

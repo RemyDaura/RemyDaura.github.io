@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°9 - Lapage - Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura/DA-Projet9-Analyse-Ventes-Librairie-Python" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°09</span>
+    <h1>4 clients, 1 million d'euros, et un paradoxe générationnel</h1>
+    <p class="prose">Un bilan de performance pour une librairie en ligne, qui a révélé une concentration cachée du chiffre d'affaires et un comportement d'achat inversé entre jeunes et seniors.</p>
+    <div class="case-meta">
+      <span><b>Client</b> Librairie Lapage</span>
+      <span><b>Période</b> 2021-2022</span>
+      <span><b>Outils</b> Python, tests statistiques (Spearman, Kruskal-Wallis)</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>La Direction Marketing de Lapage souhaite un état des lieux complet de la santé financière de la librairie en ligne, ainsi qu'une lecture fine du comportement de ses clients, pour en tirer des leviers d'action concrets.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Aller au-delà des graphiques : identifier des leviers stratégiques réellement actionnables pour augmenter le chiffre d'affaires, à partir d'une base de données fiabilisée.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>Trois sources ont été croisées (produits, clients, transactions), en excluant explicitement les transactions parasites liées à des tests informatiques internes, pour garantir une base 100% réelle - environ 680 000 ventes analysées.</p>
+      <p>Sur le chiffre d'affaires global (environ 12 millions d'euros), une moyenne mobile sur 30 jours a permis de lisser les variations quotidiennes et hebdomadaires pour révéler une tendance de fond stable.</p>
+      <p>La découverte la plus significative est venue d'une courbe de Lorenz et d'un coefficient de Gini de 0,44 : quatre clients seulement concentrent 7,3% du chiffre d'affaires total, soit près d'un million d'euros. Ce sont manifestement des clients professionnels (bibliothèques, centrales d'achat), mis à l'écart du reste de l'analyse pour ne pas fausser la lecture du comportement des particuliers.</p>
+      <p>Sur les clients particuliers, un test de Shapiro-Wilk a montré que les montants d'achat ne suivent pas une distribution normale - écartant le test de Pearson au profit d'une corrélation de Spearman entre âge et fréquence d'achat (r = 0,21, faible mais significative). Un paradoxe est ensuite apparu : les seniors achètent souvent mais avec de petits paniers, les jeunes achètent rarement mais avec de très gros paniers. Un test de Levene a écarté l'ANOVA classique au profit d'un test de Kruskal-Wallis (p = 0,0) et d'un Eta² de 0,111, confirmant que ce paradoxe s'explique par la catégorie de livres achetée : les jeunes se concentrent sur une catégorie nettement plus chère que celle privilégiée par les seniors.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>12M€</b><span>de chiffre d'affaires sur ~680 000 ventes réelles</span></div>
+        <div class="r"><b>7,3%</b><span>du CA généré par seulement 4 clients B2B (Gini = 0,44)</span></div>
+        <div class="r"><b>η² = 0,111</b><span>lien confirmé entre âge et catégorie de livre achetée</span></div>
+      </div>
+      <p style="margin-top:28px">Trois recommandations en ont découlé : un programme VIP avec interlocuteur commercial dédié pour sécuriser le million d'euros généré par les 4 clients B2B ; des campagnes ciblées sur les réseaux sociaux autour de la catégorie de livres prisée des jeunes pour augmenter leur fréquence de visite ; et des offres groupées ("packs") pour augmenter la taille du panier des seniors, déjà fidèles.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>Les données de marge n'étaient pas disponibles : impossible de vérifier si les produits les plus vendus sont aussi les plus rentables.</li>
+        <li>Aucune donnée géographique n'était disponible pour comparer le comportement des clients parisiens et provinciaux.</li>
+        <li>La corrélation âge/fréquence, bien que statistiquement significative, reste faible (0,21) - d'autres facteurs restent à explorer pour affiner le profil des clients particuliers.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura - Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

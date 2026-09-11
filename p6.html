@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°6 - Bottleneck - Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura/DA-Projet6-Optimisation-Gestion-Donnees-Python" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°06</span>
+    <h1>D'une gestion artisanale à un pilotage maîtrisé</h1>
+    <p class="prose">Audit et fiabilisation des données d'un caviste : trois sources en silos, seize anomalies corrigées, et un plan d'action pour ne plus jamais avoir à les corriger à la main.</p>
+    <div class="case-meta">
+      <span><b>Client</b> Bottleneck (caviste)</span>
+      <span><b>Outils</b> Python, Pandas</span>
+      <span><b>Suite</b> Ce projet est la base du <a href="p13.html">dossier n°13</a></span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>Bottleneck gère 800 références "à la main", avec des données éclatées en silos : le stock dans l'ERP, les ventes sur le site web, et la correspondance entre les deux dans un fichier Excel à part. Cette gestion artisanale crée des erreurs de copie et empêche toute vision claire de l'activité.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Unifier ces trois sources en un jeu de données unique et fiable, identifier les erreurs qui faussent les calculs de chiffre d'affaires et de marge, puis produire une analyse de performance exploitable par la direction.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>La première étape a été méthodologique : fusionner l'export ERP, la base du site web et le fichier de liaison en un dataset unique. C'est en les réconciliant que la vérité a éclaté - la base était polluée par une dizaine de types d'erreurs structurelles, pas de simples problèmes de formatage.</p>
+      <p>Trois anomalies critiques ont été isolées et présentées séparément : des ventes comptablement à perte (prix d'achat supérieur au prix de vente, comme sur un champagne vendu avec une marge de -297%), des produits "fantômes" actifs et en stock dans l'ERP mais invisibles sur le site web (du chiffre d'affaires perdu par simple défaut de synchronisation), et du stock dormant immobilisé depuis des mois.</p>
+      <p>Sur la performance elle-même, l'analyse de Pareto a révélé un 60/80 plutôt qu'un 20/80 classique : 60% du catalogue (435 références) génère 80% du chiffre d'affaires - une "zone cœur" large à sécuriser en priorité, face à une longue traîne de 280 produits qui ne rapporte que 20% du CA et immobilise l'essentiel du stock dormant.</p>
+      <p>Un boxplot a permis de vérifier la cohérence des prix : les quelques valeurs extrêmes identifiées correspondent aux grands crus et millésimes d'exception de la maison - une stratégie premium assumée, pas une erreur de saisie. Une corrélation prix/quantités vendues, volontairement très faible, confirme que la clientèle n'est pas sensible au prix bas et recherche avant tout la qualité et la rareté.</p>
+      <p>RGPD : l'analyse porte exclusivement sur des données produits (SKU, stock, prix) et des transactions anonymisées - aucune donnée permettant d'identifier un client n'a été traitée.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>16</b><span>types d'anomalies identifiés et corrigés</span></div>
+        <div class="r"><b>435 / 80</b><span>références pour 80% du CA (loi de Pareto 60/80)</span></div>
+        <div class="r"><b>+130 / -297%</b><span>l'écart de marge entre les meilleurs produits et les erreurs de saisie</span></div>
+      </div>
+      <p style="margin-top:28px">Trois recommandations opérationnelles en ont découlé, une par fonction de l'entreprise : côté <strong>IT</strong>, un verrou empêchant l'ERP d'enregistrer un prix d'achat supérieur au prix de vente, complété par un indicateur de qualité (DQ-KPI) suivant le taux de conformité des prix ; côté <strong>Finance</strong>, la séparation des ventes brutes et des annulations pour calculer un chiffre d'affaires net fiable, avec une alerte automatique au-delà d'un seuil de transaction négative ; côté <strong>Logistique</strong>, un pilotage double pour sécuriser un objectif de zéro rupture sur la zone cœur, et une politique de liquidation active sur la longue traîne pour libérer du capital immobilisé.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>Certaines données ont dû être écartées plutôt que corrigées : les références sans correspondance fiable entre l'ERP et le site web ont été exclues du calcul du chiffre d'affaires, par choix de fiabilité plutôt que d'exhaustivité incertaine.</li>
+        <li>Les recommandations proposées (verrou ERP, séparation des flux, pilotage double) préviennent la réapparition des erreurs, mais ne corrigent pas leur cause profonde côté saisie humaine.</li>
+        <li>Ce projet a servi de point de départ à une mission ultérieure (dossier n°13) qui a justement automatisé une partie de ce contrôle qualité grâce à l'IA.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura - Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

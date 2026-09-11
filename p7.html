@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°7 - Sanitoral - Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura/DA-Projet7-Creation-Tableau-Dynamique-Power-BI" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°07</span>
+    <h1>Un même dashboard, trois niveaux de décision</h1>
+    <p class="prose">Un outil de pilotage de projets pensé en entonnoir : du constat stratégique global jusqu'au détail opérationnel, en trois clics.</p>
+    <div class="case-meta">
+      <span><b>Client</b> Sanitoral</span>
+      <span><b>Outils</b> Power BI, Power Query</span>
+      <span><b>Méthode</b> Product Strategy Canvas</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>Sanitoral pilote des projets répartis dans plusieurs pays et régions, avec trois niveaux hiérarchiques aux besoins très différents : la Direction Générale, les Directeurs Régionaux, et les Directeurs Pays.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Transformer des données brutes de suivi de projets (coûts, délais, livrables) en un système d'aide à la décision unique, mais capable de répondre à trois questions différentes selon qui le consulte : "Est-ce qu'on atteint nos objectifs globaux ?", "Quelle région est le maillon faible ?", "Quel projet précis dérive, et pourquoi ?"</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>Le cadrage s'est appuyé sur un Product Strategy Canvas, formalisant trois user stories critiques - une par niveau hiérarchique. C'est cette structure en entonnoir, du global au détail, qui a dicté toute l'architecture du rapport.</p>
+      <p>La préparation des données a été pensée pour durer : dans Power Query, un pipeline de nettoyage automatisé supprime les en-têtes parasites et type correctement les devises et les dates. L'avantage pour Sanitoral est direct : chaque nouveau fichier mensuel se dépose dans le dossier source, un clic sur "Actualiser" suffit, sans reprise manuelle.</p>
+      <p>Le modèle de données s'organise en cascade autour d'une table pivot centrale, <code>Projects_plans</code>. En amont, des relations "un-à-plusieurs" avec les axes Géographie et Type de projet permettent au Directeur de filtrer par pays ou par type. En aval, des relations "un-à-un" isolent les données réelles (coûts, durée) du prévisionnel, pour ne jamais mélanger ce qui est planifié et ce qui est constaté.</p>
+      <p>Le résultat est une navigation en cascade : une vue Hélicoptère pour la Direction Générale avec des KPIs immédiats (budget consommé, projets en alerte), permettant de descendre en trois clics jusqu'à l'action corrective sur un projet précis.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>3</b><span>niveaux de lecture hiérarchique dans un seul outil</span></div>
+        <div class="r"><b>+20%</b><span>de dérive systématique sur les délais des projets IT</span></div>
+        <div class="r"><b>1 clic</b><span>pour actualiser l'ensemble du pipeline chaque mois</span></div>
+      </div>
+      <p style="margin-top:28px">L'analyse a révélé une tendance stratégique nette : les projets IT dérivent systématiquement sur les délais, tandis que les projets Marketing dérivent plutôt sur les coûts. La recommandation qui en découle est chiffrée : augmenter le budget prévisionnel Marketing de 10% et allonger les plannings IT de 15%, pour fixer des objectifs plus réalistes et réduire le nombre de fausses alertes qui polluent le pilotage.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>Le pipeline automatisé suppose une structure de fichier stable d'un mois sur l'autre ; un changement de format côté source nécessiterait d'adapter les requêtes Power Query.</li>
+        <li>Les seuils de dérive (+20% délais IT, écarts de coûts Marketing) mériteraient d'être suivis sur plusieurs cycles supplémentaires pour confirmer leur caractère structurel plutôt que conjoncturel.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura - Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

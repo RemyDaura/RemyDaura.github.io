@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°4 - Sous-nutrition mondiale - Rémy Daura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://github.com/RemyDaura/DA-Projet4-Etude-Sante-Python" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°04</span>
+    <h1>Pourquoi la faim persiste alors que la production suffit</h1>
+    <p class="prose">Une étude sur la sous-nutrition mondiale pour la FAO : la production alimentaire n'est pas le problème - sa distribution l'est.</p>
+    <div class="case-meta">
+      <span><b>Période étudiée</b> 2013-2017</span>
+      <span><b>Outils</b> Python, Pandas, Matplotlib, Seaborn</span>
+      <span><b>Sources</b> 4 fichiers FAO</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>La FAO souhaite comprendre les mécanismes de la sous-nutrition mondiale pour orienter ses pistes d'action. En 2017, 9,8% de la population mondiale - près de 784 millions de personnes - était en situation de sous-nutrition.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin métier</h2>
+    <div class="body">
+      <p>Répondre à une question à première vue paradoxale : pourquoi la faim persiste-t-elle alors que la production alimentaire mondiale est abondante ? Il fallait un socle de données solide et entièrement traçable, chaque chiffre présenté devant pouvoir être justifié par le code source.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>Quatre fichiers FAO ont été assemblés par jointures internes (<code>pd.merge</code>, <code>how="inner"</code>), pour garantir que les analyses ne portent que sur des pays disposant de l'ensemble des données nécessaires (disponibilité alimentaire et population, notamment).</p>
+      <p>Le calcul central de l'étude repose sur une agrégation des calories disponibles pour l'alimentation humaine : en les rapportant au besoin calorique minimal (2500 kcal/jour), la production mondiale permettrait théoriquement de nourrir 111% de la population - la preuve que la quantité produite n'est pas le facteur limitant.</p>
+      <p>L'analyse s'est ensuite concentrée sur les deux "fuites" majeures du système : les pertes après récolte (avant même la distribution), et l'usage de céréales pour l'alimentation animale plutôt qu'humaine. Une indexation booléenne et la méthode <code>.isin()</code> ont permis de cibler ces sous-ensembles précisément, jusqu'à des cas très spécifiques comme le manioc en Thaïlande, dont 80% de la production part à l'export.</p>
+      <p>Pour objectiver les disparités d'accès à la nourriture, les pays ont été comparés par leur disponibilité calorique par habitant : certains dépassent largement les besoins recommandés quand d'autres tombent en dessous du minimum vital de 2500 kcal/jour.</p>
+      <p>Conformité RGPD : les jeux de données FAO sont agrégés au niveau pays (quantités, populations) - aucune donnée permettant d'identifier un individu n'est présente.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>111%</b><span>de la population mondiale nourrissable avec les calories disponibles en 2017</span></div>
+        <div class="r"><b>13%</b><span>de la production mondiale de céréales détournée vers l'alimentation animale</span></div>
+        <div class="r"><b>784M</b><span>de personnes en sous-nutrition (9,8% de la population mondiale)</span></div>
+      </div>
+      <p style="margin-top:28px">Trois recommandations en ont découlé : investir dans les infrastructures de stockage et de transport pour réduire les pertes post-récolte ; réévaluer la part des céréales allouée à l'alimentation animale plutôt qu'humaine, en particulier dans les régions en tension ; et orienter le commerce international pour éviter les dépendances excessives (comme celle du manioc thaïlandais) et favoriser une redistribution plus équitable des surplus.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>L'analyse reste à l'échelle du pays : elle ne révèle pas les disparités infra-nationales (régions, zones rurales/urbaines).</li>
+        <li>Les données FAO ont leur propre méthodologie d'estimation, avec les incertitudes que cela comporte pour certains pays peu documentés.</li>
+        <li>Le sujet du commerce international mériterait d'être approfondi au-delà du seul cas du manioc thaïlandais, pour identifier d'autres dépendances structurelles similaires.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura - Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

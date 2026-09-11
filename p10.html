@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dossier n°10 — Accès à l'eau potable — Rémy Daura</title>
+<title>Dossier n°10 - Accès à l'eau potable - Rémy Daura</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -24,7 +24,7 @@
   <div class="wrap">
     <span class="dossier-num mono">DOSSIER N°10</span>
     <h1>Où investir pour l'accès à l'eau potable</h1>
-    <p class="prose">Un tableau de bord Power BI à trois niveaux de lecture, pour aider une ONG à décider où concentrer un futur financement — sans décider à sa place.</p>
+    <p class="prose">Un tableau de bord Power BI à trois niveaux de lecture, pour aider une ONG à décider où concentrer un futur financement - sans décider à sa place.</p>
     <div class="case-meta">
       <span><b>Client</b> DWFA (accès à l'eau potable)</span>
       <span><b>Outils</b> Power BI, DAX</span>
@@ -56,8 +56,8 @@
   <div class="wrap">
     <h2>Démarche</h2>
     <div class="body">
-      <p>Cinq tables sources, issues de l'OMS et de la Banque mondiale : l'accès à l'eau (avec une distinction centrale entre l'accès <em>basique</em> — avoir de l'eau — et l'accès <em>safely managed</em> — une eau réellement propre), la population, la mortalité attribuée à l'eau insalubre, la stabilité politique, et une table de référence reliant 194 pays à 6 régions OMS. Période couverte : 2000 à 2017 pour l'accès à l'eau, jusqu'à 2018 pour la population et la stabilité politique.</p>
-      <p>Le prétraitement a demandé de contourner deux pièges. D'abord, la table Population contient cinq lignes par pays et par année (Total, Urbain, Rural, Homme, Femme) : sans filtre systématique, la population mondiale se retrouve comptée cinq fois. Ensuite, une moyenne simple donnerait à Monaco le même poids qu'à la Chine — chaque indicateur a donc été construit comme une mesure DAX pondérée par la population.</p>
+      <p>Cinq tables sources, issues de l'OMS et de la Banque mondiale : l'accès à l'eau (avec une distinction centrale entre l'accès <em>basique</em> - avoir de l'eau - et l'accès <em>safely managed</em> - une eau réellement propre), la population, la mortalité attribuée à l'eau insalubre, la stabilité politique, et une table de référence reliant 194 pays à 6 régions OMS. Période couverte : 2000 à 2017 pour l'accès à l'eau, jusqu'à 2018 pour la population et la stabilité politique.</p>
+      <p>Le prétraitement a demandé de contourner deux pièges. D'abord, la table Population contient cinq lignes par pays et par année (Total, Urbain, Rural, Homme, Femme) : sans filtre systématique, la population mondiale se retrouve comptée cinq fois. Ensuite, une moyenne simple donnerait à Monaco le même poids qu'à la Chine - chaque indicateur a donc été construit comme une mesure DAX pondérée par la population.</p>
       <p>Avant de construire le dashboard, un <strong>blueprint</strong> a formalisé, pour chacune des trois vues, le besoin utilisateur, les mesures retenues et la visualisation choisie. Le modèle de données suit un schéma en étoile, avec des relations 1:N strictes et des mesures DAX plutôt que des colonnes calculées, pour rester léger en mémoire.</p>
       <p>Le cahier des charges imposait des critères d'accessibilité : texte alternatif rédigé pour chacun des 21 visuels, contrastes conformes au ratio WCAG minimum de 4,5:1 (le bleu marine utilisé dépasse 9:1), étiquettes de données visibles sans interaction, et un ordre de tabulation logique.</p>
     </div>
@@ -71,7 +71,7 @@
       <div class="result-grid">
         <div class="r"><b>89%</b><span>d'accès basique à l'eau dans le monde en 2017</span></div>
         <div class="r"><b>26%</b><span>seulement d'accès à une eau réellement propre ("safely managed")</span></div>
-        <div class="r"><b>62,9</b><span>points d'écart entre les deux — le vrai sujet</span></div>
+        <div class="r"><b>62,9</b><span>points d'écart entre les deux - le vrai sujet</span></div>
       </div>
       <p style="margin-top:28px">Le constat central du dashboard : ce n'est pas un problème d'accès à l'eau, mais un problème de qualité de l'eau. En Afrique subsaharienne, l'accès basique tombe à 62% et l'accès à une eau de qualité à seulement 7%. La vue nationale permet de descendre jusqu'au pays : la Sierra Leone, par exemple, combine un accès basique de 60,8%, une population majoritairement rurale et une stabilité politique suffisante pour être accompagnée.</p>
       <p>Trois recommandations en ont découlé, une par domaine d'intervention : création de services en Afrique subsaharienne rurale (Tchad 38,7%, Soudan du Sud 40,7%, Éthiopie 41,1%) ; modernisation en Asie du Sud et du Sud-Est, où l'infrastructure existe déjà mais reste de mauvaise qualité (le Laos affiche 82% d'accès basique pour seulement 16% de qualité) ; consulting gouvernemental dans des pays stables à mortalité liée à l'eau élevée (Sierra Leone, Bénin, Comores).</p>
@@ -86,7 +86,7 @@
       <ul>
         <li>Les données s'arrêtent à 2017 : des évolutions récentes (crises, investissements, conflits) ne sont pas reflétées, et ces recommandations devraient être croisées avec des données terrain plus actuelles.</li>
         <li>Les indicateurs sont nationaux ; ils ne révèlent pas les disparités internes à un pays.</li>
-        <li>Choix assumé de ne pas interpoler les valeurs manquantes : l'OMS publie déjà ses données avec une méthodologie d'estimation intégrée, et les données manquantes sont souvent concentrées sur les pays les moins bien documentés — précisément les plus fragiles. Interpoler aurait introduit un biais systématique.</li>
+        <li>Choix assumé de ne pas interpoler les valeurs manquantes : l'OMS publie déjà ses données avec une méthodologie d'estimation intégrée, et les données manquantes sont souvent concentrées sur les pays les moins bien documentés - précisément les plus fragiles. Interpoler aurait introduit un biais systématique.</li>
         <li>Perspectives évoquées : mise à jour dès publication des nouvelles données JMP, création d'un indice composite DWFA, publication sur Power BI Service pour un accès terrain en temps réel.</li>
       </ul>
     </div>
@@ -96,7 +96,7 @@
 <footer class="site-footer">
   <div class="wrap site-footer">
     <a href="index.html">← Retour aux dossiers</a>
-    <span>Rémy Daura — Data Analyst</span>
+    <span>Rémy Daura - Data Analyst</span>
   </div>
 </footer>
 

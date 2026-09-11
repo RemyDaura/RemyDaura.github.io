@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dossier n°13 — Piloter un projet data augmenté par l'IA — Rémy Daura</title>
+<title>Dossier n°13 - Piloter un projet data augmenté par l'IA - Rémy Daura</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -24,7 +24,7 @@
   <div class="wrap">
     <span class="dossier-num mono">DOSSIER N°13</span>
     <h1>Piloter un projet data augmenté par l'IA</h1>
-    <p class="prose">Fiabiliser le contrôle qualité d'un pipeline de données existant, en comparant trois méthodes de validation plutôt qu'en choisissant par habitude — et en documentant honnêtement ce qui a changé de direction en cours de route.</p>
+    <p class="prose">Fiabiliser le contrôle qualité d'un pipeline de données existant, en comparant trois méthodes de validation plutôt qu'en choisissant par habitude - et en documentant honnêtement ce qui a changé de direction en cours de route.</p>
     <div class="case-meta">
       <span><b>Contexte</b> Projet de fin de formation, OpenClassrooms</span>
       <span><b>Outils</b> Python, Pandera, Great Expectations, IA générative</span>
@@ -59,11 +59,11 @@
     <div class="body">
       <p>Trois méthodes ont été comparées, d'abord sur documentation sourcée puis par test réel sur les données :</p>
       <ul>
-        <li><strong>Pandera</strong> — schéma de validation Python léger, testé sur les données brutes</li>
-        <li><strong>Great Expectations</strong> — testé sur les mêmes règles, pour une comparaison directe plutôt qu'une lecture de documentation</li>
-        <li><strong>IA générative directe</strong> — les fichiers bruts transmis à une IA, dans une conversation neuve, sans indication préalable sur ce qu'il fallait chercher</li>
+        <li><strong>Pandera</strong> - schéma de validation Python léger, testé sur les données brutes</li>
+        <li><strong>Great Expectations</strong> - testé sur les mêmes règles, pour une comparaison directe plutôt qu'une lecture de documentation</li>
+        <li><strong>IA générative directe</strong> - les fichiers bruts transmis à une IA, dans une conversation neuve, sans indication préalable sur ce qu'il fallait chercher</li>
       </ul>
-      <p>La troisième méthode a produit le résultat le plus intéressant du projet : elle a retrouvé la quasi-totalité des anomalies déjà connues, mais a surtout révélé <strong>deux angles morts dans mon propre schéma Pandera</strong> — une règle de cohérence de stock qui ne testait qu'un seul sens, et un calcul d'anomalie qui fusionnait par erreur deux causes distinctes. Elle a aussi trouvé deux catégories d'anomalies entièrement nouvelles (doublons de fiches, compteurs de ventes négatifs) qu'aucun des deux schémas ne testait.</p>
+      <p>La troisième méthode a produit le résultat le plus intéressant du projet : elle a retrouvé la quasi-totalité des anomalies déjà connues, mais a surtout révélé <strong>deux angles morts dans mon propre schéma Pandera</strong> - une règle de cohérence de stock qui ne testait qu'un seul sens, et un calcul d'anomalie qui fusionnait par erreur deux causes distinctes. Elle a aussi trouvé deux catégories d'anomalies entièrement nouvelles (doublons de fiches, compteurs de ventes négatifs) qu'aucun des deux schémas ne testait.</p>
       <p>Plutôt que de choisir un outil et de m'y tenir, la démarche retenue a donc évolué : utiliser l'IA générative en amont pour explorer un nouveau jeu de données, puis formaliser les règles confirmées dans un schéma Pandera reproductible.</p>
     </div>
   </div>
@@ -99,7 +99,7 @@
 <footer class="site-footer">
   <div class="wrap site-footer">
     <a href="index.html">← Retour aux dossiers</a>
-    <span>Rémy Daura — Data Analyst</span>
+    <span>Rémy Daura - Data Analyst</span>
   </div>
 </footer>
 

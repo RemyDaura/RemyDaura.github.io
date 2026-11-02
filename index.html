@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rémy Daura - Data Analyst</title>
-<meta name="description" content="Portfolio de Rémy Daura, Data Analyst - dossiers de projets, veille technologique et compétences.">
+<meta name="description" content="Portfolio de Rémy Daura, Data Analyst - dossiers de projets, expérience en entreprise, veille technologique et compétences.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rémy Daura - Data Analyst">
+<meta property="og:description" content="SQL, BigQuery, Looker Studio, Power BI, Python. 12 projets détaillés et une expérience en entreprise. Disponible pour un CDD ou une mission.">
+<meta property="og:url" content="https://remydaura.github.io/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -15,6 +19,7 @@
   <div class="wrap">
     <a class="brand" href="index.html">Rémy Daura</a>
     <nav>
+      <a href="#experience">Expérience</a>
       <a href="#competences">Compétences</a>
       <a href="#veille">Veille</a>
       <a href="#projets">Projets</a>
@@ -27,7 +32,8 @@
   <div class="wrap hero-grid">
     <div>
       <h1>Chaque donnée laisse une trace.</h1>
-      <p class="role">Data Analyst - Python, SQL, Power BI. Je passe mon temps à trouver ce qui cloche dans un jeu de données avant que ça ne devienne un problème pour quelqu'un d'autre.</p>
+      <p class="role">Data Analyst - SQL, BigQuery, Looker Studio, Power BI, Python. Je passe mon temps à trouver ce qui cloche dans un jeu de données avant que ça ne devienne un problème pour quelqu'un d'autre.</p>
+      <p class="availability"><b>Disponible immédiatement</b> pour un CDD ou une mission de 6 à 8 mois, à Marseille ou en télétravail.</p>
       <div class="links">
         <a href="https://github.com/RemyDaura" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/r%C3%A9my-d-aura/" target="_blank" rel="noopener">LinkedIn</a>
@@ -35,13 +41,35 @@
         <a href="mailto:remy.daura.pro@gmail.com">Email</a>
       </div>
     </div>
-    <div class="seal">DOSSIER<strong>N°01</strong>OUVERT</div>
+    <div class="seal">STATUT<strong>DISPO</strong>CDD 6-8 MOIS</div>
   </div>
 
   <div class="wrap stat-strip">
     <div class="stat"><b>12</b><span>dossiers instruits</span></div>
-    <div class="stat"><b>9</b><span>catégories d'anomalies retrouvées automatiquement (P13)</span></div>
-    <div class="stat"><b>99%</b><span>de précision sur la détection de faux billets (P12)</span></div>
+    <div class="stat"><b>8/9</b><span>catégories d'anomalies retrouvées automatiquement (P13)</span></div>
+    <div class="stat"><b>98%</b><span>des faux billets détectés par le modèle retenu (P12)</span></div>
+  </div>
+</section>
+
+<section class="section" id="experience">
+  <div class="wrap">
+    <h2>Expérience en entreprise</h2>
+    <p class="lede">Le même réflexe qu'en formation, appliqué en entreprise : vérifier chaque chiffre avant de le montrer.</p>
+
+    <div class="terrain">
+      <div class="terrain-head">
+        <span class="dossier-num">DOSSIER TERRAIN · SEPT. - OCT. 2026</span>
+        <h3>Data Analyst (stage) chez Axiome</h3>
+        <p class="terrain-sub">Éditeur de Lumina, assistant IA pour l'industrie · télétravail</p>
+      </div>
+      <ul>
+        <li><strong>Trois tableaux de bord Looker Studio connectés à BigQuery</strong> pour suivre l'usage du produit : volume de questions, taux de réponses sans contexte trouvé, comparaison entre déploiements SaaS et on-premise, qualité des réponses.</li>
+        <li><strong>Lecture du schéma de données</strong> (deux tables, trois vues) avant de dessiner quoi que ce soit, pour comprendre ce que mesure chaque colonne.</li>
+        <li><strong>Chaque indicateur contrôlé en SQL.</strong> Ce contrôle a révélé une colonne mal définie, un compteur mensuel traité comme un volume quotidien, qui faussait toutes les comparaisons de volume, ainsi que des erreurs d'agrégation. Tout a été corrigé avant la présentation à l'équipe.</li>
+        <li><strong>Contribution au site de l'entreprise via GitHub</strong> : branches, Pull Requests relues, intégration continue.</li>
+      </ul>
+      <div class="dossier-tags">BigQuery · SQL · Looker Studio · Google Cloud · GitHub</div>
+    </div>
   </div>
 </section>
 
@@ -53,11 +81,13 @@
       <div class="skill-tag">Python<small>Pandas, NumPy, Scikit-learn</small></div>
       <div class="skill-tag">SQL<small>Requêtes, jointures, modélisation</small></div>
       <div class="skill-tag">Power BI<small>DAX, tableaux de bord</small></div>
+      <div class="skill-tag">Looker Studio / BigQuery<small>Google Cloud, tableaux de bord</small></div>
       <div class="skill-tag">Machine Learning<small>Classification, clustering</small></div>
       <div class="skill-tag">dbt / Snowflake<small>Transformation, tests de données</small></div>
       <div class="skill-tag">Validation de données<small>Pandera, Great Expectations</small></div>
       <div class="skill-tag">Statistiques<small>Tests, ACP, corrélation</small></div>
       <div class="skill-tag">Excel<small>TCD, analyse de Pareto</small></div>
+      <div class="skill-tag">Git / GitHub<small>Branches, Pull Requests</small></div>
       <div class="skill-tag">Communication<small>Restitution à des non-techniques</small></div>
     </div>
   </div>
@@ -153,14 +183,14 @@
         <a href="p9.html">Consulter le dossier</a>
       </div>
       <div class="piece-row">
-        <span class="name">Bottleneck - nettoyage de données</span>
-        <span class="desc">16 anomalies corrigées chez un caviste ; base du dossier n°13.</span>
-        <a href="p6.html">Consulter le dossier</a>
-      </div>
-      <div class="piece-row">
         <span class="name">Tableau de bord dynamique Power BI</span>
         <span class="desc">Un dashboard à 3 niveaux de décision pour le suivi de projets de Sanitoral.</span>
         <a href="p7.html">Consulter le dossier</a>
+      </div>
+      <div class="piece-row">
+        <span class="name">Bottleneck - nettoyage de données</span>
+        <span class="desc">Trois sources réconciliées et 9 catégories d'anomalies traitées chez un caviste ; base du dossier n°13.</span>
+        <a href="p6.html">Consulter le dossier</a>
       </div>
       <div class="piece-row">
         <span class="name">Étude immobilière</span>
@@ -173,14 +203,14 @@
         <a href="p4.html">Consulter le dossier</a>
       </div>
       <div class="piece-row">
-        <span class="name">Requêtes SQL</span>
-        <span class="desc">Extraction et analyse de données via requêtes SQL.</span>
-        <a href="https://github.com/RemyDaura/DA-Projet3-Requetes-SQL" target="_blank" rel="noopener">Voir le code</a>
+        <span class="name">Base d'assurance en SQL</span>
+        <span class="desc">30 335 contrats chargés dans MySQL et 12 questions métier traitées en SQL.</span>
+        <a href="p3.html">Consulter le dossier</a>
       </div>
       <div class="piece-row">
         <span class="name">Analyse des ventes d'un e-commerce</span>
-        <span class="desc">Premier projet : KPI, loi de Pareto et courbe de Lorenz sous Excel.</span>
-        <a href="https://github.com/RemyDaura/DA-Projet2-Analyse-Ventes-Excel" target="_blank" rel="noopener">Voir le code</a>
+        <span class="desc">Premier projet, sous Excel : pourquoi plus de ventes n'a pas donné plus de chiffre d'affaires.</span>
+        <a href="p2.html">Consulter le dossier</a>
       </div>
     </div>
   </div>
@@ -189,7 +219,7 @@
 <footer class="site-footer" id="contact">
   <div class="wrap site-footer">
     <span>Rémy Daura - Data Analyst</span>
-    <span>Contact : <a href="mailto:remy.daura.pro@gmail.com">remy.daura.pro@gmail.com</a> · <a href="https://www.linkedin.com/in/r%C3%A9my-d-aura/" target="_blank" rel="noopener">LinkedIn</a></span>
+    <span>Contact : <a href="mailto:remy.daura.pro@gmail.com">remy.daura.pro@gmail.com</a> · <a href="https://www.linkedin.com/in/r%C3%A9my-d-aura/" target="_blank" rel="noopener">LinkedIn</a> · <a href="CV_Remy_Daura.pdf" target="_blank">CV (PDF)</a></span>
   </div>
 </footer>
 

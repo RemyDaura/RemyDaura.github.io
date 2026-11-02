@@ -320,3 +320,37 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* ---------- Disponibilité et expérience terrain ---------- */
+.hero .availability {
+  margin: -8px 0 22px;
+  font-size: 1rem;
+  max-width: 46ch;
+}
+.hero .availability b { color: var(--stamp); font-weight: 600; }
+
+.terrain {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--stamp);
+  padding: 32px;
+  max-width: 880px;
+}
+.terrain h3 { font-size: 1.45rem; margin: 10px 0 6px; }
+.terrain-sub { color: var(--ink-muted); margin: 0 0 18px; font-size: 0.95rem; }
+.terrain ul { margin: 0 0 6px; padding-left: 20px; }
+.terrain li { margin-bottom: 10px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 0 20px; }
+  .site-header .wrap { flex-direction: column; gap: 10px; }
+  .site-header nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .site-header nav a { margin-left: 0; }
+  .terrain { padding: 22px; }
+  .veille-table { font-size: 0.85rem; }
+  .veille-table th, .veille-table td { padding: 10px 8px; }
+}
+.stat-strip .stat { flex: 1 1 0; min-width: 200px; }
+@media (max-width: 720px) {
+  .hero { padding: 56px 0 44px; }
+  .stat-strip { margin-top: 40px; gap: 24px; }
+}

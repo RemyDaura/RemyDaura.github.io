@@ -354,3 +354,8 @@ h1, h2, h3 {
   .hero { padding: 56px 0 44px; }
   .stat-strip { margin-top: 40px; gap: 24px; }
 }
+
+/* ---------- Figures des dossiers ---------- */
+.case-figure { margin: 8px 0 24px; }
+.case-figure img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
+.case-figure figcaption { margin-top: 8px; font-size: 0.85rem; color: var(--ink-muted); }

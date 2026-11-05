@@ -7,7 +7,7 @@
 <meta name="description" content="Portfolio de Rémy Daura, Data Analyst - dossiers de projets, expérience en entreprise, veille technologique et compétences.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Rémy Daura - Data Analyst">
-<meta property="og:description" content="SQL, BigQuery, Looker Studio, Power BI, Python. 12 projets détaillés et une expérience en entreprise. Disponible pour un CDD ou une mission.">
+<meta property="og:description" content="SQL, BigQuery, dbt, Looker Studio, Power BI, Python. 13 projets détaillés, dont un pipeline de données automatisé, et une expérience en entreprise. Disponible pour un CDD ou une mission.">
 <meta property="og:url" content="https://remydaura.github.io/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
   <div class="wrap hero-grid">
     <div>
       <h1>Chaque donnée laisse une trace.</h1>
-      <p class="role">Data Analyst - SQL, BigQuery, Looker Studio, Power BI, Python. Je passe mon temps à trouver ce qui cloche dans un jeu de données avant que ça ne devienne un problème pour quelqu'un d'autre.</p>
+      <p class="role">Data Analyst en spécialisation data engineering - SQL, BigQuery, dbt, Looker Studio, Power BI, Python. Je passe mon temps à trouver ce qui cloche dans un jeu de données avant que ça ne devienne un problème pour quelqu'un d'autre.</p>
       <p class="availability"><b>Disponible immédiatement</b> pour un CDD ou une mission de 6 à 8 mois, à Marseille ou en télétravail.</p>
       <div class="links">
         <a href="https://github.com/RemyDaura" target="_blank" rel="noopener">GitHub</a>
@@ -45,7 +45,7 @@
   </div>
 
   <div class="wrap stat-strip">
-    <div class="stat"><b>12</b><span>dossiers instruits</span></div>
+    <div class="stat"><b>13</b><span>dossiers instruits, dont un pipeline qui tourne seul chaque matin</span></div>
     <div class="stat"><b>8/9</b><span>catégories d'anomalies retrouvées automatiquement (P13)</span></div>
     <div class="stat"><b>98%</b><span>des faux billets détectés par le modèle retenu (P12)</span></div>
   </div>
@@ -83,7 +83,8 @@
       <div class="skill-tag">Power BI<small>DAX, tableaux de bord</small></div>
       <div class="skill-tag">Looker Studio / BigQuery<small>Google Cloud, tableaux de bord</small></div>
       <div class="skill-tag">Machine Learning<small>Classification, clustering</small></div>
-      <div class="skill-tag">dbt / Snowflake<small>Transformation, tests de données</small></div>
+      <div class="skill-tag">dbt / BigQuery / Snowflake<small>Transformation, tests de données</small></div>
+      <div class="skill-tag">GitHub Actions / Docker<small>Automatisation, conteneurs</small></div>
       <div class="skill-tag">Validation de données<small>Pandera, Great Expectations</small></div>
       <div class="skill-tag">Statistiques<small>Tests, ACP, corrélation</small></div>
       <div class="skill-tag">Excel<small>TCD, analyse de Pareto</small></div>
@@ -128,9 +129,17 @@
 <section class="section" id="projets">
   <div class="wrap">
     <h2>Dossiers principaux</h2>
-    <p class="lede">Quatre projets présentés en détail : le besoin métier, la démarche suivie, et ce qui en est ressorti.</p>
+    <p class="lede">Cinq projets présentés en détail : le besoin métier, la démarche suivie, et ce qui en est ressorti.</p>
 
     <div class="dossiers">
+      <div class="dossier-card">
+        <span class="dossier-num">DOSSIER N°14 · PROJET PERSONNEL</span>
+        <h3>Pipeline automatisé des prix des carburants</h3>
+        <p>Chaque matin, les prix de près de 9&nbsp;800 stations passent d'une API publique à BigQuery, sont nettoyés et testés avec dbt, puis publiés dans un tableau de bord. Sans intervention.</p>
+        <div class="dossier-tags">Python · BigQuery · dbt · GitHub Actions · Docker</div>
+        <a class="go" href="p14.html">Consulter le dossier</a>
+      </div>
+
       <div class="dossier-card">
         <span class="dossier-num">DOSSIER N°13</span>
         <h3>Piloter un projet data augmenté par l'IA</h3>

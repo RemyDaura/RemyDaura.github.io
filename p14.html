@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier n°14 - Pipeline automatisé des prix des carburants - Rémy Daura</title>
+<meta name="description" content="Pipeline de données automatisé : ingestion Python, BigQuery, dbt, GitHub Actions, Docker et tableau de bord public sur les prix des carburants en France.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Rémy Daura</a>
+    <nav>
+      <a href="index.html#projets">Tous les projets</a>
+      <a href="https://datastudio.google.com/reporting/77d153bb-1926-4ad1-a366-4deee23bc762" target="_blank" rel="noopener">Tableau de bord</a>
+      <a href="https://github.com/RemyDaura/DE-Pipeline-Prix-Carburants" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="case-head">
+  <div class="wrap">
+    <span class="dossier-num mono">DOSSIER N°14 · PROJET PERSONNEL</span>
+    <h1>Pipeline automatisé des prix des carburants</h1>
+    <p class="prose">Construire de bout en bout un pipeline de données qui tourne seul chaque matin, de l'API publique jusqu'au tableau de bord, avec des tests qui arrêtent les données douteuses avant qu'elles n'arrivent à l'écran.</p>
+    <div class="case-meta">
+      <span><b>Contexte</b> Projet personnel, spécialisation data engineering</span>
+      <span><b>Outils</b> Python, BigQuery, dbt, GitHub Actions, Docker, Data Studio</span>
+      <span><b>Statut</b> En production depuis novembre 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Contexte</h2>
+    <div class="body">
+      <p>Après la formation Data Analyst, je me spécialise en data engineering. Mes projets précédents partaient d'un fichier déjà préparé ; celui-ci part d'une source vivante, qui change toutes les dix minutes, et doit produire chaque jour un résultat fiable sans aucune intervention de ma part.</p>
+      <p>La source : le flux public des prix des carburants publié par la DGCCRF, qui couvre près de 9&nbsp;800 stations-service en France.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Besoin</h2>
+    <div class="body">
+      <p>Le flux est un instantané : chaque mise à jour écrase la précédente, donc aucun historique n'existe sans le construire. Les données sont aussi imparfaites : stations qui ne mettent plus leurs prix à jour, erreurs de saisie, champs manquants.</p>
+      <p>Objectif : un historique quotidien fiable, testé à chaque étape, qui réponde à trois questions. Comment évolue le prix de chaque carburant, en France et dans les Bouches-du-Rhône ? Quels départements sont les plus chers ? Quelles sont les stations les moins chères autour de Marseille ?</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Démarche</h2>
+    <div class="body">
+      <p>Chaque matin, GitHub Actions enchaîne les étapes suivantes, et s'arrête dès qu'un test bloquant échoue :</p>
+      <ul>
+        <li><strong>Ingestion Python</strong> : téléchargement de toutes les stations, sélection de 24 colonnes, écriture d'un fichier Parquet, avec des tests pytest qui arrêtent tout si la source supprime une colonne.</li>
+        <li><strong>Chargement BigQuery</strong> : ajout à une table brute partitionnée par jour, qui garde tout et n'est jamais modifiée.</li>
+        <li><strong>Transformation dbt</strong> en trois couches : nettoyage et dédoublonnage, étiquetage de chaque prix (récent ou périmé, normal ou suspect), puis tables finales pour le tableau de bord.</li>
+        <li><strong>Restitution</strong> dans un tableau de bord Data Studio public, dont chaque chiffre a été vérifié en SQL.</li>
+      </ul>
+      <p>L'ingestion est aussi conteneurisée avec Docker, pour tourner à l'identique sur n'importe quelle machine. Aucune clé n'est stockée dans le code : le pipeline utilise un compte de service limité à BigQuery, rangé dans les secrets de GitHub.</p>
+      <figure class="case-figure">
+        <img src="https://raw.githubusercontent.com/RemyDaura/DE-Pipeline-Prix-Carburants/main/docs/evolution.png" alt="Page Évolution du tableau de bord : prix moyen du gazole en France et dans les Bouches-du-Rhône" loading="lazy">
+        <figcaption>Page « Évolution » du tableau de bord : prix moyen pondéré par le nombre de stations, mis à jour chaque matin.</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Résultats</h2>
+    <div class="body">
+      <div class="result-grid">
+        <div class="r"><b>9&nbsp;800</b><span>stations chargées et transformées chaque matin, sans intervention</span></div>
+        <div class="r"><b>15</b><span>tests dbt à chaque run, en plus des tests Python</span></div>
+        <div class="r"><b>17</b><span>prix suspects détectés automatiquement dès le premier relevé</span></div>
+      </div>
+      <p style="margin-top:28px">Les tests ont révélé des problèmes que je n'aurais pas vus à l'œil : 4 stations sans département ni ville dans la source, dont le département est désormais retrouvé à partir du code postal, et une règle de fraîcheur trop stricte. Avec un seuil de 7 jours, 16 % des prix étaient écartés ; l'analyse de la distribution m'a fait passer à 30 jours, qui n'écarte plus que 5,6 % des prix, ceux qui n'ont pas bougé depuis plus d'un mois.</p>
+      <p>Côté tableau de bord, les moyennes nationales sont calculées dans dbt à partir des sommes exactes, pondérées par le nombre de stations : ni moyenne de moyennes départementales, ni calcul sur des valeurs déjà arrondies.</p>
+    </div>
+  </div>
+</div>
+
+<div class="case-section">
+  <div class="wrap">
+    <h2>Limites et pistes</h2>
+    <div class="body">
+      <ul>
+        <li>BigQuery tourne en mode bac à sable gratuit : l'historique est limité à environ 60 jours, et les tables finales sont recréées à chaque run plutôt que mises à jour de façon incrémentale.</li>
+        <li>Les données disponibles couvrent 96 départements métropolitains.</li>
+        <li>Prochaines étapes : authentification sans aucune clé (Workload Identity Federation), exécution sur Cloud Run, puis un assistant qui répond en langage naturel aux questions sur les prix.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap site-footer">
+    <a href="index.html">← Retour aux dossiers</a>
+    <span>Rémy Daura - Data Analyst</span>
+  </div>
+</footer>
+
+</body>
+</html>

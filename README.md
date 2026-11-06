@@ -28,6 +28,7 @@ Node.js 22.23.4 ou plus récent (versions paires).
 | `npm run build` | Construit le site dans `dist/` |
 | `npm run preview` | Sert le contenu de `dist/` en local |
 | `npm run check` | Vérifie les types TypeScript et les composants Astro |
+| `npm run verifier` | Types, build, validité du HTML et liens internes, comme en intégration continue |
 
 ## Organisation
 
@@ -83,6 +84,26 @@ Comme les tests dbt du dossier n°14, ces contrôles **font échouer le build** 
 
 Le fichier publié chaque matin par le pipeline passe par les mêmes tests dans le navigateur :
 s'il n'est pas conforme, le site garde l'instantané et ne montre jamais une donnée douteuse.
+
+## Intégration continue
+
+À chaque pull request et à chaque push sur `main`, `.github/workflows/deploy.yml` vérifie le site
+avant de le publier sur GitHub Pages :
+
+| Contrôle | Outil |
+| --- | --- |
+| Types et composants | `astro check` |
+| Construction | `astro build`, avec les contrôles ci-dessus |
+| HTML valide | [html-validate](https://html-validate.org), configuration dans `.htmlvalidate.json` |
+| Liens internes et ancres | `scripts/verifier-liens.mjs` |
+| Accessibilité, toutes les pages en largeur bureau et mobile | axe-core dans Chromium, `scripts/verifier-accessibilite.mjs` |
+
+Trois règles de html-validate sont désactivées volontairement : `no-redundant-role` (les listes sans puces
+gardent `role="list"`, sinon Safari et VoiceOver ne les annoncent plus comme des listes),
+`prefer-native-element` (zones de tableaux défilantes en `role="region"`) et `no-inline-style`
+(nombre de colonnes du graphe de lignage passé en variable CSS).
+
+Le site n'est publié que si tous les contrôles passent.
 
 ## Relevé du jour
 

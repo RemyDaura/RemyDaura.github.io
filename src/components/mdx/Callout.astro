@@ -9,12 +9,12 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<aside class="callout">
+<div class="callout" role="note">
   <p class="callout-title">{title}</p>
   <div class="callout-body">
     <slot />
   </div>
-</aside>
+</div>
 
 <style>
   .callout {

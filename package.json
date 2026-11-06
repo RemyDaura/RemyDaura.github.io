@@ -12,6 +12,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "verifier:html": "html-validate \"dist/**/*.html\"",
+    "verifier:liens": "node scripts/verifier-liens.mjs",
+    "verifier:a11y": "node scripts/verifier-accessibilite.mjs",
+    "verifier": "astro check && astro build && npm run verifier:html && npm run verifier:liens",
     "astro": "astro"
   },
   "dependencies": {
@@ -24,6 +28,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "html-validate": "^11.18.0",
     "typescript": "^6.0.3"
   }
 }

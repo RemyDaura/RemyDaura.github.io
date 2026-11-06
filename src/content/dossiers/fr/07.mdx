@@ -7,6 +7,9 @@ summary: "Trois niveaux de décision dans un seul outil pour le suivi de projets
 highlight: "+20 % de dérive sur les délais des projets IT"
 lede: "Un outil de pilotage de projets pensé en entonnoir : du constat stratégique global jusqu'au détail opérationnel, en trois clics."
 lineage: ["Fichiers de suivi mensuels", "Power Query · Power BI", "3 niveaux de lecture"]
+period:
+  start: "2026-01-04"
+  end: "2026-02-24"
 meta:
   - label: "Client"
     value: "Sanitoral"
@@ -56,6 +59,13 @@ La préparation des données a été pensée pour durer : dans Power Query, un p
 Le modèle de données s'organise en cascade autour d'une table pivot centrale, `Projects_plans`. En amont, des relations un-à-plusieurs avec les axes Géographie et Type de projet permettent au Directeur de filtrer par pays ou par type. En aval, des relations un-à-un isolent les données réelles (coûts, durée) du prévisionnel, pour ne jamais mélanger ce qui est planifié et ce qui est constaté.
 
 Le résultat est une navigation en cascade : une vue « Hélicoptère » pour la Direction Générale, avec des indicateurs immédiats (budget consommé, projets en alerte), qui permet de descendre en trois clics jusqu'à l'action corrective sur un projet précis.
+
+<Gallery>
+<Figure src="dossiers/07/vue-dg.png" alt="Vue Direction générale du tableau de bord : 28 projets en alerte sur 104, 60,20 M de coût réel total, carte des projets en alerte et en règle, projets en alerte par région." caption="Vue « Hélicoptère » pour la Direction générale : indicateurs, carte et projets en alerte par région." />
+<Figure src="dossiers/07/vue-regionale.png" alt="Vue régionale : coût réel total par pays et nombre de projets en alerte ou en règle par pays, avec un seuil d'alerte réglable." caption="Vue régionale : quel pays est le maillon faible." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/07/vue-pays.png" alt="Vue pays : tableau des projets avec coût prévu, coût réel, écarts de coût et de délai et icônes d'alerte par phase, à côté du coût réel par phase." caption="Vue pays : le détail de chaque projet, jusqu'à la phase qui dérive." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/07/modele.png" alt="Modèle de données Power BI : la table centrale Projects_plans reliée aux tables Project type, Projects_locations, Country_Profiles, Deliverables_status, Actual_Costs et Actual_Duration." caption="Le modèle : une table pivot, Projects_plans, entre les axes d'analyse et les données réelles." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

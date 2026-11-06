@@ -7,6 +7,9 @@ summary: "Four algorithms competing to tell genuine banknotes from counterfeits 
 highlight: "98% of counterfeits detected"
 lede: "Building, comparing and choosing a machine learning algorithm able to tell a genuine banknote from a counterfeit using six geometric measurements."
 lineage: ["1,500 banknotes", "4 competing models", "production script"]
+period:
+  start: "2026-07-31"
+  end: "2026-09-04"
 meta:
   - label: "Client"
     value: "ONCFM (anti-counterfeiting organisation)"
@@ -56,6 +59,13 @@ The final model was not chosen on performance alone: with three models strictly 
 <Stats items={frontmatter.stats} />
 
 Logistic regression was kept as the final model: performance strictly identical to the Random Forest (same errors, same recall), but directly interpretable through its coefficients, a decisive argument for explaining a decision to non-technical teams. The final deliverable includes a command-line script able to process a single banknote or a whole file, with the probability attached to each prediction.
+
+<Gallery even>
+<Figure src="dossiers/12/matrice-confusion.png" alt="Confusion matrix of the logistic regression on 300 test banknotes: 98 counterfeits detected, 2 counterfeits classified as genuine, 1 genuine note classified as counterfeit, 199 genuine notes recognised." caption="Logistic regression: 2 counterfeits missed out of 100, 1 false alarm out of 200 genuine notes. The charts are in French." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/12/coefficients.png" alt="Logistic regression coefficients on standardised variables: length weighs most towards “genuine”, lower and upper margins towards “counterfeit”, diagonal almost nothing." caption="A model you can explain: each measurement weighs towards “genuine” or “counterfeit”." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
+
+<Figure src="dossiers/12/script-prediction.png" alt="Command-line demo: predict_billets.py takes the six measurements of a banknote and answers “Prediction: VRAI” (genuine), with a probability of 98.59%." caption="The production script: one command line, one prediction and its probability." />
 
 </Section>
 

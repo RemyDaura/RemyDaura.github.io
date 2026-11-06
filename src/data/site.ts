@@ -2,16 +2,22 @@
  * Identité et liens du site, au même endroit pour ne jamais les dupliquer.
  */
 export const SITE = {
-  name: 'Rémy Daura',
+  name: "Rémy D'AURA",
   url: 'https://remydaura.github.io',
   email: 'remy.daura.pro@gmail.com',
   github: 'https://github.com/RemyDaura',
   linkedin: 'https://www.linkedin.com/in/r%C3%A9my-d-aura/',
-  cv: '/CV_Remy_Daura.pdf',
+  /** CV en PDF, un par langue (public/). */
+  cv: { fr: '/CV_Remy_Daura.pdf', en: '/CV_Remy_Daura_EN.pdf' },
   /** Dépôt de ce site, cité dans le pied de page ("lignage de ce site"). */
   sourceRepo: 'https://github.com/RemyDaura/RemyDaura.github.io',
   /** Preuve de propriété pour Google Search Console (méthode « balise HTML »), à laisser en place. */
   googleVerification: 'nqn-k8ut-3p8YfNyC2DE3_S97q-s8cpkX91WIjxg6AY',
+  /**
+   * Mesure d'audience GoatCounter, sans cookie : code du compte (https://<code>.goatcounter.com).
+   * Mettre null pour la désactiver.
+   */
+  goatcounter: 'remydaura' as string | null,
 } as const;
 
 /**

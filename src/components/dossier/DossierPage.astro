@@ -18,9 +18,10 @@ import Gallery from '../mdx/Gallery.astro';
 import PipelineGraph from '../mdx/PipelineGraph.astro';
 import ProseTable from '../mdx/ProseTable.astro';
 import Stats from '../mdx/Stats.astro';
-import { PIPELINE } from '../../data/site';
+import { PIPELINE, SITE } from '../../data/site';
 import { LANGS, useTranslations, type Lang } from '../../i18n/ui';
 import { dossierPath, getDossiers, homePath, pad, type Dossier } from '../../lib/dossiers';
+import { formatDuration, formatPeriodLong } from '../../lib/format';
 
 interface Props {
   lang: Lang;
@@ -49,6 +50,11 @@ const nav = {
 };
 
 const number = t.dossier.number(pad(d.num));
+const duration = formatDuration(d.period, lang);
+const meta = [
+  { label: t.dossier.dates, value: [formatPeriodLong(d.period, lang), duration].filter(Boolean).join(' · ') },
+  ...d.meta,
+];
 const components = {
   Section,
   Stats,
@@ -67,7 +73,7 @@ const components = {
 
 <BaseLayout
   lang={lang}
-  title={`${d.headline} · ${number} · Rémy Daura`}
+  title={`${d.headline} · ${number} · ${SITE.name}`}
   description={d.summary}
   alternates={alternates}
   nav={nav}
@@ -108,7 +114,7 @@ const components = {
       <Chain steps={d.lineage} label={t.dossier.lineage} emphasis />
       <dl class="meta">
         {
-          d.meta.map((m) => (
+          meta.map((m) => (
             <div class="meta-item">
               <dt>{m.label}</dt>
               <dd>{m.value}</dd>

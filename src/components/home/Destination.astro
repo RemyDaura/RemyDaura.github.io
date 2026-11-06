@@ -29,7 +29,7 @@ const { destination } = HOME[lang];
     <a class="btn btn-primary btn-lg" href={`mailto:${SITE.email}`}>{SITE.email}</a>
     <Link class="btn btn-lg" href={SITE.linkedin}>LinkedIn</Link>
     <Link class="btn btn-lg" href={SITE.github}>GitHub</Link>
-    <a class="btn btn-lg" href={SITE.cv}>{t.contact.cv}</a>
+    <a class="btn btn-lg" href={SITE.cv[lang]} data-goatcounter-click={`cv-${lang}`}>{t.contact.cv}</a>
   </div>
 </Section>
 

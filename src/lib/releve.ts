@@ -17,6 +17,21 @@ export interface FuelPrice {
   bouches_du_rhone: number;
 }
 
+/** Prix d'un jour passé : vide (null) si le carburant manquait ce jour-là. */
+export interface HistoryPrice {
+  code: FuelCode;
+  france: number | null;
+  bouches_du_rhone: number | null;
+}
+
+export interface HistoryDay {
+  jour: string;
+  carburants: HistoryPrice[];
+}
+
+/** Profondeur maximale de l'historique publié, en jours (JOURS_HISTORIQUE dans publier.py). */
+export const MAX_HISTORY_DAYS = 30;
+
 export interface Releve {
   version: 1;
   /** "pipeline" quand le fichier vient du run du matin, "instantane" pour la copie embarquée. */
@@ -30,6 +45,8 @@ export interface Releve {
   carburants: FuelPrice[];
   /** Lien vers le run GitHub Actions qui a produit le fichier. */
   run_url?: string;
+  /** Les 30 derniers jours, du plus ancien au plus récent (absent de l'instantané). */
+  historique?: HistoryDay[];
 }
 
 /** Sous-ensemble utile de la réponse de l'API GitHub "workflow runs". */
@@ -78,9 +95,57 @@ export function checkReleve(value: unknown): string[] {
       if (seen.has(code)) problems.push(`carburant en double : ${code}`);
       seen.add(code);
       for (const key of ['france', 'bouches_du_rhone']) {
-        const price = c?.[key];
-        // Mêmes bornes que le test dbt assert_prix_dans_bornes
-        if (typeof price !== 'number' || price < 0.3 || price > 4) problems.push(`${code}.${key} hors bornes`);
+        if (!isPrice(c?.[key])) problems.push(`${code}.${key} hors bornes`);
+      }
+    }
+  }
+  if (r.historique !== undefined) {
+    problems.push(...checkHistory(r.historique, r.jour));
+    if (problems.length === 0 && !lastDayMatches(r.historique as HistoryDay[], r.carburants as FuelPrice[])) {
+      problems.push("historique : le dernier jour ne reprend pas les prix du relevé");
+    }
+  }
+  return problems;
+}
+
+/** La courbe se termine exactement sur les prix affichés en grand. */
+function lastDayMatches(history: HistoryDay[], fuels: FuelPrice[]): boolean {
+  const last = history.at(-1)!;
+  return fuels.every((fuel) => {
+    const day = last.carburants.find((c) => c.code === fuel.code);
+    return day?.france === fuel.france && day?.bouches_du_rhone === fuel.bouches_du_rhone;
+  });
+}
+
+/** Mêmes bornes que le test dbt assert_prix_dans_bornes. */
+function isPrice(value: unknown): value is number {
+  return typeof value === 'number' && value >= 0.3 && value <= 4;
+}
+
+/** Historique : jours croissants, le dernier égal au jour du relevé, prix vides ou dans les bornes. */
+function checkHistory(value: unknown, day: unknown): string[] {
+  if (!Array.isArray(value) || value.length === 0 || value.length > MAX_HISTORY_DAYS) {
+    return [`historique : entre 1 et ${MAX_HISTORY_DAYS} jours attendus`];
+  }
+  const problems: string[] = [];
+  const days = value.map((entry) => (entry as Record<string, unknown>)?.jour);
+  const ordered = days.every(
+    (d, i) => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d) && (i === 0 || d > (days[i - 1] as string)),
+  );
+  if (!ordered) problems.push('historique : jours en double ou dans le désordre');
+  else if (days.at(-1) !== day) problems.push(`historique : se termine le ${String(days.at(-1))}, pas le jour du relevé`);
+
+  for (const entry of value as Record<string, unknown>[]) {
+    const fuels = entry?.carburants;
+    const codes = Array.isArray(fuels) ? fuels.map((f) => (f as Record<string, unknown>)?.code) : [];
+    if (codes.join() !== FUEL_CODES.join()) {
+      problems.push(`historique ${String(entry?.jour)} : carburants inattendus`);
+      continue;
+    }
+    for (const fuel of fuels as Record<string, unknown>[]) {
+      for (const key of ['france', 'bouches_du_rhone']) {
+        const price = fuel[key];
+        if (price !== null && !isPrice(price)) problems.push(`historique ${String(entry.jour)} ${String(fuel.code)}.${key} hors bornes`);
       }
     }
   }
@@ -154,4 +219,23 @@ export function computeStatus(
 
 export function fuelPrice(releve: Releve, code: FuelCode): FuelPrice | undefined {
   return releve.carburants.find((c) => c.code === code);
+}
+
+/** Une série par zone pour un carburant, alignée sur les jours de l'historique. */
+export interface HistorySeries {
+  days: string[];
+  france: (number | null)[];
+  department: (number | null)[];
+}
+
+/** Séries de l'historique pour un carburant ; null s'il y a moins de deux jours à tracer. */
+export function historySeries(releve: Releve, code: FuelCode): HistorySeries | null {
+  const history = releve.historique ?? [];
+  if (history.length < 2) return null;
+  const pick = (day: HistoryDay) => day.carburants.find((c) => c.code === code);
+  return {
+    days: history.map((day) => day.jour),
+    france: history.map((day) => pick(day)?.france ?? null),
+    department: history.map((day) => pick(day)?.bouches_du_rhone ?? null),
+  };
 }

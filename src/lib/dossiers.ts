@@ -58,8 +58,24 @@ function checkIntegrity(entries: Dossier[]): void {
       if (twin.data.stats.length !== ref.data.stats.length) {
         problems.push(`dossier ${pad(num)} : nombre de chiffres clés différent entre ${reference} et ${lang}`);
       }
+      if (twin.data.period.start !== ref.data.period.start || twin.data.period.end !== ref.data.period.end) {
+        problems.push(`dossier ${pad(num)} : dates différentes entre ${reference} et ${lang}`);
+      }
     }
   }
+
+  // Les numéros suivent l'ordre chronologique : un dossier ne commence pas avant la fin du précédent,
+  // et seul le dernier peut être en cours.
+  const chronology = [...byLang.get(reference)!.values()].sort((a, b) => a.data.num - b.data.num);
+  chronology.forEach((entry, i) => {
+    const previous = chronology[i - 1];
+    if (previous && entry.data.period.start < (previous.data.period.end ?? previous.data.period.start)) {
+      problems.push(`dossier ${pad(entry.data.num)} : commence avant la fin du dossier ${pad(previous.data.num)}`);
+    }
+    if (!entry.data.period.end && i < chronology.length - 1) {
+      problems.push(`dossier ${pad(entry.data.num)} : en cours, alors qu'un dossier plus récent existe`);
+    }
+  });
   for (const lang of others) {
     for (const num of byLang.get(lang)!.keys()) {
       if (!byLang.get(reference)!.has(num)) problems.push(`dossier ${pad(num)} : présent en "${lang}" mais absent en "${reference}"`);

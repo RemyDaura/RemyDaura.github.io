@@ -7,6 +7,9 @@ summary: "Trois sources réconciliées et 9 catégories d'anomalies traitées ch
 highlight: "9 catégories d'anomalies traitées"
 lede: "Audit et fiabilisation des données d'un caviste : trois sources en silos, neuf catégories d'anomalies traitées, et un plan d'action pour ne plus avoir à les corriger à la main."
 lineage: ["ERP · site web · Excel", "Python · pandas", "Plan d'action"]
+period:
+  start: "2025-12-04"
+  end: "2026-01-04"
 meta:
   - label: "Client"
     value: "Bottleneck (caviste)"
@@ -54,6 +57,12 @@ Sur la performance elle-même, l'analyse de Pareto a révélé un 60/80 plutôt 
 Un boxplot a permis de vérifier la cohérence des prix : les quelques valeurs extrêmes identifiées correspondent aux grands crus et millésimes d'exception de la maison, une stratégie premium assumée et non une erreur de saisie. Une corrélation prix/quantités vendues très faible confirme que la clientèle n'est pas sensible au prix bas et recherche avant tout la qualité et la rareté.
 
 RGPD : l'analyse porte exclusivement sur des données produits (SKU, stock, prix) et des transactions anonymisées. Aucune donnée permettant d'identifier un client n'a été traitée.
+
+<Gallery>
+<Figure src="dossiers/06/stock-dormant.png" alt="Diagramme en barres des produits qui ont le plus de mois de stock, presque tous des champagnes, jusqu'à plus de 30 mois pour le premier." caption="Le stock dormant : plus de 30 mois de stock pour un même produit." />
+<Figure src="dossiers/06/boxplot-prix.png" alt="Boîte à moustaches des prix de vente : la moitié des produits entre 14 et 42 € environ, et des valeurs extrêmes jusqu'à 225 € environ." caption="Les prix extrêmes sont les grands crus de la maison, pas des erreurs de saisie." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/06/correlations.png" alt="Matrice de corrélation de 6 variables : prix et ventes totales quasiment pas corrélés (-0,10), prix de vente et prix d'achat très corrélés (0,96)." caption="Une corrélation prix/ventes très faible : la clientèle cherche la qualité, pas le prix bas." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

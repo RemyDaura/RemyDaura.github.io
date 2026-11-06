@@ -40,13 +40,20 @@ const t = useTranslations(lang);
         {t.footer.note}{' '}
         <Link href={SITE.sourceRepo}>{t.footer.source}</Link>
       </p>
+      {
+        SITE.goatcounter && (
+          <p class="footer-note">
+            {t.footer.analytics} <Link href="https://www.goatcounter.com">GoatCounter</Link>
+          </p>
+        )
+      }
     </div>
     <div class="footer-links">
       <Link href={SITE.linkedin}>LinkedIn</Link>
       <Link href={SITE.github}>GitHub</Link>
-      <a href={SITE.cv}>{t.contact.cv}</a>
+      <a href={SITE.cv[lang]} data-goatcounter-click={`cv-${lang}`}>{t.contact.cv}</a>
       <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-      <span class="rights">{t.footer.rights}</span>
+      <span class="rights">{SITE.name} · {new Date().getFullYear()}</span>
       <a href="#top" class="up">{t.footer.up}</a>
     </div>
   </div>

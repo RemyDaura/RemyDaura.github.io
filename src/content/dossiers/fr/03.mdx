@@ -7,6 +7,9 @@ summary: "30 335 contrats chargés dans MySQL, 12 questions métier traitées 
 highlight: "30 335 contrats reliés à leur commune"
 lede: "Construire une base MySQL à partir de deux fichiers CSV, puis répondre à des questions métier en SQL : de la préparation des données aux requêtes d'agrégation."
 lineage: ["2 fichiers CSV", "MySQL · schéma en étoile", "12 requêtes métier"]
+period:
+  start: "2025-08-13"
+  end: "2025-08-26"
 meta:
   - label: "Données"
     value: "30 335 contrats d'assurance habitation, référentiel des communes"
@@ -46,6 +49,11 @@ Les fichiers CSV ont d'abord été préparés (séparateurs, doublons, tailles d
 Le modèle retenu est un schéma en étoile simple : une table de faits `contrat` et une table de dimension `region`. Le code commune sert de clé primaire au référentiel et de clé étrangère aux contrats, en relation un-à-plusieurs. Les tables utilisent le moteur InnoDB, indispensable pour que la contrainte de clé étrangère soit réellement appliquée : aucun contrat ne peut pointer vers une commune inexistante.
 
 Douze requêtes ont ensuite répondu aux questions métier, de la plus simple à la plus complète : filtres (`WHERE`), jointures (`INNER JOIN`), agrégations (`COUNT`, `AVG`, `ROUND`), regroupements avec condition (`GROUP BY`, `HAVING`) et classements (`ORDER BY`, `LIMIT`). Par exemple : les dix départements où la cotisation moyenne est la plus élevée, les communes qui comptent au moins 150 contrats, ou le nombre de formules « Intégral » en Pays de la Loire.
+
+<Gallery>
+<Figure src="dossiers/03/schema-contrat-region.png" alt="Modèle de données : la table Contrat (adresse, surface, type de logement, formule, cotisation mensuelle) reliée à la table Region par le code commune, en relation un-à-plusieurs." caption="Le schéma : une table de faits Contrat, une dimension Region, reliées par le code commune." />
+<Figure src="dossiers/03/requete-jointure.png" alt="Requête SQL : jointure entre contrat et region sur le code commune, filtrée sur le département 71 et les maisons, pour lister les types de contrat et les formules." caption="Une des 12 requêtes : types de contrat et formules des maisons de Saône-et-Loire (département 71)." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

@@ -60,6 +60,36 @@ const aside = 'mart_prix_jour_departement';
       </div>
 
       <p class="releve-note" data-field="note" hidden={view.note === ''}>{view.note}</p>
+
+      <figure class="history" data-history hidden>
+        <figcaption class="history-head">
+          <span class="history-title" data-field="history-title"></span>
+          <span class="history-legend">
+            <span class="legend-item"><span class="line-key series-france" aria-hidden="true"></span>{t.releve.france}</span>
+            <span class="legend-item"
+              ><span class="line-key series-department" aria-hidden="true"></span>{t.releve.historyDepartment}</span
+            >
+          </span>
+        </figcaption>
+        <div class="history-plot" data-history-plot role="img" tabindex="0" aria-label="">
+          <div class="history-tooltip" data-history-tooltip hidden></div>
+        </div>
+        <details class="history-data">
+          <summary>{t.releve.historyTable}</summary>
+          <div class="table-scroll" role="region" tabindex="0" aria-label={t.releve.historyTableLabel}>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">{t.releve.historyDay}</th>
+                  <th scope="col">{t.releve.france}</th>
+                  <th scope="col">{t.releve.historyDepartment}</th>
+                </tr>
+              </thead>
+              <tbody data-history-rows></tbody>
+            </table>
+          </div>
+        </details>
+      </figure>
     </div>
 
     <div class="releve-foot">
@@ -212,6 +242,181 @@ const aside = 'mart_prix_jour_departement';
 
   [data-releve][data-state='failed'] .releve-note {
     color: var(--fail);
+  }
+
+  /* Courbe des 30 derniers jours */
+  .history {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .history[hidden] {
+    display: none;
+  }
+
+  .history-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .history-title {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .history-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    font-size: 13px;
+    color: var(--text-2);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* Global : les clés de l'infobulle sont créées par le script */
+  .history :global(.line-key) {
+    display: inline-block;
+    flex: none;
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--series-france);
+  }
+
+  .history :global(.line-key.series-department) {
+    background: var(--series-department);
+  }
+
+  .history-plot {
+    position: relative;
+    min-height: 200px;
+    border-radius: 2px;
+    touch-action: pan-y;
+  }
+
+  .history-plot:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .history-plot :global(svg) {
+    display: block;
+    overflow: visible;
+  }
+
+  .history-plot :global(.chart-grid line) {
+    stroke: var(--line-soft);
+    stroke-width: 1;
+  }
+
+  .history-plot :global(.chart-grid text),
+  .history-plot :global(.chart-axis text) {
+    fill: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .history-plot :global(.chart-line) {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .history-plot :global(.chart-line.series-france) {
+    stroke: var(--series-france);
+  }
+
+  .history-plot :global(.chart-line.series-department) {
+    stroke: var(--series-department);
+  }
+
+  .history-plot :global(.chart-dot) {
+    stroke: var(--panel);
+    stroke-width: 2;
+  }
+
+  .history-plot :global(.chart-dot.series-france) {
+    fill: var(--series-france);
+  }
+
+  .history-plot :global(.chart-dot.series-department) {
+    fill: var(--series-department);
+  }
+
+  .history-plot :global(.chart-crosshair) {
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  .history-tooltip {
+    position: absolute;
+    top: 4px;
+    z-index: 1;
+    min-width: 180px;
+    padding: 10px 12px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-deep);
+    font-size: 13px;
+    pointer-events: none;
+  }
+
+  .history-tooltip :global(.tip-date) {
+    margin-bottom: 6px;
+    color: var(--text-3);
+  }
+
+  .history-tooltip :global(ul) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .history-tooltip :global(li) {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--text-2);
+  }
+
+  .history-tooltip :global(strong) {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .history-data summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .history-data table {
+    margin-top: 4px;
+    font-size: 14px;
+  }
+
+  .history-data td {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
   }
 
   .method {

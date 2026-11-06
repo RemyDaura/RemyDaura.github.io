@@ -7,6 +7,9 @@ summary: "Three sources reconciled and 9 anomaly categories handled for a wine m
 highlight: "9 anomaly categories handled"
 lede: "Auditing and fixing a wine merchant's data: three siloed sources, nine anomaly categories handled, and an action plan so they no longer have to be fixed by hand."
 lineage: ["ERP · website · Excel", "Python · pandas", "Action plan"]
+period:
+  start: "2025-12-04"
+  end: "2026-01-04"
 meta:
   - label: "Client"
     value: "Bottleneck (wine merchant)"
@@ -54,6 +57,12 @@ On performance itself, the Pareto analysis revealed a 60/80 split rather than th
 A boxplot was used to check price consistency: the few extreme values found are the house's grands crus and exceptional vintages, a deliberate premium strategy rather than data entry errors. A very weak correlation between price and quantities sold confirms that customers are not driven by low prices and look above all for quality and rarity.
 
 GDPR: the analysis only covers product data (SKU, stock, price) and anonymised transactions. No data that could identify a customer was processed.
+
+<Gallery>
+<Figure src="dossiers/06/stock-dormant.png" alt="Bar chart of the products with the most months of stock, almost all champagnes, up to over 30 months for the first." caption="Dormant stock: over 30 months of stock for a single product. The charts are in French." />
+<Figure src="dossiers/06/boxplot-prix.png" alt="Box plot of selling prices: half of the products between about €14 and €42, with extreme values up to about €225." caption="The extreme prices are the house's great wines, not typing errors." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/06/correlations.png" alt="Correlation matrix of 6 variables: price and total sales barely correlated (-0.10), selling and purchase price highly correlated (0.96)." caption="A very weak price/sales correlation: customers look for quality, not low prices." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

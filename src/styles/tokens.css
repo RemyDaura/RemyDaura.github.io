@@ -33,6 +33,11 @@
   --fail: #f2726b;
   --fail-line: #6b3330;
 
+  /* Séries de la courbe du relevé : teintes validées pour le fond --panel
+     (luminosité, saturation, distinction en daltonisme, contraste >= 3:1) */
+  --series-france: #5a95d8;
+  --series-department: #c4841c;
+
   /* Typographie */
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;

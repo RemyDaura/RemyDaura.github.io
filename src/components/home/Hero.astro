@@ -27,7 +27,7 @@ const { hero } = HOME[lang];
       <p class="hero-lede">{hero.lede}</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#dossiers">{hero.follow}</a>
-        <a class="btn" href={SITE.cv}>{t.contact.cvDownload}</a>
+        <a class="btn" href={SITE.cv[lang]} data-goatcounter-click={`cv-${lang}`}>{t.contact.cvDownload}</a>
         <span class="hero-links">
           <Link href={SITE.github}>GitHub</Link>
           <Link href={SITE.linkedin}>LinkedIn</Link>

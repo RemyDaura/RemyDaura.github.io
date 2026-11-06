@@ -10,6 +10,8 @@ export const SITE = {
   cv: '/CV_Remy_Daura.pdf',
   /** Dépôt de ce site, cité dans le pied de page ("lignage de ce site"). */
   sourceRepo: 'https://github.com/RemyDaura/RemyDaura.github.io',
+  /** Preuve de propriété pour Google Search Console (méthode « balise HTML »), à laisser en place. */
+  googleVerification: 'nqn-k8ut-3p8YfNyC2DE3_S97q-s8cpkX91WIjxg6AY',
 } as const;
 
 /**

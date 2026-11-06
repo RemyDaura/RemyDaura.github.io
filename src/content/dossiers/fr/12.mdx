@@ -1,0 +1,68 @@
+---
+num: 12
+title: "Détection de faux billets"
+headline: "Détection automatique de faux billets"
+featured: true
+summary: "Quatre algorithmes mis en concurrence pour distinguer automatiquement les vrais des faux billets, avec un modèle final choisi pour son interprétabilité."
+highlight: "98 % des faux billets détectés"
+lede: "Construire, comparer et choisir un algorithme de machine learning capable de distinguer un vrai billet d'un faux à partir de six mesures géométriques."
+lineage: ["1 500 billets", "4 modèles en concurrence", "script de production"]
+meta:
+  - label: "Client"
+    value: "ONCFM (organisation de lutte contre le faux-monnayage)"
+  - label: "Outils"
+    value: "Python, Scikit-learn, Pandas"
+  - label: "Livrables"
+    value: "Notebook, script de production, support de soutenance"
+stats:
+  - value: "99 %"
+    label: "d'accuracy sur le jeu de test"
+  - value: "98 %"
+    label: "de recall sur la classe « faux billet »"
+  - value: "4"
+    label: "algorithmes comparés et interprétés"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet12-Detection-Faux-Billets-ML"
+    primary: true
+---
+
+<Section label="Contexte" title="Six mesures par billet">
+
+L'ONCFM dispose d'une machine qui mesure six caractéristiques géométriques de chaque billet scanné (longueur, hauteurs, marges, diagonale). L'organisation souhaite un algorithme capable de différencier automatiquement les vrais des faux billets à partir de ces seules mesures.
+
+</Section>
+
+<Section label="Besoin" title="Rater un faux coûte plus cher qu'une fausse alerte">
+
+Le critère de réussite n'est pas la précision globale, mais la capacité à **identifier un maximum de faux billets** : un faux billet non détecté a un coût opérationnel bien plus élevé qu'un vrai billet contrôlé par erreur. Le livrable devait aussi être utilisable directement par des équipes non techniques, via une simple ligne de commande.
+
+</Section>
+
+<Section label="Démarche" title="Quatre modèles, aucune fuite de données">
+
+L'analyse exploratoire et une analyse en composantes principales ont d'abord permis d'identifier les variables réellement discriminantes : la longueur et les marges séparent nettement les vraies et les fausses coupures, la diagonale n'apporte presque rien seule.
+
+Le prétraitement a été construit avec une attention particulière portée à la fuite de données : séparation train/test réalisée *avant* toute transformation, imputation des valeurs manquantes par KNNImputer calibrée uniquement sur le train, standardisation des variables.
+
+Quatre algorithmes ont été mis en concurrence, comme demandé par le cahier des charges : régression logistique, KNN, Random Forest, et K-means, ce dernier entraîné sans étiquettes puis interprété a posteriori via la composition de ses clusters.
+
+Le modèle final n'a pas été choisi sur la seule performance : à égalité stricte entre trois modèles, la simplicité et l'interprétabilité ont fait la différence.
+
+</Section>
+
+<Section label="Résultats" title="À performance égale, le modèle qu'on peut expliquer">
+
+<Stats items={frontmatter.stats} />
+
+La régression logistique a été retenue comme modèle final : performance strictement identique au Random Forest (mêmes erreurs, même recall), mais directement interprétable via ses coefficients, un argument décisif pour expliquer une décision à des équipes non techniques. Le livrable final inclut un script en ligne de commande capable de traiter un billet unique ou un fichier complet, avec les probabilités associées à chaque prédiction.
+
+</Section>
+
+<Section label="Limites et pistes" title="Trois billets à la frontière">
+
+- Trois billets aux mesures proches de la frontière vrai/faux restent mal classés par les trois modèles supervisés, quel que soit l'algorithme : la limite vient des données elles-mêmes, pas d'un choix de modèle.
+- L'échantillon (1 500 billets) mériterait d'être confirmé sur un volume de production plus large avant un déploiement à grande échelle.
+- Le seuil de décision pourrait être ajusté selon le coût métier réel d'un faux positif par rapport à un faux négatif.
+
+</Section>

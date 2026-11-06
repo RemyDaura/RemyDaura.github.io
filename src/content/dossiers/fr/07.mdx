@@ -1,0 +1,75 @@
+---
+num: 7
+title: "Tableau de bord dynamique Power BI"
+headline: "Un même dashboard, trois niveaux de décision"
+featured: false
+summary: "Trois niveaux de décision dans un seul outil pour le suivi de projets de Sanitoral."
+highlight: "+20 % de dérive sur les délais des projets IT"
+lede: "Un outil de pilotage de projets pensé en entonnoir : du constat stratégique global jusqu'au détail opérationnel, en trois clics."
+lineage: ["Fichiers de suivi mensuels", "Power Query · Power BI", "3 niveaux de lecture"]
+meta:
+  - label: "Client"
+    value: "Sanitoral"
+  - label: "Outils"
+    value: "Power BI, Power Query"
+  - label: "Méthode"
+    value: "Product Strategy Canvas"
+stats:
+  - value: "3"
+    label: "niveaux de lecture hiérarchique dans un seul outil"
+  - value: "+20 %"
+    label: "de dérive systématique sur les délais des projets IT"
+  - value: "1 clic"
+    label: "pour actualiser l'ensemble du pipeline chaque mois"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet7-Creation-Tableau-Dynamique-Power-BI"
+    primary: true
+---
+
+<Section label="Contexte" title="Trois niveaux hiérarchiques, trois besoins">
+
+Sanitoral pilote des projets répartis dans plusieurs pays et régions, avec trois niveaux hiérarchiques aux besoins très différents : la Direction Générale, les Directeurs Régionaux, et les Directeurs Pays.
+
+</Section>
+
+<Section label="Besoin" title="Une question par lecteur">
+
+Transformer des données brutes de suivi de projets (coûts, délais, livrables) en un système d'aide à la décision unique, mais capable de répondre à trois questions différentes selon qui le consulte :
+
+<Callout title="Trois questions, un seul outil">
+
+1. Est-ce qu'on atteint nos objectifs globaux ?
+2. Quelle région est le maillon faible ?
+3. Quel projet précis dérive, et pourquoi ?
+
+</Callout>
+
+</Section>
+
+<Section label="Démarche" title="Un entonnoir, du global au détail">
+
+Le cadrage s'est appuyé sur un Product Strategy Canvas, formalisant trois user stories critiques, une par niveau hiérarchique. C'est cette structure en entonnoir, du global au détail, qui a dicté toute l'architecture du rapport.
+
+La préparation des données a été pensée pour durer : dans Power Query, un pipeline de nettoyage automatisé supprime les en-têtes parasites et type correctement les devises et les dates. L'avantage pour Sanitoral est direct : chaque nouveau fichier mensuel se dépose dans le dossier source, et un clic sur « Actualiser » suffit, sans reprise manuelle.
+
+Le modèle de données s'organise en cascade autour d'une table pivot centrale, `Projects_plans`. En amont, des relations un-à-plusieurs avec les axes Géographie et Type de projet permettent au Directeur de filtrer par pays ou par type. En aval, des relations un-à-un isolent les données réelles (coûts, durée) du prévisionnel, pour ne jamais mélanger ce qui est planifié et ce qui est constaté.
+
+Le résultat est une navigation en cascade : une vue « Hélicoptère » pour la Direction Générale, avec des indicateurs immédiats (budget consommé, projets en alerte), qui permet de descendre en trois clics jusqu'à l'action corrective sur un projet précis.
+
+</Section>
+
+<Section label="Résultats" title="L'IT dérive sur les délais, le Marketing sur les coûts">
+
+<Stats items={frontmatter.stats} />
+
+L'analyse a révélé une tendance stratégique nette : les projets IT dérivent systématiquement sur les délais, tandis que les projets Marketing dérivent plutôt sur les coûts. La recommandation qui en découle est chiffrée : augmenter le budget prévisionnel Marketing de 10 % et allonger les plannings IT de 15 %, pour fixer des objectifs plus réalistes et réduire le nombre de fausses alertes qui polluent le pilotage.
+
+</Section>
+
+<Section label="Limites et pistes" title="À confirmer sur plusieurs cycles">
+
+- Le pipeline automatisé suppose une structure de fichier stable d'un mois sur l'autre ; un changement de format côté source nécessiterait d'adapter les requêtes Power Query.
+- Les seuils de dérive (+20 % sur les délais IT, écarts de coûts Marketing) mériteraient d'être suivis sur plusieurs cycles supplémentaires pour confirmer leur caractère structurel plutôt que conjoncturel.
+
+</Section>

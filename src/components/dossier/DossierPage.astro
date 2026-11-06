@@ -1,0 +1,300 @@
+---
+/**
+ * Page d'un dossier : en-tête (numéro, titre, liens, fiche, lignage), contenu MDX,
+ * puis navigation vers les dossiers voisins.
+ */
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../trace/Section.astro';
+import Chain from '../ui/Chain.astro';
+import Link from '../ui/Link.astro';
+import Callout from '../mdx/Callout.astro';
+import Column from '../mdx/Column.astro';
+import Columns from '../mdx/Columns.astro';
+import Figure from '../mdx/Figure.astro';
+import Finding from '../mdx/Finding.astro';
+import Findings from '../mdx/Findings.astro';
+import Gallery from '../mdx/Gallery.astro';
+import PipelineGraph from '../mdx/PipelineGraph.astro';
+import ProseTable from '../mdx/ProseTable.astro';
+import Stats from '../mdx/Stats.astro';
+import { PIPELINE } from '../../data/site';
+import { LANGS, useTranslations, type Lang } from '../../i18n/ui';
+import { dossierPath, getDossiers, homePath, pad, type Dossier } from '../../lib/dossiers';
+
+interface Props {
+  lang: Lang;
+  entry: Dossier;
+}
+
+const { lang, entry } = Astro.props;
+const t = useTranslations(lang);
+const d = entry.data;
+const { Content } = await render(entry);
+
+const all = await getDossiers(lang);
+const previous = all.find((x) => x.data.num === d.num - 1);
+const next = all.find((x) => x.data.num === d.num + 1);
+
+const alternates = Object.fromEntries(LANGS.map((code) => [code, dossierPath(code, d.num)])) as Record<Lang, string>;
+const codeLink = d.links.find((l) => l.href.startsWith('https://github.com/'));
+const dashboardLink = d.num === 14 ? PIPELINE.dashboard : undefined;
+const nav = {
+  label: t.dossierNav.label,
+  items: [
+    { label: t.dossierNav.all, href: homePath(lang, '#dossiers') },
+    ...(codeLink ? [{ label: t.dossierNav.code, href: codeLink.href }] : []),
+    ...(dashboardLink ? [{ label: t.dossierNav.dashboard, href: dashboardLink }] : []),
+  ],
+};
+
+const number = t.dossier.number(pad(d.num));
+const components = {
+  Section,
+  Stats,
+  Findings,
+  Finding,
+  Figure,
+  Gallery,
+  Callout,
+  Columns,
+  Column,
+  PipelineGraph,
+  table: ProseTable,
+  a: Link,
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${d.headline} · ${number} · Rémy Daura`}
+  description={d.summary}
+  alternates={alternates}
+  nav={nav}
+  ogType="article"
+  ogImage={`/og/dossier-${pad(d.num)}-${lang}.png`}
+  cta={d.cta ?? t.dossier.defaultCta}
+>
+  <div class="trace">
+    <section id="haut" aria-labelledby="dossier-titre" class="trace-section dossier-hero">
+      <span class="trace-node" aria-hidden="true"></span>
+      <div class="hero-head">
+        <p class="section-eyebrow hero-eyebrow">
+          {number}
+          {d.kind && ` · ${d.kind}`}
+        </p>
+        {
+          d.status === 'production' && (
+            <span class="tag tag-ok">
+              <span class="state-mark" aria-hidden="true"></span>
+              {t.dossier.production}
+            </span>
+          )
+        }
+      </div>
+      <h1 id="dossier-titre">{d.headline}</h1>
+      <p class="hero-lede">{d.lede}</p>
+      {
+        d.links.length > 0 && (
+          <div class="hero-actions">
+            {d.links.map((l) => (
+              <Link class:list={['btn', { 'btn-primary': l.primary }]} href={l.href}>
+                {l.label}
+              </Link>
+            ))}
+          </div>
+        )
+      }
+      <Chain steps={d.lineage} label={t.dossier.lineage} emphasis />
+      <dl class="meta">
+        {
+          d.meta.map((m) => (
+            <div class="meta-item">
+              <dt>{m.label}</dt>
+              <dd>{m.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <Content components={components} />
+  </div>
+
+  <nav slot="after-main" class="pager" aria-label={t.dossier.others}>
+    <div class="wrap pager-inner">
+      {
+        previous ? (
+          <a class="pager-link" href={dossierPath(lang, previous.data.num)} rel="prev">
+            <span class="pager-kicker">← {t.dossier.number(pad(previous.data.num))}</span>
+            <span class="pager-title">{previous.data.title}</span>
+          </a>
+        ) : (
+          <a class="pager-link" href={homePath(lang, '#dossiers')}>
+            <span class="pager-kicker">← {t.dossier.back}</span>
+            <span class="pager-title">{t.dossierNav.all}</span>
+          </a>
+        )
+      }
+      {
+        next ? (
+          <a class="pager-link is-next" href={dossierPath(lang, next.data.num)} rel="next">
+            <span class="pager-kicker">{t.dossier.number(pad(next.data.num))} →</span>
+            <span class="pager-title">{next.data.title}</span>
+          </a>
+        ) : (
+          <a class="pager-link is-next" href={homePath(lang, '#dossiers')}>
+            <span class="pager-kicker">{t.dossier.back} →</span>
+            <span class="pager-title">{t.dossierNav.all}</span>
+          </a>
+        )
+      }
+    </div>
+  </nav>
+</BaseLayout>
+
+<style>
+  .dossier-hero {
+    --section-pt: 76px;
+    gap: 24px;
+    padding-bottom: 72px;
+  }
+
+  .hero-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    color: var(--accent);
+  }
+
+  .tag-ok .state-mark {
+    width: 7px;
+    height: 7px;
+  }
+
+  h1 {
+    max-width: 20ch;
+    font-size: clamp(38px, 6vw, 72px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+
+  .hero-lede {
+    max-width: 760px;
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--text-2);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 4px;
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    margin-top: 6px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 20px 16px 0;
+  }
+
+  .meta-item + .meta-item {
+    padding-left: 20px;
+    border-left: 1px solid var(--line);
+  }
+
+  dt {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  dd {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .pager {
+    border-top: 1px solid var(--line);
+  }
+
+  .pager-inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+
+  .pager-link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 28px 24px 28px 0;
+    text-decoration: none;
+  }
+
+  .pager-link.is-next {
+    padding: 28px 0 28px 24px;
+    border-left: 1px solid var(--line);
+    text-align: right;
+  }
+
+  .pager-kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .pager-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .pager-link:hover .pager-title {
+    color: var(--accent);
+  }
+
+  @media (max-width: 760px) {
+    .dossier-hero {
+      --section-pt: 40px;
+      padding-bottom: 56px;
+    }
+
+    .hero-lede {
+      font-size: 18px;
+    }
+
+    .meta-item,
+    .meta-item + .meta-item {
+      padding: 14px 0;
+      border-left: 0;
+    }
+
+    .meta-item + .meta-item {
+      border-top: 1px solid var(--line);
+    }
+
+    .pager-link.is-next {
+      padding: 24px 0;
+      border-left: 0;
+      border-top: 1px solid var(--line);
+      text-align: left;
+    }
+  }
+</style>

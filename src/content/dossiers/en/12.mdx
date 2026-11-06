@@ -1,0 +1,68 @@
+---
+num: 12
+title: "Counterfeit banknote detection"
+headline: "Automatic counterfeit banknote detection"
+featured: true
+summary: "Four algorithms competing to tell genuine banknotes from counterfeits automatically, with a final model chosen for its interpretability."
+highlight: "98% of counterfeits detected"
+lede: "Building, comparing and choosing a machine learning algorithm able to tell a genuine banknote from a counterfeit using six geometric measurements."
+lineage: ["1,500 banknotes", "4 competing models", "production script"]
+meta:
+  - label: "Client"
+    value: "ONCFM (anti-counterfeiting organisation)"
+  - label: "Tools"
+    value: "Python, Scikit-learn, Pandas"
+  - label: "Deliverables"
+    value: "Notebook, production script, presentation"
+stats:
+  - value: "99%"
+    label: "accuracy on the test set"
+  - value: "98%"
+    label: "recall on the \"counterfeit\" class"
+  - value: "4"
+    label: "algorithms compared and interpreted"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet12-Detection-Faux-Billets-ML"
+    primary: true
+---
+
+<Section label="Context" title="Six measurements per banknote">
+
+The ONCFM has a machine that measures six geometric features of each scanned banknote (length, heights, margins, diagonal). The organisation wants an algorithm able to tell genuine banknotes from counterfeits automatically, using these measurements alone.
+
+</Section>
+
+<Section label="Need" title="Missing a counterfeit costs more than a false alarm">
+
+The success criterion is not overall accuracy, but the ability to **catch as many counterfeits as possible**: an undetected counterfeit has a much higher operational cost than a genuine note checked by mistake. The deliverable also had to be directly usable by non-technical teams, through a simple command line.
+
+</Section>
+
+<Section label="Approach" title="Four models, no data leakage">
+
+Exploratory analysis and a principal component analysis first identified the truly discriminating variables: length and margins clearly separate genuine and counterfeit notes, while the diagonal adds almost nothing on its own.
+
+Preprocessing was built with particular attention to data leakage: train/test split done *before* any transformation, missing values imputed with a KNNImputer fitted on the training set only, standardised variables.
+
+Four algorithms were put in competition, as the specification required: logistic regression, KNN, Random Forest and K-means, the last one trained without labels and then interpreted afterwards through the composition of its clusters.
+
+The final model was not chosen on performance alone: with three models strictly tied, simplicity and interpretability made the difference.
+
+</Section>
+
+<Section label="Results" title="At equal performance, the model you can explain">
+
+<Stats items={frontmatter.stats} />
+
+Logistic regression was kept as the final model: performance strictly identical to the Random Forest (same errors, same recall), but directly interpretable through its coefficients, a decisive argument for explaining a decision to non-technical teams. The final deliverable includes a command-line script able to process a single banknote or a whole file, with the probability attached to each prediction.
+
+</Section>
+
+<Section label="Limits and next steps" title="Three banknotes on the boundary">
+
+- Three banknotes with measurements close to the genuine/counterfeit boundary stay misclassified by all three supervised models, whatever the algorithm: the limit comes from the data itself, not from the choice of model.
+- The sample (1,500 banknotes) should be confirmed on a larger production volume before any large-scale deployment.
+- The decision threshold could be adjusted to the real business cost of a false positive compared with a false negative.
+
+</Section>

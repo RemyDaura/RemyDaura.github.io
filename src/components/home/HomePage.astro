@@ -1,0 +1,72 @@
+---
+/**
+ * Page d'accueil, identique en français et en anglais : seule la langue change.
+ */
+import Appendices from './Appendices.astro';
+import Destination from './Destination.astro';
+import Dossiers from './Dossiers.astro';
+import Fieldwork from './Fieldwork.astro';
+import Freshness from './Freshness.astro';
+import Hero from './Hero.astro';
+import Lineage from './Lineage.astro';
+import Research from './Research.astro';
+import Skills from './Skills.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../data/site';
+import { HOME } from '../../i18n/home';
+import { LANGS, useTranslations, type Lang } from '../../i18n/ui';
+import { homePath } from '../../lib/dossiers';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const home = HOME[lang];
+
+const alternates = Object.fromEntries(LANGS.map((code) => [code, homePath(code)])) as Record<Lang, string>;
+const nav = {
+  label: t.nav.label,
+  items: [
+    { label: t.nav.dossiers, href: '#dossiers' },
+    { label: t.nav.terrain, href: '#terrain' },
+    { label: t.nav.lignage, href: '#lignage' },
+    { label: t.nav.schema, href: '#schema' },
+    { label: t.nav.destination, href: '#destination' },
+  ],
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  url: new URL(homePath(lang), SITE.url).href,
+  email: `mailto:${SITE.email}`,
+  jobTitle: lang === 'fr' ? 'Data Analyst, en spécialisation data engineering' : 'Data Analyst, specialising in data engineering',
+  address: { '@type': 'PostalAddress', addressLocality: 'Marseille', addressCountry: 'FR' },
+  sameAs: [SITE.github, SITE.linkedin],
+  knowsAbout: ['SQL', 'BigQuery', 'dbt', 'Python', 'GitHub Actions', 'Docker', 'Power BI', 'Looker Studio'],
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={home.meta.title}
+  description={home.meta.description}
+  alternates={alternates}
+  nav={nav}
+  jsonLd={jsonLd}
+>
+  <div class="trace">
+    <Hero lang={lang} />
+    <Freshness lang={lang} />
+    <Dossiers lang={lang} />
+    <Fieldwork lang={lang} />
+    <Lineage lang={lang} />
+    <Skills lang={lang} />
+    <Research lang={lang} />
+    <Appendices lang={lang} />
+    <Destination lang={lang} />
+  </div>
+</BaseLayout>

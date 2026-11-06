@@ -1,0 +1,61 @@
+/*
+  Jetons de design du site : couleurs, typographie, espacements.
+  Toutes les couleurs passent par ces variables : ne pas écrire de code couleur ailleurs.
+*/
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #0e141b;
+  --bg-deep: #0a0f14;
+  --panel: #121a23;
+
+  /* Traits */
+  --line: #2a3644;
+  --line-strong: #3a4757;
+  --line-soft: #1e2833;
+
+  /* Texte */
+  --text: #e6edf3;
+  --text-2: #b8c3ce;
+  --text-3: #9aa7b4;
+  --text-4: #6b7886; /* décoratif uniquement (flèches), contraste insuffisant pour du texte */
+
+  /* Accents */
+  --accent: #f2b04c;
+  --on-accent: #0e141b;
+  --source: #8fb8e8;
+  --ok: #4cc38a;
+  --ok-line: #2f6b4e;
+  --warm: #f2a07b;
+  --late: #f59e5b;
+  --late-line: #6b4a2a;
+  --fail: #f2726b;
+  --fail-line: #6b3330;
+
+  /* Typographie */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  /* Mise en page */
+  --wrap: 1200px;
+  --gutter: 24px;
+
+  /* Trace verticale */
+  --rail-col: 24px;
+  --rail-gap: 24px;
+  --node: 16px;
+  --rail-w: 2px;
+  --section-pt: 24px;
+  --section-pb: 80px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 16px;
+    --rail-col: 14px;
+    --rail-gap: 14px;
+    --node: 12px;
+    --section-pb: 56px;
+  }
+}

@@ -1,0 +1,54 @@
+---
+interface Props {
+  /** Le chiffre mis en avant : "17", "16 → 5,6 %". */
+  value: string;
+  title: string;
+}
+
+const { value, title } = Astro.props;
+---
+
+<div class="finding">
+  <p class="finding-value">{value}</p>
+  <p class="finding-title">{title}</p>
+  <div class="finding-text"><slot /></div>
+</div>
+
+<style>
+  .finding {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px;
+    background: var(--panel);
+  }
+
+  .finding-value {
+    font-family: var(--font-mono);
+    font-size: clamp(32px, 3.4vw, 40px);
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--accent);
+  }
+
+  .finding-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .finding-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-2);
+  }
+
+  .finding-text :global(code) {
+    padding: 0 4px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    color: var(--text);
+    overflow-wrap: anywhere;
+  }
+</style>

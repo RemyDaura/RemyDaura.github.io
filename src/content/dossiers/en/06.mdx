@@ -1,0 +1,78 @@
+---
+num: 6
+title: "Bottleneck, data cleaning"
+headline: "From hand-made management to controlled steering"
+featured: false
+summary: "Three sources reconciled and 9 anomaly categories handled for a wine merchant."
+highlight: "9 anomaly categories handled"
+lede: "Auditing and fixing a wine merchant's data: three siloed sources, nine anomaly categories handled, and an action plan so they no longer have to be fixed by hand."
+lineage: ["ERP · website · Excel", "Python · pandas", "Action plan"]
+meta:
+  - label: "Client"
+    value: "Bottleneck (wine merchant)"
+  - label: "Tools"
+    value: "Python, Pandas"
+  - label: "Follow-up"
+    value: "This project is the basis of case file no. 13"
+stats:
+  - value: "9"
+    label: "anomaly categories identified and handled"
+  - value: "435"
+    label: "products (61% of the catalogue) make 80% of revenue"
+  - value: "-297%"
+    label: "the lowest margin found: a data entry error, to be blocked in the ERP"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet6-Optimisation-Gestion-Donnees-Python"
+    primary: true
+---
+
+<Section label="Context" title="Three siloed sources">
+
+Bottleneck manages 825 products, 714 of them active, "by hand", with data split across silos: stock in the ERP, sales on the website, and the mapping between the two in a separate Excel file. This hand-made management causes copying errors and prevents any clear view of the business.
+
+</Section>
+
+<Section label="Need" title="A single, reliable dataset">
+
+Bring these three sources together into a single, reliable dataset, find the errors that distort revenue and margin calculations, then produce a performance analysis that management can use.
+
+</Section>
+
+<Section label="Approach" title="Reconcile, then find what's wrong">
+
+The first step was methodological: merging the ERP export, the website database and the mapping file into a single dataset. Reconciling them is what brought the truth out: the data was polluted by nine categories of structural errors (negative prices, inconsistent stock, orphan identifiers, duplicates...), not by simple formatting issues.
+
+Three critical anomalies were isolated and presented separately:
+
+- sales recorded at a loss (purchase price higher than the selling price, such as a champagne sold with a -297% margin);
+- "ghost" products, active and in stock in the ERP but invisible on the website: revenue lost through a simple synchronisation failure;
+- dormant stock, tied up for months.
+
+On performance itself, the Pareto analysis revealed a 60/80 split rather than the classic 20/80: 60% of the catalogue (435 products) generates 80% of revenue. That is a broad "core zone" to secure first, against a long tail of 280 products that brings in only 20% of revenue and ties up most of the dormant stock.
+
+A boxplot was used to check price consistency: the few extreme values found are the house's grands crus and exceptional vintages, a deliberate premium strategy rather than data entry errors. A very weak correlation between price and quantities sold confirms that customers are not driven by low prices and look above all for quality and rarity.
+
+GDPR: the analysis only covers product data (SKU, stock, price) and anonymised transactions. No data that could identify a customer was processed.
+
+</Section>
+
+<Section label="Results" title="One recommendation per team">
+
+<Stats items={frontmatter.stats} />
+
+Three operational recommendations followed, one per business function:
+
+- **IT**: a lock preventing the ERP from recording a purchase price higher than the selling price, with a data quality indicator (DQ-KPI) tracking the rate of compliant prices;
+- **Finance**: separating gross sales from cancellations to calculate reliable net revenue, with an automatic alert above a negative transaction threshold;
+- **Logistics**: dual steering, to secure a zero stock-out target on the core zone, and an active clearance policy on the long tail to free up tied-up capital.
+
+</Section>
+
+<Section label="Limits and next steps" title="Reliability over completeness">
+
+- Some data had to be set aside rather than fixed: products with no reliable match between the ERP and the website were excluded from the revenue calculation, choosing reliability over uncertain completeness.
+- The proposed recommendations (ERP lock, separate flows, dual steering) prevent the errors from coming back, but do not fix their root cause on the human data entry side.
+- This project was the starting point of a later mission (case file no. 13), which automated part of this quality control.
+
+</Section>

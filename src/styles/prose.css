@@ -1,0 +1,77 @@
+/*
+  Contenu rédigé en Markdown (dossiers MDX) à l'intérieur d'une section.
+  Seuls les éléments sans classe sont visés : ce sont ceux produits par le Markdown.
+  Les composants (graphes, cartes, tableaux) gardent leur propre mise en forme.
+*/
+
+.section-body {
+  display: flow-root;
+  min-width: 0;
+}
+
+.section-body > * + * {
+  margin-top: 22px;
+}
+
+.section-body > p:not([class]) + p:not([class]),
+.section-body > p:not([class]) + ul:not([class]),
+.section-body > p:not([class]) + ol:not([class]),
+.section-body > ul:not([class]) + p:not([class]),
+.section-body > ol:not([class]) + p:not([class]) {
+  margin-top: 14px;
+}
+
+.section-body > p:not([class]),
+.section-body > ul:not([class]),
+.section-body > ol:not([class]) {
+  max-width: 72ch;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.section-body > ul:not([class]),
+.section-body > ol:not([class]) {
+  margin-bottom: 0;
+  padding-left: 22px;
+}
+
+.section-body > ul:not([class]) li + li,
+.section-body > ol:not([class]) li + li {
+  margin-top: 8px;
+}
+
+.section-body > ul:not([class]) li::marker,
+.section-body > ol:not([class]) li::marker {
+  color: var(--text-3);
+}
+
+.section-body strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.section-body em {
+  font-style: italic;
+}
+
+.section-body :not(pre) > code {
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.section-body > h3 {
+  margin-top: 36px;
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.section-body > h3 + * {
+  margin-top: 12px;
+}

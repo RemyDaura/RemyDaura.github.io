@@ -1,0 +1,61 @@
+---
+/**
+ * 09 · Destination : le contact, fin de la trace.
+ */
+import Section from '../trace/Section.astro';
+import Link from '../ui/Link.astro';
+import { SITE } from '../../data/site';
+import { HOME } from '../../i18n/home';
+import { useTranslations, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { destination } = HOME[lang];
+---
+
+<Section
+  id="destination"
+  label={destination.label}
+  title={destination.title}
+  aside={destination.aside}
+  class="destination"
+>
+  <p class="destination-lede">{destination.lede}</p>
+  <div class="destination-actions">
+    <a class="btn btn-primary btn-lg" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    <Link class="btn btn-lg" href={SITE.linkedin}>LinkedIn</Link>
+    <Link class="btn btn-lg" href={SITE.github}>GitHub</Link>
+    <a class="btn btn-lg" href={SITE.cv}>{t.contact.cv}</a>
+  </div>
+</Section>
+
+<style>
+  :global(.destination .section-title) {
+    max-width: 24ch;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+
+  :global(.trace-section.destination) {
+    padding-bottom: 96px;
+  }
+
+  .destination-lede {
+    max-width: 680px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .destination-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 6px;
+  }
+</style>

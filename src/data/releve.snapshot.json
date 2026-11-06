@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "source": "instantane",
+  "jour": "2026-11-06",
+  "genere_le": "2026-11-06T15:02:51+00:00",
+  "nb_stations": 9830,
+  "tests": { "total": 15, "echecs": 0, "avertissements": 1 },
+  "carburants": [
+    { "code": "gazole", "france": 2.2171, "bouches_du_rhone": 2.2103 },
+    { "code": "sp98", "france": 2.1709, "bouches_du_rhone": 2.164 },
+    { "code": "sp95", "france": 2.1228, "bouches_du_rhone": 2.1194 },
+    { "code": "e10", "france": 2.0547, "bouches_du_rhone": 2.0546 },
+    { "code": "gplc", "france": 1.0765, "bouches_du_rhone": 1.0883 },
+    { "code": "e85", "france": 0.8978, "bouches_du_rhone": 0.9255 }
+  ],
+  "run_url": "https://github.com/RemyDaura/DE-Pipeline-Prix-Carburants/actions/runs/42239161979"
+}

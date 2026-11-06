@@ -1,0 +1,76 @@
+---
+num: 13
+title: "Running an AI-augmented data project"
+headline: "Running an AI-augmented data project"
+featured: true
+summary: "Making an existing data pipeline reliable: three validation methods compared, including an unexpected discovery about the limits of my own code."
+highlight: "8 of 9 anomaly categories found"
+lede: "Making the quality control of an existing data pipeline reliable, by comparing three validation methods rather than picking one out of habit, and documenting honestly what changed direction along the way."
+lineage: ["existing pipeline", "Pandera · Great Expectations · AI", "report"]
+meta:
+  - label: "Context"
+    value: "Final project of the OpenClassrooms programme"
+  - label: "Tools"
+    value: "Python, Pandera, Great Expectations, generative AI"
+  - label: "Duration"
+    value: "About 3 weeks"
+stats:
+  - value: "8/9"
+    label: "anomaly categories found automatically"
+  - value: "2"
+    label: "reproducibility bugs found and fixed in the original notebook"
+  - value: "+65%"
+    label: "more code needed with Great Expectations, for the same coverage as Pandera"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet13-Projet-Data-Augmente-IA"
+    primary: true
+---
+
+<Section label="Context" title="Improving an existing deliverable, methodically">
+
+The last project of the Data Analyst programme, in two separate missions: improve a deliverable already produced (case file no. 6, on a wine merchant's data) with AI, critically and with documentation, then build a professional portfolio, of which this site is the new version.
+
+This case file covers the first mission: how to decide, with method rather than assumptions, which tool to use to make a data pipeline reliable.
+
+</Section>
+
+<Section label="Need" title="Quality rules that can be re-run">
+
+Case file no. 6 identified 9 anomaly categories by hand in a wine merchant's data (negative prices, inconsistent stock, duplicates, identifiers broken between systems), spread across about ten separate blocks of code. Nothing guaranteed that these checks would be re-run identically on a future export, and nothing raised an alert automatically when a new anomaly appeared.
+
+Goal: centralise these quality rules in a reproducible, automatable way, without making the tooling more complex than the real needs of a small business with no dedicated data team.
+
+</Section>
+
+<Section label="Approach" title="Three methods, tested on the same data">
+
+Three methods were compared, first on sourced documentation, then through real tests on the data:
+
+| Method | What it detected | Limit observed |
+| --- | --- | --- |
+| Pandera, a lightweight Python validation schema | 5/5 price and stock anomalies, in about 9 lines of code | Only catches rules that are explicitly written |
+| Great Expectations, on the same rules | Same results as Pandera, plus an automatic HTML report | About 65% more code for the same coverage |
+| Generative AI, raw data, with no prior hint | 2 anomaly categories missing from both schemas | Result not automatically reproducible |
+
+The third method produced the most interesting result of the project: it found almost all the anomalies already known, but above all revealed **two blind spots in my own Pandera schema**: a stock consistency rule that only tested one direction, and an anomaly calculation that mistakenly merged two separate causes. It also found two entirely new anomaly categories (duplicate product records, negative sales counters) that neither schema tested.
+
+Rather than picking one tool and sticking to it, the approach evolved: use generative AI upstream to explore a new dataset, then formalise the confirmed rules in a reproducible Pandera schema.
+
+</Section>
+
+<Section label="Results" title="The AI found what my schema missed">
+
+<Stats items={frontmatter.stats} />
+
+In fact, the original notebook did not run end to end without intervention before this mission: one column was dropped twice, and a margin variable was calculated on the wrong dataframe. Both were fixed and documented directly in the improved notebook.
+
+</Section>
+
+<Section label="Limits and next steps" title="Explore with AI, monitor with a schema">
+
+- The identifier collision risk found by the AI method (two non-standard codes reusing an identifier already assigned) is documented, but not yet turned into an automated rule.
+- The generative AI method is not automatically reproducible from one run to the next: it is for exploring, not for continuous monitoring.
+- Choosing Pandera over Great Expectations should be reconsidered if the data volume or the number of teams involved were to grow significantly.
+
+</Section>

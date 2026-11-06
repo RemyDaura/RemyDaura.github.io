@@ -1,0 +1,239 @@
+---
+/**
+ * 02 · Fraîcheur : le relevé du jour publié par le pipeline du dossier n°14.
+ * Rendu au build avec l'instantané ; le navigateur gère le choix du carburant
+ * et remplace les valeurs par le relevé du matin (src/scripts/releve-client.ts).
+ */
+import Section from '../trace/Section.astro';
+import Link from '../ui/Link.astro';
+import { PIPELINE } from '../../data/site';
+import { HOME } from '../../i18n/home';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { dossierPath } from '../../lib/dossiers';
+import { FUEL_CODES, SNAPSHOT, computeStatus } from '../../lib/releve';
+import { widgetView } from '../../lib/releve-view';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { freshness } = HOME[lang];
+const view = widgetView(SNAPSHOT, computeStatus(SNAPSHOT, null, new Date()), lang, 'gazole');
+// La date du relevé est dans la barre d'état, mise à jour en direct : pas ici, où elle resterait figée.
+const aside = 'mart_prix_jour_departement';
+---
+
+<Section id="fraicheur" label={freshness.label} title={freshness.title} intro={freshness.intro} aside={aside}>
+  <div class="releve panel" data-releve data-state={view.state}>
+    <div class="releve-head">
+      <span class="state" data-state={view.state}
+        ><span class="state-mark" aria-hidden="true"></span><span data-field="chip">{view.chip}</span></span
+      >
+      <span data-field="loaded">{view.loaded}</span>
+      <span data-field="tests">{view.tests}</span>
+    </div>
+
+    <div class="releve-body">
+      <div class="fuels" role="group" aria-label={t.releve.fuelGroup}>
+        {
+          FUEL_CODES.map((code) => (
+            <button type="button" class="fuel" data-fuel={code} aria-pressed={code === 'gazole' ? 'true' : 'false'}>
+              {t.releve.fuels[code]}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="values" aria-live="polite">
+        <div class="value">
+          <span class="value-label">{t.releve.france}</span>
+          <span class="value-number" data-field="france">{view.france}</span>
+          <span class="value-sub" data-field="per-litre">{view.perLitre}</span>
+        </div>
+        <div class="value value-dept">
+          <span class="value-label">{t.releve.department}</span>
+          <span class="value-number accent" data-field="department">{view.department}</span>
+          <span class="value-sub trend" data-trend={view.trend} data-field="comparison">{view.comparison}</span>
+        </div>
+      </div>
+
+      <p class="releve-note" data-field="note" hidden={view.note === ''}>{view.note}</p>
+    </div>
+
+    <div class="releve-foot">
+      <p class="method">{t.releve.method}</p>
+      <span class="foot-links">
+        <Link href={PIPELINE.repo} data-field="run-link" hidden>{t.releve.runLink}</Link>
+        <a href={`${dossierPath(lang, 14)}#lignage`}>{t.releve.howBuilt}</a>
+      </span>
+    </div>
+  </div>
+</Section>
+
+<script>
+  import { initWidget } from '../../scripts/releve-client';
+
+  const root = document.querySelector<HTMLElement>('[data-releve]');
+  if (root) initWidget(root);
+</script>
+
+<style>
+  .releve-head,
+  .releve-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    align-items: center;
+    padding: 14px 20px;
+  }
+
+  .releve-head {
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-2);
+  }
+
+  .releve-foot {
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+  }
+
+  .releve-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .fuels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .fuel {
+    min-width: 72px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .fuel:hover {
+    border-color: var(--accent);
+  }
+
+  .fuel[aria-pressed='true'] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .values {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    border-top: 1px solid var(--line);
+  }
+
+  .value {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 24px 4px 0;
+  }
+
+  .value-dept {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+  }
+
+  .value-label,
+  .value-sub {
+    font-size: 14px;
+    color: var(--text-3);
+  }
+
+  .value-number {
+    font-family: var(--font-mono);
+    font-size: clamp(38px, 5vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .accent {
+    color: var(--accent);
+  }
+
+  .trend[data-trend='cheaper'] {
+    color: var(--ok);
+  }
+
+  .trend[data-trend='dearer'] {
+    color: var(--warm);
+  }
+
+  /* Valeurs grisées quand le relevé n'est pas celui du jour */
+  [data-releve]:not([data-state='ok']) .value-number {
+    color: var(--text-2);
+  }
+
+  [data-releve][data-state='late'] {
+    border-color: var(--late-line);
+  }
+
+  [data-releve][data-state='failed'] {
+    border-color: var(--fail-line);
+  }
+
+  .releve-note {
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-3);
+  }
+
+  [data-releve][data-state='late'] .releve-note {
+    color: var(--late);
+  }
+
+  [data-releve][data-state='failed'] .releve-note {
+    color: var(--fail);
+  }
+
+  .method {
+    max-width: 760px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-3);
+  }
+
+  .foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .value-dept {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+  }
+</style>

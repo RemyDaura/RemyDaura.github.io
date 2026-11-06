@@ -1,0 +1,56 @@
+---
+/**
+ * Chiffres clés d'un dossier : <Stats items={frontmatter.stats} />
+ */
+interface Props {
+  items: { value: string; label: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl class="stats">
+  {
+    items.map((item) => (
+      <div class="stat">
+        <dt>{item.label}</dt>
+        <dd>{item.value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 20px 22px;
+    background: var(--panel);
+  }
+
+  dd {
+    font-family: var(--font-mono);
+    font-size: clamp(28px, 3.2vw, 36px);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    overflow-wrap: anywhere;
+  }
+
+  dt {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+</style>

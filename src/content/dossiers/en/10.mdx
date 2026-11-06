@@ -1,0 +1,85 @@
+---
+num: 10
+title: "Where to invest in drinking water access"
+headline: "Where to invest in drinking water access"
+featured: true
+summary: "A Power BI dashboard for an NGO: between having water and having truly safe water, the gap is 63 points."
+highlight: "A 63-point gap revealed"
+lede: "A Power BI dashboard with three reading levels, to help an NGO decide where to focus future funding, without deciding for it."
+lineage: ["water access data", "Power BI · DAX", "3 decision views"]
+meta:
+  - label: "Client"
+    value: "DWFA (drinking water access)"
+  - label: "Tools"
+    value: "Power BI, DAX"
+  - label: "Deliverables"
+    value: "3-view dashboard, indicator blueprint"
+stats:
+  - value: "89%"
+    label: "basic access to water worldwide in 2017"
+  - value: "26%"
+    label: "only for access to truly safe water (\"safely managed\")"
+  - value: "62.9"
+    label: "points between the two: the real issue"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet10-Etude-Eau-Potable"
+    primary: true
+---
+
+<Section label="Context" title="One grant, three possible areas">
+
+DWFA works on access to drinking water through three areas of expertise: creating services where none exist, modernising existing services, and advising governments.
+
+The organisation has applied for funding. If it is granted, the money will be invested in one of these three areas, in a country yet to be decided.
+
+</Section>
+
+<Section label="Need" title="Inform the decision, without making it">
+
+Give DWFA the data to make this decision with full knowledge of the facts. Not a single recommendation imposed by the dashboard, but a decision tool with three reading levels: global, regional, national.
+
+</Section>
+
+<Section label="Approach" title="Two pitfalls avoided, 21 accessible visuals">
+
+Five source tables, from the WHO and the World Bank:
+
+- access to water, with a key distinction between *basic* access (having water) and *safely managed* access (truly safe water);
+- population;
+- mortality attributed to unsafe water;
+- political stability;
+- a reference table linking 194 countries to 6 WHO regions.
+
+Period covered: 2000 to 2017 for water access, up to 2018 for population and political stability.
+
+The preprocessing had to get around two pitfalls. First, the Population table has five rows per country and per year (Total, Urban, Rural, Male, Female): without a systematic filter, the world population gets counted five times. Second, a simple average would give Monaco the same weight as China: every indicator was therefore built as a DAX measure weighted by population.
+
+Before building the dashboard, a **blueprint** set out, for each of the three views, the user need, the measures chosen and the visualisation selected. The data model follows a star schema, with strict one-to-many relationships and DAX measures rather than calculated columns, to stay light in memory.
+
+The specification set accessibility criteria: alt text written for each of the 21 visuals, contrast meeting the WCAG minimum ratio of 4.5:1 (the navy blue used exceeds 9:1), data labels visible without interaction, and a logical tab order.
+
+</Section>
+
+<Section label="Results" title="A water quality problem, not an access problem">
+
+<Stats items={frontmatter.stats} />
+
+The dashboard's central finding: it is not a problem of access to water, but a problem of water quality. In sub-Saharan Africa, basic access falls to 62% and access to safe water to just 7%. The national view goes down to individual countries: Sierra Leone, for example, combines basic access of 60.8%, a mostly rural population and enough political stability to be supported.
+
+Three recommendations followed, one per area of intervention:
+
+- **creating services** in rural sub-Saharan Africa (Chad 38.7%, South Sudan 40.7%, Ethiopia 41.1%);
+- **modernisation** in South and South-East Asia, where infrastructure already exists but remains of poor quality (Laos shows 82% basic access but only 16% safe water);
+- **government advisory work** in stable countries with high water-related mortality (Sierra Leone, Benin, Comoros).
+
+</Section>
+
+<Section label="Limits and next steps" title="Data that stops in 2017">
+
+- The data stops in 2017: recent changes (crises, investments, conflicts) are not reflected, and these recommendations should be cross-checked against more recent field data.
+- The indicators are national; they do not reveal disparities within a country.
+- A deliberate choice not to interpolate missing values: the WHO already publishes its data with a built-in estimation methodology, and missing data is often concentrated in the least documented countries, precisely the most fragile ones. Interpolating would have introduced a systematic bias.
+- Possible next steps: update as soon as new JMP data is published, create a composite DWFA index, publish on Power BI Service for real-time access in the field.
+
+</Section>

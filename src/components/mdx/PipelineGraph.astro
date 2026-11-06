@@ -1,0 +1,174 @@
+---
+/**
+ * Lignage du pipeline du dossier n°14, avec les vrais noms des fichiers et des modèles
+ * du dépôt DE-Pipeline-Prix-Carburants, puis les étapes du run quotidien.
+ *   <PipelineGraph lang="fr" />
+ */
+import Chain from '../ui/Chain.astro';
+import LineageGraph from '../ui/LineageGraph.astro';
+import type { Lang } from '../../i18n/ui';
+import type { GraphColumn } from '../../lib/types';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const COPY: Record<Lang, { label: string; columns: GraphColumn[]; runTitle: string; run: string[]; runNote: string }> = {
+  fr: {
+    label: "Lignage du pipeline des prix des carburants",
+    columns: [
+      {
+        title: "Ingestion",
+        nodes: [
+          { name: "extraire.py", desc: "API → Parquet, 24 colonnes", tone: "source", tag: "3 tests pytest" },
+          { name: "charger.py", desc: "load job, ajout sans rien modifier", tone: "source" },
+        ],
+      },
+      {
+        title: "Raw",
+        nodes: [
+          {
+            name: "raw.prix_carburants",
+            desc: "BigQuery, partition par jour, expiration 60 jours",
+            tag: "fraîcheur 24 h / 48 h",
+          },
+        ],
+      },
+      {
+        title: "Staging",
+        nodes: [
+          {
+            name: "stg_prix_carburants",
+            desc: "dernier relevé du jour, une ligne par carburant, départements déduits du code postal",
+            tag: "9 tests",
+          },
+        ],
+      },
+      {
+        title: "Intermediate",
+        nodes: [
+          {
+            name: "int_prix_qualifies",
+            desc: "chaque prix étiqueté : récent (30 jours max), suspect (±40 % de la médiane)",
+          },
+        ],
+      },
+      {
+        title: "Marts",
+        nodes: [
+          { name: "mart_prix_jour_departement", desc: "moyennes exactes, écart au national", tone: "accent", tag: "4 tests" },
+          { name: "mart_stations_13", desc: "classement des stations par carburant", tone: "accent", tag: "2 tests" },
+        ],
+      },
+      {
+        title: "Exposures",
+        nodes: [
+          { name: "Data Studio", desc: "tableau de bord public, 3 pages", tone: "ok" },
+          { name: "releve.json", desc: "relevé du jour, lu par l'accueil de ce site", tone: "ok", tag: "contrat testé" },
+          { name: "dbt docs", desc: "documentation publique, mise à jour chaque matin", tone: "ok" },
+        ],
+      },
+    ],
+    runTitle: "Chaque matin à 6 h 17",
+    run: ["cron-job.org", "ruff", "pytest", "extraction", "chargement", "dbt build", "relevé", "fraîcheur", "GitHub Pages"],
+    runNote: "Un test bloquant arrête tout avant l'écran.",
+  },
+  en: {
+    label: "Lineage of the fuel price pipeline",
+    columns: [
+      {
+        title: "Ingestion",
+        nodes: [
+          { name: "extraire.py", desc: "API → Parquet, 24 columns", tone: "source", tag: "3 pytest tests" },
+          { name: "charger.py", desc: "load job, append-only", tone: "source" },
+        ],
+      },
+      {
+        title: "Raw",
+        nodes: [
+          {
+            name: "raw.prix_carburants",
+            desc: "BigQuery, partitioned by day, 60-day expiry",
+            tag: "freshness 24 h / 48 h",
+          },
+        ],
+      },
+      {
+        title: "Staging",
+        nodes: [
+          {
+            name: "stg_prix_carburants",
+            desc: "latest reading of the day, one row per fuel, departments inferred from postcodes",
+            tag: "9 tests",
+          },
+        ],
+      },
+      {
+        title: "Intermediate",
+        nodes: [
+          {
+            name: "int_prix_qualifies",
+            desc: "every price labelled: recent (30 days max), suspicious (±40% from the median)",
+          },
+        ],
+      },
+      {
+        title: "Marts",
+        nodes: [
+          { name: "mart_prix_jour_departement", desc: "exact averages, gap to the national figure", tone: "accent", tag: "4 tests" },
+          { name: "mart_stations_13", desc: "stations ranked by fuel", tone: "accent", tag: "2 tests" },
+        ],
+      },
+      {
+        title: "Exposures",
+        nodes: [
+          { name: "Data Studio", desc: "public dashboard, 3 pages", tone: "ok" },
+          { name: "releve.json", desc: "daily snapshot, read by this site's home page", tone: "ok", tag: "tested contract" },
+          { name: "dbt docs", desc: "public documentation, updated every morning", tone: "ok" },
+        ],
+      },
+    ],
+    runTitle: "Every morning at 6:17",
+    run: ["cron-job.org", "ruff", "pytest", "extraction", "loading", "dbt build", "snapshot", "freshness", "GitHub Pages"],
+    runNote: "A blocking test stops everything before the screen.",
+  },
+};
+
+const copy = COPY[lang];
+---
+
+<LineageGraph columns={copy.columns} label={copy.label} dense>
+  <div class="run">
+    <p class="run-title">{copy.runTitle}</p>
+    <Chain steps={copy.run} label={copy.runTitle} size="sm" />
+    <p class="run-note">{copy.runNote}</p>
+  </div>
+</LineageGraph>
+
+<style>
+  .run {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .run-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .run-note {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-3);
+  }
+</style>

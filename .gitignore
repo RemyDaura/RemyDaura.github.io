@@ -1,0 +1,17 @@
+# Dépendances et fichiers générés
+node_modules/
+dist/
+.astro/
+
+# Journaux
+npm-debug.log*
+
+# Environnement local (ne jamais committer de clé ni de jeton)
+.env
+.env.*
+
+# Systèmes et éditeurs
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json

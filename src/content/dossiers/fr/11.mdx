@@ -1,0 +1,80 @@
+---
+num: 11
+title: "Segmentation de pays par ACP et K-means"
+headline: "168 pays, 4 groupes, 30 marchés prioritaires"
+featured: false
+summary: "168 pays, 4 groupes, 30 marchés prioritaires pour un export de volaille bio."
+highlight: "30 marchés prioritaires"
+lede: "Une étude de marché à l'export pour un producteur de volaille bio, sans présélection de pays : la segmentation seule a désigné les cibles."
+lineage: ["FAO · Banque mondiale", "ACP · CAH · K-means", "30 marchés prioritaires"]
+meta:
+  - label: "Client"
+    value: "La Poule qui Chante (entreprise fictive)"
+  - label: "Outils"
+    value: "Python, ACP, CAH, K-means"
+  - label: "Cadre"
+    value: "Analyse PESTEL"
+stats:
+  - value: "168"
+    label: "pays analysés, 4 groupes robustes identifiés"
+  - value: "30"
+    label: "pays en cible prioritaire (importateurs structurellement dépendants)"
+  - value: "> 90 %"
+    label: "de concordance entre deux méthodes de clustering indépendantes"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet11-Segmentation-Pays-ACP-KMeans"
+    primary: true
+---
+
+<Section label="Contexte" title="Exporter, sans présélection">
+
+La Poule qui Chante souhaite exporter son poulet bio et cherche à identifier les marchés les plus attractifs, sans aucune présélection de pays a priori.
+
+</Section>
+
+<Section label="Besoin" title="Trois questions, une réponse objective">
+
+<Callout title="Trois questions à résoudre">
+
+1. Où existe déjà une demande en volaille importée ?
+2. Quels marchés ont le pouvoir d'achat pour un produit bio premium ?
+3. Comment regrouper les pays pour cibler efficacement, plutôt que de les analyser un par un ?
+
+</Callout>
+
+</Section>
+
+<Section label="Démarche" title="Deux méthodes de clustering indépendantes">
+
+Trois sources (FAO, Banque mondiale) ont été croisées pour obtenir un jeu de données complet de 168 pays et 12 variables, sans aucune valeur manquante. Les variables ont été sélectionnées selon le cadre PESTEL (économique, social, technologique, environnemental) ; la dimension politique a été testée puis explicitement écartée, sa distribution étant trop resserrée pour séparer efficacement les pays. Cinq variables ont été construites par feature engineering (ratios et indicateurs composites).
+
+Une ACP a résumé ces 12 variables en 3 axes retenus (60,6 % de variance expliquée), un compromis assumé entre rigueur statistique et lisibilité graphique pour un public non technique. Le premier axe oppose les pays riches et urbains aux grands pays agricoles ; le second oppose les pays dépendants des importations de volaille aux pays autosuffisants.
+
+Deux méthodes de clustering indépendantes ont été utilisées : une CAH (méthode de Ward) et un K-means (testé à K = 4, 8 et 10 via le coefficient de silhouette, l'indice de Davies-Bouldin et la méthode du coude). Les deux convergent vers 4 groupes, calculés directement sur les 12 variables standardisées plutôt que sur les axes de l'ACP, pour ne perdre aucune précision. Le Brésil et les États-Unis, outliers extrêmes en tant que premiers exportateurs mondiaux, ont été exclus du clustering : ce sont des concurrents à l'export, pas des marchés cibles.
+
+La concordance entre les deux méthodes dépasse 90 %, confirmée par l'Adjusted Rand Index (une métrique insensible au numérotage arbitraire des clusters) : les groupes reflètent une structure réelle des données, pas un artefact de l'algorithme.
+
+</Section>
+
+<Section label="Résultats" title="Cinq premiers marchés à adresser">
+
+<Stats items={frontmatter.stats} />
+
+Un indicateur de distance au centroïde a permis de prioriser les pays au sein même du groupe cible : la Dominique, Cabo Verde, le Suriname, le Gabon et les Bahamas ressortent comme les 5 premiers marchés à adresser.
+
+Les recommandations s'organisent sur trois horizons :
+
+- **court terme** : attaquer le groupe prioritaire ;
+- **moyen terme** : pénétrer les marchés développés du groupe secondaire avec une stratégie premium différenciée (Label Rouge, traçabilité, bien-être animal) ;
+- **long terme** : surveiller des marchés émergents comme l'Algérie, le Sénégal ou le Maroc.
+
+</Section>
+
+<Section label="Limites et pistes" title="Avant tout engagement commercial">
+
+- Les données datent de 2017 : les plus complètes disponibles au moment de l'étude, mais certains marchés ont pu évoluer depuis.
+- L'analyse est purement quantitative : elle n'intègre pas les barrières non tarifaires (normes sanitaires, réglementations locales à chaque pays).
+- La logistique (distances, coûts de transport, droits de douane) n'a pas été modélisée et devra être intégrée dans une analyse de faisabilité pays par pays avant tout engagement commercial.
+
+</Section>

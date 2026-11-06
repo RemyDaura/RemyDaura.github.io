@@ -1,0 +1,87 @@
+---
+/**
+ * Barre d'état en haut de chaque page : état du pipeline du dossier n°14.
+ * Rendue au build avec l'instantané, puis mise à jour dans le navigateur.
+ */
+import { useTranslations, type Lang } from '../i18n/ui';
+import { dossierPath } from '../lib/dossiers';
+import { SNAPSHOT, computeStatus } from '../lib/releve';
+import { statusBarView } from '../lib/releve-view';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const view = statusBarView(SNAPSHOT, computeStatus(SNAPSHOT, null, new Date()), lang);
+---
+
+<aside id="top" class="status-bar" aria-label={t.status.label} data-status-bar>
+  <div class="wrap status-inner">
+    <p class="status-items" role="status">
+      <span class="state" data-state={view.state}
+        ><span class="state-mark" aria-hidden="true"></span><span data-field="pipeline">{view.pipeline}</span></span
+      >
+      <span data-field="day">{view.day}</span>
+      <span data-field="stations">{view.stations}</span>
+      <span data-field="tests">{view.tests}</span>
+    </p>
+    <a class="status-why" href={`${dossierPath(lang, 14)}#lignage`}>{t.status.why}</a>
+  </div>
+</aside>
+
+<script>
+  import { loadLiveData, renderStatusBar, snapshotData } from '../scripts/releve-client';
+
+  const root = document.querySelector<HTMLElement>('[data-status-bar]');
+  if (root) {
+    renderStatusBar(root, snapshotData());
+    void loadLiveData().then((data) => renderStatusBar(root, data));
+  }
+</script>
+
+<style>
+  .status-bar {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-deep);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  .status-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 9px;
+  }
+
+  .status-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 22px;
+    align-items: center;
+  }
+
+  .status-why {
+    color: var(--text-3);
+  }
+
+  .status-why:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 760px) {
+    .status-inner {
+      font-size: 12px;
+    }
+
+    /* Sur mobile : état, date et lien seulement */
+    .status-items > :nth-child(n + 3) {
+      display: none;
+    }
+  }
+</style>

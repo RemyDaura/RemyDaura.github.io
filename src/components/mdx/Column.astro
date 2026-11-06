@@ -1,0 +1,60 @@
+---
+interface Props {
+  /** Intitulé facultatif au-dessus de la colonne ("Limites connues"). */
+  title?: string;
+  accent?: boolean;
+}
+
+const { title, accent = false } = Astro.props;
+---
+
+<div class="column">
+  {title && <p class:list={['column-title', { accent }]}>{title}</p>}
+  <slot />
+</div>
+
+<style>
+  .column {
+    flex: 1 1 340px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .column-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .column-title.accent {
+    color: var(--accent);
+  }
+
+  .column > :global(p:not([class])),
+  .column > :global(ul:not([class])),
+  .column > :global(ol:not([class])) {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text-2);
+  }
+
+  .column > :global(ul:not([class])),
+  .column > :global(ol:not([class])) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding-left: 20px;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .column :global(strong) {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>

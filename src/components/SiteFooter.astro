@@ -1,0 +1,129 @@
+---
+/**
+ * Pied de page : appel au contact (pages de dossier), lignage de ce site et liens.
+ */
+import Chain from './ui/Chain.astro';
+import Link from './ui/Link.astro';
+import { SITE } from '../data/site';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Phrase d'appel affichée au-dessus du pied de page (pages de dossier). */
+  cta?: string;
+}
+
+const { lang, cta } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<footer class="site-footer">
+  {
+    cta && (
+      <div class="footer-cta">
+        <div class="wrap cta-inner">
+          <p class="cta-text">
+            {cta}{' '}
+            <a href={`mailto:${SITE.email}`} class="cta-link">
+              {t.dossier.write}
+            </a>
+          </p>
+        </div>
+      </div>
+    )
+  }
+  <div class="wrap footer-inner">
+    <div class="footer-lineage">
+      <p class="kicker">{t.footer.lineageTitle}</p>
+      <Chain steps={t.footer.lineage} label={t.footer.lineageTitle} size="sm" />
+      <p class="footer-note">
+        {t.footer.note}{' '}
+        <Link href={SITE.sourceRepo}>{t.footer.source}</Link>
+      </p>
+    </div>
+    <div class="footer-links">
+      <Link href={SITE.linkedin}>LinkedIn</Link>
+      <Link href={SITE.github}>GitHub</Link>
+      <a href={SITE.cv}>{t.contact.cv}</a>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      <span class="rights">{t.footer.rights}</span>
+      <a href="#top" class="up">{t.footer.up}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    background: var(--bg-deep);
+  }
+
+  .footer-cta {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cta-inner {
+    padding-block: 32px;
+  }
+
+  .cta-text {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .cta-link {
+    color: var(--accent);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px 48px;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-block: 36px;
+  }
+
+  .footer-lineage {
+    flex: 999 1 520px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .kicker {
+    font-size: 12px;
+  }
+
+  .footer-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-3);
+  }
+
+  .footer-note :global(a) {
+    color: var(--text-3);
+  }
+
+  .footer-links {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-3);
+  }
+
+  .footer-links :global(a) {
+    color: var(--text-3);
+  }
+
+  .footer-links :global(a:hover) {
+    color: var(--accent);
+  }
+
+  .rights {
+    padding-top: 6px;
+  }
+</style>

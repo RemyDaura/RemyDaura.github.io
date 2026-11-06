@@ -1,0 +1,70 @@
+---
+num: 5
+title: "Real estate study"
+headline: "Designing a real estate database ready for decisions"
+featured: false
+summary: "A normalised SQL database and advanced analytical queries, to prepare real estate price forecasting."
+highlight: "5 entities in 3NF, 3 strategic queries"
+lede: "The DATAImmo project: designing, building and querying a normalised real estate database, compliant and already usable for strategic analysis."
+lineage: ["DVF · INSEE · reference data", "MySQL · 3NF", "3 analytical queries"]
+meta:
+  - label: "Tools"
+    value: "MySQL, SQL (window functions, conditional aggregation)"
+  - label: "Sources"
+    value: "DVF property transactions, INSEE population data, geographic reference data"
+stats:
+  - value: "5"
+    label: "entities normalised in 3NF, with no redundancy"
+  - value: "3"
+    label: "strategic analytical queries delivered and working"
+  - value: "100%"
+    label: "GDPR compliance: no personal data stored"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet5-Immobilier-SQL"
+    primary: true
+---
+
+<Section label="Context" title="Forecasting prices, starting with the database">
+
+The DATAImmo project aims to improve real estate price forecasting. The first phase is to design a database that consolidates raw property transactions (DVF, the French land registry dataset), INSEE population data and a geographic reference table.
+
+</Section>
+
+<Section label="Need" title="Three strategic needs">
+
+Turn raw, scattered data into a decision support system able to meet three strategic needs: **valuation** (targeting luxury properties), **demographic pressure** (measuring market turnover), and **segmentation** (analysing price premiums by type of property).
+
+</Section>
+
+<Section label="Approach" title="From the data dictionary to window functions">
+
+A data dictionary first validated the quality of the model: atomic variables, precise types, and above all confirmation that no personal data is stored, only transactional, statistical and geographic information.
+
+The schema follows third normal form (3NF), with five cascading entities: SALE → PROPERTY → TOWN, completed by DEPARTMENT and REGION, so a property can be analysed at any geographic level without ever duplicating information.
+
+Once the schema was validated, the tables were created in MySQL with particular attention to integrity: converting `date_mutation` to the DATE type (essential for reliable quarterly comparisons), enabling every foreign key, and creating an index on the most queried geographic column to speed up analytical queries.
+
+Three queries then demonstrated what the database can do:
+
+- a ranking of the 3 most expensive towns in each department, with a `RANK() OVER (PARTITION BY ...)` window function;
+- a ratio of transactions per 1,000 inhabitants, to measure demographic momentum;
+- a conditional aggregation (`AVG` with `CASE WHEN`), to compare the price per m² of 2-room and 3-room flats in a single query.
+
+</Section>
+
+<Section label="Results" title="A sound database, ready for analysis">
+
+<Stats items={frontmatter.stats} />
+
+The database went from a theoretical schema to a robust, consistent physical implementation, optimised for the most frequent geographic queries: the first phase of the DATAImmo project is validated.
+
+</Section>
+
+<Section label="Limits and next steps" title="Before predictive modelling">
+
+- The final cleaning of outliers still needs to be completed before large-scale use.
+- Dedicated analytical views still need to be created, to make it easier for a team of data scientists to pick up the work.
+- Next step for DATAImmo: predictive modelling of the sale price, built directly on this database.
+
+</Section>

@@ -1,0 +1,27 @@
+---
+/**
+ * Plusieurs figures : la première en pleine largeur, les suivantes deux par deux.
+ */
+---
+
+<div class="gallery">
+  <slot />
+</div>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 24px;
+  }
+
+  .gallery > :global(:first-child) {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 760px) {
+    .gallery {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

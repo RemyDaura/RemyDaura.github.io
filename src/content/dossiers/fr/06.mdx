@@ -1,0 +1,78 @@
+---
+num: 6
+title: "Bottleneck, nettoyage de données"
+headline: "D'une gestion artisanale à un pilotage maîtrisé"
+featured: false
+summary: "Trois sources réconciliées et 9 catégories d'anomalies traitées chez un caviste."
+highlight: "9 catégories d'anomalies traitées"
+lede: "Audit et fiabilisation des données d'un caviste : trois sources en silos, neuf catégories d'anomalies traitées, et un plan d'action pour ne plus avoir à les corriger à la main."
+lineage: ["ERP · site web · Excel", "Python · pandas", "Plan d'action"]
+meta:
+  - label: "Client"
+    value: "Bottleneck (caviste)"
+  - label: "Outils"
+    value: "Python, Pandas"
+  - label: "Suite"
+    value: "Ce projet est la base du dossier n°13"
+stats:
+  - value: "9"
+    label: "catégories d'anomalies identifiées et traitées"
+  - value: "435"
+    label: "références (61 % du catalogue) font 80 % du chiffre d'affaires"
+  - value: "-297 %"
+    label: "la marge la plus basse relevée : une erreur de saisie, à bloquer dans l'ERP"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet6-Optimisation-Gestion-Donnees-Python"
+    primary: true
+---
+
+<Section label="Contexte" title="Trois sources en silos">
+
+Bottleneck gère 825 références, dont 714 actives, « à la main », avec des données éclatées en silos : le stock dans l'ERP, les ventes sur le site web, et la correspondance entre les deux dans un fichier Excel à part. Cette gestion artisanale crée des erreurs de copie et empêche toute vision claire de l'activité.
+
+</Section>
+
+<Section label="Besoin" title="Un seul jeu de données, fiable">
+
+Unifier ces trois sources en un jeu de données unique et fiable, identifier les erreurs qui faussent les calculs de chiffre d'affaires et de marge, puis produire une analyse de performance exploitable par la direction.
+
+</Section>
+
+<Section label="Démarche" title="Réconcilier, puis trouver ce qui cloche">
+
+La première étape a été méthodologique : fusionner l'export ERP, la base du site web et le fichier de liaison en un dataset unique. C'est en les réconciliant que la vérité a éclaté : la base était polluée par neuf catégories d'erreurs structurelles (prix négatifs, stocks incohérents, identifiants orphelins, doublons...), pas par de simples problèmes de formatage.
+
+Trois anomalies critiques ont été isolées et présentées séparément :
+
+- des ventes comptablement à perte (prix d'achat supérieur au prix de vente, comme sur un champagne vendu avec une marge de -297 %) ;
+- des produits « fantômes », actifs et en stock dans l'ERP mais invisibles sur le site web : du chiffre d'affaires perdu par simple défaut de synchronisation ;
+- du stock dormant, immobilisé depuis des mois.
+
+Sur la performance elle-même, l'analyse de Pareto a révélé un 60/80 plutôt qu'un 20/80 classique : 60 % du catalogue (435 références) génère 80 % du chiffre d'affaires. C'est une « zone cœur » large à sécuriser en priorité, face à une longue traîne de 280 produits qui ne rapporte que 20 % du chiffre d'affaires et immobilise l'essentiel du stock dormant.
+
+Un boxplot a permis de vérifier la cohérence des prix : les quelques valeurs extrêmes identifiées correspondent aux grands crus et millésimes d'exception de la maison, une stratégie premium assumée et non une erreur de saisie. Une corrélation prix/quantités vendues très faible confirme que la clientèle n'est pas sensible au prix bas et recherche avant tout la qualité et la rareté.
+
+RGPD : l'analyse porte exclusivement sur des données produits (SKU, stock, prix) et des transactions anonymisées. Aucune donnée permettant d'identifier un client n'a été traitée.
+
+</Section>
+
+<Section label="Résultats" title="Une recommandation par métier">
+
+<Stats items={frontmatter.stats} />
+
+Trois recommandations opérationnelles en ont découlé, une par fonction de l'entreprise :
+
+- **IT** : un verrou empêchant l'ERP d'enregistrer un prix d'achat supérieur au prix de vente, complété par un indicateur de qualité (DQ-KPI) qui suit le taux de conformité des prix ;
+- **Finance** : la séparation des ventes brutes et des annulations pour calculer un chiffre d'affaires net fiable, avec une alerte automatique au-delà d'un seuil de transaction négative ;
+- **Logistique** : un pilotage double, pour sécuriser un objectif de zéro rupture sur la zone cœur, et une politique de liquidation active sur la longue traîne pour libérer du capital immobilisé.
+
+</Section>
+
+<Section label="Limites et pistes" title="La fiabilité plutôt que l'exhaustivité">
+
+- Certaines données ont dû être écartées plutôt que corrigées : les références sans correspondance fiable entre l'ERP et le site web ont été exclues du calcul du chiffre d'affaires, par choix de fiabilité plutôt que d'exhaustivité incertaine.
+- Les recommandations proposées (verrou ERP, séparation des flux, pilotage double) préviennent la réapparition des erreurs, mais ne corrigent pas leur cause profonde côté saisie humaine.
+- Ce projet a servi de point de départ à une mission ultérieure (dossier n°13), qui a justement automatisé une partie de ce contrôle qualité.
+
+</Section>

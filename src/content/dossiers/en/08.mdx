@@ -1,0 +1,74 @@
+---
+num: 8
+title: "Data students, year after year"
+headline: "Profiling data students, with no manual rework from one year to the next"
+featured: true
+summary: "A fully automated dbt and Snowflake pipeline, which also revealed enrolments falling from 255 to 69 students in three years."
+highlight: "From 255 to 69 enrolments in three years"
+lede: "A fully automated dbt/Snowflake pipeline to build the socio-demographic profile of a training organisation's students, which also uncovered a worrying drop in numbers."
+lineage: ["Snowflake", "dbt", "documented, tested model"]
+meta:
+  - label: "Tools"
+    value: "dbt, Snowflake, SQL, INSEE data"
+  - label: "Deliverables"
+    value: "Automated pipeline, presentation, final analysis file"
+stats:
+  - value: "255 → 69"
+    label: "change in enrolments between 2022 and 2025"
+  - value: "41% → 20%"
+    label: "share of women, from 2023 to today's plateau"
+  - value: "257"
+    label: "students in the 30-34 age group alone"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet8-Analyse-Evolution-Dynamique-Sociodemographiques-DBT"
+    primary: true
+---
+
+<Section label="Context" title="Knowing its students to support them well">
+
+A training organisation growing fast on its data courses needs, in order to keep supporting its students well, to start by knowing them precisely.
+
+</Section>
+
+<Section label="Need" title="Three objectives">
+
+Three objectives set by the client: define the typical student profile (age, geographic origin), measure how these profiles change over the years, and compare them with the French population using INSEE data.
+
+</Section>
+
+<Section label="Approach" title="An automated process, not a one-off report">
+
+The goal was not a one-off report but an automated, lasting process: the raw internal files are loaded into Snowflake, then cleaned, tested and transformed with dbt end to end.
+
+GDPR compliance was built in from the start: data pseudonymised with a unique identifier, data minimisation applied by removing unnecessary fields, and transparent handling of missing values, with a "Not specified" category rather than deleting rows, so total numbers are not distorted.
+
+The most important pitfall appeared while making the data reliable: the source file had one row per *enrolment*, not per *student*. A student who re-enrolled several times was therefore counted twice, or even three times. A deduplication rule (keep only each student's most recent enrolment) was coded directly in dbt, rather than fixed by hand.
+
+The technical architecture has three levels in Snowflake:
+
+- physical raw tables (`raw_students`, `raw_insee`);
+- dbt cleaning views, not materialised to save storage (`stg_students`, `stg_insee`);
+- a materialised final table (`mart_students_profiling`), for instant access to the statistics.
+
+Quality tests are coded in the dbt schema: uniqueness and not-null on the student identifier, accepted values on gender. Enriching the data with INSEE figures required harmonisation work: exact spelling of French regions, aligned age bands.
+
+</Section>
+
+<Section label="Results" title="Career changers, in the Paris region, fewer and fewer">
+
+<Stats items={frontmatter.stats} />
+
+The profile that emerges is that of professionals changing careers (25-39-year-olds are the vast majority, with no school leavers), heavily concentrated in the Île-de-France region around Paris (336 students, compared with 63 in Occitanie and 52 in Auvergne-Rhône-Alpes).
+
+Three recommendations followed: urgently audit the acquisition channels given the drop in numbers, understand what made the near gender parity of 2023 possible in order to reproduce it, and direct part of the acquisition budget to regions outside Île-de-France.
+
+</Section>
+
+<Section label="Limits and next steps" title="Measuring is not explaining">
+
+- The quality of gender data improved markedly over time (63% missing values in 2022), which limits how comparable the very first parity figures are.
+- The causes of the drop in enrolments and of the decline in parity since 2024 still need investigating on the business side: the pipeline measures and makes the data reliable, it does not explain the causes on its own.
+- The dbt pipeline is designed to be re-run automatically when a new intake arrives, with no manual rework: the quality tests run before the new figures are even used.
+
+</Section>

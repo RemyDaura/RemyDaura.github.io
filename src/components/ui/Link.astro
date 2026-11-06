@@ -1,0 +1,39 @@
+---
+/**
+ * Lien du site. Un lien externe s'ouvre dans un nouvel onglet, signalé par une flèche
+ * et par un texte lu par les lecteurs d'écran.
+ *
+ * Pas de <style> ici : avec des attributs dynamiques ({...rest}), un style local ferait
+ * ajouter par le compilateur un second attribut class, qui écraserait la classe reçue.
+ * La flèche est stylée dans global.css (.ext-arrow).
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { DEFAULT_LANG, isLang, useTranslations } from '../../i18n/ui';
+import { isExternal } from '../../lib/text';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  /** Afficher la flèche des liens externes (vrai par défaut). */
+  arrow?: boolean;
+}
+
+const { href, arrow = true, ...rest } = Astro.props;
+const external = isExternal(href);
+const t = useTranslations(isLang(Astro.currentLocale) ? Astro.currentLocale : DEFAULT_LANG);
+const attrs = external ? { ...rest, target: '_blank', rel: 'noopener' } : rest;
+---
+
+<a href={href} {...attrs}
+  ><slot />{
+    external && (
+      <>
+        {arrow && (
+          <span class="ext-arrow" aria-hidden="true">
+            ↗
+          </span>
+        )}
+        <span class="visually-hidden"> {t.newTab}</span>
+      </>
+    )
+  }</a
+>

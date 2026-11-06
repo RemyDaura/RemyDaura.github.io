@@ -1,0 +1,75 @@
+---
+num: 7
+title: "Dynamic Power BI dashboard"
+headline: "One dashboard, three levels of decision"
+featured: false
+summary: "Three decision levels in a single tool to track Sanitoral's projects."
+highlight: "+20% drift on IT project deadlines"
+lede: "A project steering tool designed as a funnel: from the overall strategic picture down to operational detail, in three clicks."
+lineage: ["Monthly tracking files", "Power Query · Power BI", "3 reading levels"]
+meta:
+  - label: "Client"
+    value: "Sanitoral"
+  - label: "Tools"
+    value: "Power BI, Power Query"
+  - label: "Method"
+    value: "Product Strategy Canvas"
+stats:
+  - value: "3"
+    label: "hierarchical reading levels in a single tool"
+  - value: "+20%"
+    label: "systematic drift on IT project deadlines"
+  - value: "1 click"
+    label: "to refresh the whole pipeline every month"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet7-Creation-Tableau-Dynamique-Power-BI"
+    primary: true
+---
+
+<Section label="Context" title="Three hierarchical levels, three needs">
+
+Sanitoral runs projects across several countries and regions, with three hierarchical levels whose needs are very different: the Executive Board, the Regional Directors and the Country Directors.
+
+</Section>
+
+<Section label="Need" title="One question per reader">
+
+Turn raw project tracking data (costs, deadlines, deliverables) into a single decision support system, able to answer three different questions depending on who is looking:
+
+<Callout title="Three questions, one tool">
+
+1. Are we meeting our overall objectives?
+2. Which region is the weak link?
+3. Which specific project is drifting, and why?
+
+</Callout>
+
+</Section>
+
+<Section label="Approach" title="A funnel, from overview to detail">
+
+The scoping relied on a Product Strategy Canvas, setting out three critical user stories, one per hierarchical level. This funnel structure, from overview to detail, shaped the whole architecture of the report.
+
+Data preparation was designed to last: in Power Query, an automated cleaning pipeline removes stray headers and types currencies and dates correctly. The benefit for Sanitoral is direct: each new monthly file goes into the source folder, and one click on "Refresh" is enough, with no manual rework.
+
+The data model cascades around a central pivot table, `Projects_plans`. Upstream, one-to-many relationships with the Geography and Project Type axes let a Director filter by country or type. Downstream, one-to-one relationships keep actual data (costs, duration) separate from forecasts, so what is planned and what is observed are never mixed.
+
+The result is cascading navigation: a "Helicopter" view for the Executive Board, with immediate indicators (budget spent, projects at risk), from which three clicks lead to the corrective action on a specific project.
+
+</Section>
+
+<Section label="Results" title="IT drifts on deadlines, Marketing on costs">
+
+<Stats items={frontmatter.stats} />
+
+The analysis revealed a clear strategic pattern: IT projects systematically drift on deadlines, while Marketing projects tend to drift on costs. The resulting recommendation comes with figures: increase the Marketing forecast budget by 10% and extend IT schedules by 15%, to set more realistic targets and reduce the number of false alerts cluttering the steering.
+
+</Section>
+
+<Section label="Limits and next steps" title="To be confirmed over several cycles">
+
+- The automated pipeline assumes a stable file structure from one month to the next; a change of format at the source would require adapting the Power Query steps.
+- The drift thresholds (+20% on IT deadlines, Marketing cost gaps) should be tracked over several more cycles to confirm that they are structural rather than one-off.
+
+</Section>

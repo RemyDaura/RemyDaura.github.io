@@ -1,0 +1,74 @@
+---
+num: 9
+title: "Analyse des ventes d'une librairie"
+headline: "4 clients, 1 million d'euros, et un paradoxe générationnel"
+featured: false
+summary: "4 clients concentrent 7,3 % du chiffre d'affaires d'une librairie en ligne ; un paradoxe générationnel explique le reste."
+highlight: "7,3 % du chiffre d'affaires porté par 4 clients"
+lede: "Un bilan de performance pour une librairie en ligne, qui a révélé une concentration cachée du chiffre d'affaires et un comportement d'achat inversé entre jeunes et seniors."
+lineage: ["Produits · clients · transactions", "Python · tests statistiques", "3 leviers d'action"]
+meta:
+  - label: "Client"
+    value: "Librairie Lapage"
+  - label: "Période"
+    value: "2021-2022"
+  - label: "Outils"
+    value: "Python, tests statistiques (Spearman, Kruskal-Wallis)"
+stats:
+  - value: "12 M€"
+    label: "de chiffre d'affaires sur environ 680 000 ventes réelles"
+  - value: "7,3 %"
+    label: "du chiffre d'affaires généré par seulement 4 clients B2B (Gini = 0,44)"
+  - value: "η² = 0,111"
+    label: "lien confirmé entre âge et catégorie de livre achetée"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet9-Analyse-Ventes-Librairie-Python"
+    primary: true
+---
+
+<Section label="Contexte" title="Un état des lieux complet">
+
+La Direction Marketing de Lapage souhaite un état des lieux complet de la santé financière de la librairie en ligne, ainsi qu'une lecture fine du comportement de ses clients, pour en tirer des leviers d'action concrets.
+
+</Section>
+
+<Section label="Besoin" title="Des leviers, pas seulement des graphiques">
+
+Aller au-delà des graphiques : identifier des leviers stratégiques réellement actionnables pour augmenter le chiffre d'affaires, à partir d'une base de données fiabilisée.
+
+</Section>
+
+<Section label="Démarche" title="Le bon test pour chaque question">
+
+Trois sources ont été croisées (produits, clients, transactions), en excluant explicitement les transactions parasites liées à des tests informatiques internes, pour garantir une base entièrement réelle : environ 680 000 ventes analysées.
+
+Sur le chiffre d'affaires global (environ 12 millions d'euros), une moyenne mobile sur 30 jours a permis de lisser les variations quotidiennes et hebdomadaires pour révéler une tendance de fond stable.
+
+La découverte la plus significative est venue d'une courbe de Lorenz et d'un coefficient de Gini de 0,44 : quatre clients seulement concentrent 7,3 % du chiffre d'affaires total, soit près d'un million d'euros. Ce sont manifestement des clients professionnels (bibliothèques, centrales d'achat), mis à l'écart du reste de l'analyse pour ne pas fausser la lecture du comportement des particuliers.
+
+Sur les clients particuliers, un test de Shapiro-Wilk a montré que les montants d'achat ne suivent pas une distribution normale, ce qui a écarté le test de Pearson au profit d'une corrélation de Spearman entre âge et fréquence d'achat (r = 0,21, faible mais significative).
+
+Un paradoxe est ensuite apparu : les seniors achètent souvent mais avec de petits paniers, les jeunes achètent rarement mais avec de très gros paniers. Un test de Levene a écarté l'ANOVA classique au profit d'un test de Kruskal-Wallis (p = 0,0) et d'un Eta² de 0,111, confirmant que ce paradoxe s'explique par la catégorie de livres achetée : les jeunes se concentrent sur une catégorie nettement plus chère que celle privilégiée par les seniors.
+
+</Section>
+
+<Section label="Résultats" title="Trois leviers pour trois publics">
+
+<Stats items={frontmatter.stats} />
+
+Trois recommandations en ont découlé :
+
+- un programme VIP avec un interlocuteur commercial dédié, pour sécuriser le million d'euros généré par les 4 clients B2B ;
+- des campagnes ciblées sur les réseaux sociaux autour de la catégorie de livres prisée des jeunes, pour augmenter leur fréquence de visite ;
+- des offres groupées (« packs ») pour augmenter la taille du panier des seniors, déjà fidèles.
+
+</Section>
+
+<Section label="Limites et pistes" title="Ce que les données ne permettaient pas de voir">
+
+- Les données de marge n'étaient pas disponibles : impossible de vérifier si les produits les plus vendus sont aussi les plus rentables.
+- Aucune donnée géographique n'était disponible pour comparer le comportement des clients parisiens et provinciaux.
+- La corrélation âge/fréquence, bien que statistiquement significative, reste faible (0,21) : d'autres facteurs restent à explorer pour affiner le profil des clients particuliers.
+
+</Section>

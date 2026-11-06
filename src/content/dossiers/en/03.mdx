@@ -1,0 +1,66 @@
+---
+num: 3
+title: "Insurance database in SQL"
+headline: "A home insurance database, queried in SQL"
+featured: false
+summary: "30,335 contracts loaded into MySQL, 12 business questions answered in SQL."
+highlight: "30,335 contracts linked to their town"
+lede: "Building a MySQL database from two CSV files, then answering business questions in SQL: from data preparation to aggregation queries."
+lineage: ["2 CSV files", "MySQL · star schema", "12 business queries"]
+meta:
+  - label: "Data"
+    value: "30,335 home insurance contracts, French towns reference table"
+  - label: "Tools"
+    value: "MySQL, phpMyAdmin, SQL"
+  - label: "Deliverables"
+    value: "Technical document, 12 queries, presentation"
+stats:
+  - value: "30,335"
+    label: "contracts loaded and linked to their town"
+  - value: "12"
+    label: "business questions answered in SQL"
+  - value: "2"
+    label: "tables linked by an integrity constraint"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet3-Requetes-SQL"
+    primary: true
+---
+
+<Section label="Context" title="Two files, no database">
+
+A home insurer has two files: its contracts (address, floor area, type of home, plan, monthly premium) and a geographic reference table of French towns. This data was not brought together in a database that could be queried.
+
+</Section>
+
+<Section label="Need" title="Answers without manual extracts">
+
+Answer precise business questions without manual extracts: where the contracts are, how much the premium costs depending on the area, which plans are taken out in each region.
+
+</Section>
+
+<Section label="Approach" title="Prepare, model, query">
+
+The CSV files were prepared first (separators, duplicates, field sizes), then documented in a **data dictionary** that sets the type of every column.
+
+The chosen model is a simple star schema: a `contrat` fact table and a `region` dimension table. The town code is the primary key of the reference table and a foreign key in the contracts table, in a one-to-many relationship. The tables use the InnoDB engine, which is essential for the foreign key constraint to actually be enforced: no contract can point to a town that does not exist.
+
+Twelve queries then answered the business questions, from the simplest to the most complete: filters (`WHERE`), joins (`INNER JOIN`), aggregations (`COUNT`, `AVG`, `ROUND`), conditional grouping (`GROUP BY`, `HAVING`) and rankings (`ORDER BY`, `LIMIT`). For example: the ten departments with the highest average premium, the towns with at least 150 contracts, or the number of "Intégral" plans in the Pays de la Loire region.
+
+</Section>
+
+<Section label="Results" title="A database that rebuilds identically">
+
+<Stats items={frontmatter.stats} />
+
+Loading went through without errors thanks to the preparation work and the column types defined upfront. The database is documented (data dictionary, table creation script) and can be rebuilt identically.
+
+</Section>
+
+<Section label="Limits and next steps" title="A foundation for what came next">
+
+- The queries are descriptive: they answer the questions asked, without visualisation or statistical analysis of the results.
+- Indexes on the most filtered columns (department, type of home) would speed up the queries on a larger volume.
+- This is the foundation I built the following projects on, with more advanced queries (window functions in case file no. 5).
+
+</Section>

@@ -1,0 +1,212 @@
+---
+/**
+ * Graphe de lignage en colonnes (sources → transformations → tables finales → usages),
+ * à la manière du graphe de dbt docs. Sert pour le parcours (accueil) et pour le
+ * pipeline du dossier n°14.
+ *
+ * Les colonnes se placent côte à côte quand la place le permet, sinon les unes sous
+ * les autres (requête de conteneur : dépend de la largeur du graphe, pas de l'écran).
+ */
+import type { GraphColumn } from '../../lib/types';
+
+interface Props {
+  columns: GraphColumn[];
+  label: string;
+  /** Texte plus petit pour les graphes à beaucoup de colonnes. */
+  dense?: boolean;
+}
+
+const { columns, label, dense = false } = Astro.props;
+---
+
+<div class:list={['graph', { dense }]} style={`--cols: ${columns.length}`}>
+  <ol class="graph-cols" aria-label={label} role="list">
+    {
+      columns.map((col) => (
+        <li class="graph-col">
+          <p class="col-title">{col.title}</p>
+          <ul class="col-nodes" role="list">
+            {col.nodes.map((node) => (
+              <li class:list={['gnode', `tone-${node.tone ?? 'default'}`]}>
+                <span class="gnode-name">{node.name}</span>
+                <span class="gnode-desc">{node.desc}</span>
+                {node.tag && <span class="gnode-tag">{node.tag}</span>}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+  <slot />
+</div>
+
+<style>
+  .graph {
+    container-type: inline-size;
+    padding: 24px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  .graph-cols {
+    --gap: 36px;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .graph-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  /* Flèche entre deux colonnes */
+  .graph-col + .graph-col::before {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    left: calc(var(--gap) / -2);
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    line-height: 1;
+    color: var(--text-4);
+  }
+
+  .col-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .col-nodes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gnode {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
+  }
+
+  .gnode-name {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .gnode-desc {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-2);
+  }
+
+  .gnode-tag {
+    align-self: flex-start;
+    margin-top: 2px;
+    padding: 2px 6px;
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+  }
+
+  .tone-source .gnode-name {
+    color: var(--source);
+  }
+
+  .tone-accent {
+    border-color: var(--accent);
+  }
+
+  .tone-accent .gnode-name {
+    color: var(--accent);
+  }
+
+  .tone-ok {
+    border-color: var(--ok);
+  }
+
+  .tone-ok .gnode-name {
+    color: var(--ok);
+  }
+
+  .tone-target,
+  .tone-planned {
+    border-style: dashed;
+    background: transparent;
+  }
+
+  .tone-target .gnode-name,
+  .tone-target .gnode-desc {
+    color: var(--text-3);
+  }
+
+  .tone-planned {
+    border-color: var(--ok);
+  }
+
+  .tone-planned .gnode-name {
+    color: var(--ok);
+  }
+
+  /* Graphe dense (6 colonnes) */
+  .dense {
+    padding: 22px;
+  }
+
+  .dense .graph-cols {
+    --gap: 26px;
+  }
+
+  .dense .col-title {
+    font-size: 11px;
+  }
+
+  .dense .gnode {
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .dense .gnode-name,
+  .dense .gnode-desc {
+    font-size: 12px;
+  }
+
+  /* Pas assez de place : colonnes empilées, flèches vers le bas */
+  @container (max-width: 760px) {
+    .graph-cols,
+    .dense .graph-cols {
+      --gap: 40px;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .graph-col + .graph-col::before {
+      content: '↓';
+      top: calc(var(--gap) / -2);
+      left: 50%;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .graph {
+      padding: 16px;
+    }
+  }
+</style>

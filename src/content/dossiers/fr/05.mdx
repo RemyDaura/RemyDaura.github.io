@@ -1,0 +1,70 @@
+---
+num: 5
+title: "Étude immobilière"
+headline: "Concevoir une base immobilière prête pour la décision"
+featured: false
+summary: "Une base SQL normalisée et des requêtes analytiques avancées, pour préparer la prévision des prix immobiliers."
+highlight: "5 entités en 3NF, 3 requêtes stratégiques"
+lede: "Projet DATAImmo : concevoir, implémenter et interroger une base de données immobilière normalisée, conforme et déjà exploitable pour des analyses stratégiques."
+lineage: ["DVF · INSEE · référentiel", "MySQL · 3NF", "3 requêtes analytiques"]
+meta:
+  - label: "Outils"
+    value: "MySQL, SQL (fonctions de fenêtre, agrégation conditionnelle)"
+  - label: "Sources"
+    value: "Transactions DVF, population INSEE, référentiel géographique"
+stats:
+  - value: "5"
+    label: "entités normalisées en 3NF, sans redondance"
+  - value: "3"
+    label: "requêtes analytiques stratégiques livrées et fonctionnelles"
+  - value: "100 %"
+    label: "de conformité RGPD : aucune donnée personnelle stockée"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet5-Immobilier-SQL"
+    primary: true
+---
+
+<Section label="Contexte" title="Prévoir les prix, en commençant par la base">
+
+Le projet DATAImmo vise à améliorer la prévision des prix immobiliers. La première phase consiste à concevoir une base de données qui consolide des transactions brutes (DVF), les données de population INSEE, et un référentiel géographique.
+
+</Section>
+
+<Section label="Besoin" title="Trois besoins stratégiques">
+
+Transformer des données brutes et éclatées en un système d'aide à la décision, capable de répondre à trois besoins stratégiques : la **valorisation** (cibler les biens de luxe), la **pression démographique** (mesurer le turnover du marché), et la **segmentation** (analyser les primes de prix selon le type de bien).
+
+</Section>
+
+<Section label="Démarche" title="Du dictionnaire de données aux fonctions de fenêtre">
+
+Un dictionnaire de données a d'abord validé la qualité du modèle : atomicité de chaque variable, typage précis, et surtout confirmation qu'aucune donnée à caractère personnel n'est stockée, seulement des informations transactionnelles, statistiques et géographiques.
+
+Le schéma respecte la troisième forme normale (3NF), avec cinq entités liées en cascade : VENTE → BIEN → COMMUNE, complétées par DÉPARTEMENT et RÉGION, pour analyser un bien à n'importe quel niveau géographique sans jamais dupliquer une information.
+
+Une fois le schéma validé, les tables ont été créées dans MySQL avec une attention particulière portée à l'intégrité : conversion de `date_mutation` en type DATE (indispensable pour des comparaisons trimestrielles fiables), activation de toutes les clés étrangères, et création d'un index sur la colonne géographique la plus sollicitée pour accélérer les requêtes d'analyse.
+
+Trois requêtes ont ensuite démontré la capacité analytique de la base :
+
+- un classement des 3 communes les plus chères par département, avec une fonction de fenêtre `RANK() OVER (PARTITION BY ...)` ;
+- un ratio de transactions pour 1 000 habitants, pour mesurer le dynamisme démographique ;
+- une agrégation conditionnelle (`AVG` avec `CASE WHEN`), pour comparer en une seule requête le prix au m² des appartements de 2 et 3 pièces.
+
+</Section>
+
+<Section label="Résultats" title="Une base intègre, prête pour l'analyse">
+
+<Stats items={frontmatter.stats} />
+
+La base est passée d'un schéma théorique à une implémentation physique robuste, intègre et optimisée pour les requêtes géographiques les plus fréquentes : la première phase du projet DATAImmo est validée.
+
+</Section>
+
+<Section label="Limites et pistes" title="Avant la modélisation prédictive">
+
+- Le nettoyage final des valeurs aberrantes reste à finaliser avant une exploitation à grande échelle.
+- Des vues analytiques dédiées restent à créer pour faciliter la reprise du travail par une équipe de data scientists.
+- Prochaine étape du projet DATAImmo : la modélisation prédictive du prix de vente, qui s'appuiera directement sur cette base.
+
+</Section>

@@ -1,0 +1,144 @@
+---
+/**
+ * 04 · Terrain : le stage chez Axiome, avec l'anomalie trouvée en "pièce à conviction".
+ */
+import Section from '../trace/Section.astro';
+import { HOME } from '../../i18n/home';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { fieldwork } = HOME[lang];
+---
+
+<Section
+  id="terrain"
+  label={fieldwork.label}
+  title={fieldwork.title}
+  subtitle={fieldwork.subtitle}
+  aside={fieldwork.aside}
+>
+  <div class="terrain-grid">
+    <ol class="items" role="list">
+      {
+        fieldwork.items.map((item, i) => (
+          <li>
+            <span class="item-num" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <p>
+              <strong>{item.strong}</strong>
+              {item.rest}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+    <aside class="exhibit panel" aria-labelledby="piece-terrain">
+      <div class="exhibit-head">
+        <span class="exhibit-label">{fieldwork.exhibit.label}</span>
+        <span>{fieldwork.exhibit.tag}</span>
+      </div>
+      <div class="exhibit-body">
+        <p id="piece-terrain" class="exhibit-title">{fieldwork.exhibit.title}</p>
+        <p class="exhibit-text">{fieldwork.exhibit.body}</p>
+        <p class="exhibit-tools">{fieldwork.exhibit.tools}</p>
+      </div>
+    </aside>
+  </div>
+</Section>
+
+<style>
+  .terrain-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .items {
+    flex: 999 1 460px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .items li {
+    display: flex;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .item-num {
+    flex: 0 0 28px;
+    padding-top: 3px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .items p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .items strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .exhibit {
+    flex: 1 1 300px;
+    min-width: 0;
+    border-color: var(--line-strong);
+  }
+
+  .exhibit-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .exhibit-label {
+    color: var(--accent);
+  }
+
+  .exhibit-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .exhibit-title {
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .exhibit-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .exhibit-tools {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-3);
+  }
+</style>

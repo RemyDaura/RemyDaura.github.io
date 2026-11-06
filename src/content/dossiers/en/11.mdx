@@ -1,0 +1,80 @@
+---
+num: 11
+title: "Country segmentation with PCA and K-means"
+headline: "168 countries, 4 clusters, 30 priority markets"
+featured: false
+summary: "168 countries, 4 clusters, 30 priority markets for organic poultry exports."
+highlight: "30 priority markets"
+lede: "An export market study for an organic poultry producer, with no pre-selected countries: the segmentation alone picked the targets."
+lineage: ["FAO · World Bank", "PCA · HCA · K-means", "30 priority markets"]
+meta:
+  - label: "Client"
+    value: "La Poule qui Chante (fictional company)"
+  - label: "Tools"
+    value: "Python, PCA, hierarchical clustering, K-means"
+  - label: "Framework"
+    value: "PESTEL analysis"
+stats:
+  - value: "168"
+    label: "countries analysed, 4 robust clusters identified"
+  - value: "30"
+    label: "priority target countries (structurally dependent importers)"
+  - value: "> 90%"
+    label: "agreement between two independent clustering methods"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet11-Segmentation-Pays-ACP-KMeans"
+    primary: true
+---
+
+<Section label="Context" title="Exporting, with no pre-selection">
+
+La Poule qui Chante wants to export its organic chicken and is looking for the most attractive markets, without pre-selecting any country.
+
+</Section>
+
+<Section label="Need" title="Three questions, one objective answer">
+
+<Callout title="Three questions to answer">
+
+1. Where is there already demand for imported poultry?
+2. Which markets have the purchasing power for a premium organic product?
+3. How can countries be grouped to target them efficiently, rather than analysing them one by one?
+
+</Callout>
+
+</Section>
+
+<Section label="Approach" title="Two independent clustering methods">
+
+Three sources (FAO, World Bank) were combined into a complete dataset of 168 countries and 12 variables, with no missing values. The variables were chosen using the PESTEL framework (economic, social, technological, environmental); the political dimension was tested and then explicitly set aside, as its distribution was too narrow to separate countries effectively. Five variables were built through feature engineering (ratios and composite indicators).
+
+A PCA summarised these 12 variables into 3 retained axes (60.6% of variance explained), a deliberate trade-off between statistical rigour and readability for a non-technical audience. The first axis contrasts rich, urban countries with large agricultural countries; the second contrasts countries that depend on poultry imports with self-sufficient ones.
+
+Two independent clustering methods were used: hierarchical clustering (Ward's method) and K-means (tested with K = 4, 8 and 10 using the silhouette coefficient, the Davies-Bouldin index and the elbow method). Both converge on 4 clusters, computed directly on the 12 standardised variables rather than on the PCA axes, so no precision is lost. Brazil and the United States, extreme outliers as the world's leading exporters, were excluded from the clustering: they are export competitors, not target markets.
+
+Agreement between the two methods exceeds 90%, confirmed by the Adjusted Rand Index (a metric unaffected by the arbitrary numbering of clusters): the clusters reflect a real structure in the data, not an artefact of the algorithm.
+
+</Section>
+
+<Section label="Results" title="The first five markets to target">
+
+<Stats items={frontmatter.stats} />
+
+A distance-to-centroid indicator was used to rank countries within the target cluster itself: Dominica, Cabo Verde, Suriname, Gabon and the Bahamas come out as the first 5 markets to target.
+
+The recommendations are organised over three horizons:
+
+- **short term**: go after the priority cluster;
+- **medium term**: enter the developed markets of the secondary cluster with a differentiated premium strategy (Label Rouge, traceability, animal welfare);
+- **long term**: keep an eye on emerging markets such as Algeria, Senegal or Morocco.
+
+</Section>
+
+<Section label="Limits and next steps" title="Before any commercial commitment">
+
+- The data dates from 2017: the most complete available at the time of the study, but some markets may have changed since.
+- The analysis is purely quantitative: it does not include non-tariff barriers (health standards, each country's local regulations).
+- Logistics (distances, transport costs, customs duties) were not modelled and will need to be included in a country-by-country feasibility study before any commercial commitment.
+
+</Section>

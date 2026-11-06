@@ -1,0 +1,52 @@
+---
+/**
+ * 07 · Veille : comparatif des méthodes de validation (dossier n°13).
+ */
+import Section from '../trace/Section.astro';
+import { HOME } from '../../i18n/home';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { dossierPath } from '../../lib/dossiers';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { research } = HOME[lang];
+---
+
+<Section id="veille" label={research.label} title={research.title} intro={research.intro} aside={research.aside(research.rows.length)}>
+  <div class="table-scroll" role="region" aria-label={t.tableOf(research.title)} tabindex="0">
+    <table class="data-table">
+      <thead>
+        <tr>
+          {research.headers.map((h) => <th scope="col">{h}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          research.rows.map((row) => (
+            <tr>
+              <th scope="row">{row.method}</th>
+              <td>{row.detected}</td>
+              <td>{row.limit}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="note">
+    {research.note}{' '}
+    <a href={dossierPath(lang, 13)}>{research.link}</a>
+  </p>
+</Section>
+
+<style>
+  .note {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-3);
+  }
+</style>

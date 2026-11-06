@@ -1,0 +1,245 @@
+---
+/**
+ * En-tête : marque, navigation, choix de la langue.
+ * Sur mobile, la navigation passe dans un panneau (attribut HTML "popover" : fermeture
+ * avec Échap ou en touchant à côté, sans bibliothèque).
+ */
+import Link from './ui/Link.astro';
+import { LANGS, useTranslations, type Lang } from '../i18n/ui';
+import { homePath } from '../lib/dossiers';
+import type { NavItem } from '../lib/types';
+
+interface Props {
+  lang: Lang;
+  /** Chemin de la page courante dans chaque langue. */
+  alternates: Record<Lang, string>;
+  /** Liens de navigation (ancres de l'accueil ou liens du dossier). */
+  items: NavItem[];
+  navLabel: string;
+}
+
+const { lang, alternates, items, navLabel } = Astro.props;
+const t = useTranslations(lang);
+const menuId = 'menu-mobile';
+---
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href={homePath(lang)} aria-label={t.brandLabel}
+      >remy_daura<span class="brand-dot">.</span>trace</a
+    >
+
+    <nav class="header-nav" aria-label={navLabel}>
+      <ul class="nav-links" role="list">
+        {
+          items.map((item) => (
+            <li>
+              <Link href={item.href}>{item.label}</Link>
+            </li>
+          ))
+        }
+      </ul>
+
+      <ul class="lang-switch" role="list" aria-label={t.langSwitch}>
+        {
+          LANGS.map((code) => (
+            <li>
+              <a
+                href={alternates[code]}
+                lang={code}
+                hreflang={code}
+                aria-current={code === lang ? 'page' : undefined}
+                title={t.langNames[code]}
+              >
+                {code.toUpperCase()}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <button type="button" class="menu-button" popovertarget={menuId} aria-controls={menuId}>
+        {t.menu.open}
+      </button>
+    </nav>
+  </div>
+
+  <nav id={menuId} class="menu-panel" popover aria-label={t.menu.label}>
+    <div class="menu-top">
+      <span class="brand" aria-hidden="true">remy_daura<span class="brand-dot">.</span>trace</span>
+      <button type="button" class="menu-button is-close" popovertarget={menuId} popovertargetaction="hide">
+        {t.menu.close}
+      </button>
+    </div>
+    <ul class="menu-links" role="list">
+      {
+        items.map((item) => (
+          <li>
+            <Link href={item.href}>{item.label}</Link>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Un lien du menu mobile mène à une ancre de la page : on referme le panneau.
+  const panel = document.getElementById('menu-mobile');
+  panel?.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) panel.hidePopover();
+  });
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 20px;
+  }
+
+  .brand {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .brand-dot {
+    color: var(--accent);
+  }
+
+  .header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    align-items: center;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 26px;
+    font-size: 15px;
+  }
+
+  .nav-links :global(a) {
+    text-decoration: none;
+  }
+
+  .lang-switch {
+    display: flex;
+    gap: 6px;
+    padding-left: 10px;
+    border-left: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .lang-switch a {
+    display: inline-block;
+    padding: 4px;
+    color: var(--text-3);
+    text-decoration: none;
+  }
+
+  .lang-switch a[aria-current='page'] {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .menu-button {
+    display: none;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .menu-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Panneau mobile, en plein écran au-dessus de la page */
+  .menu-panel {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 20px var(--gutter);
+    border: 0;
+    background: var(--bg);
+    color: var(--text);
+    overflow-y: auto;
+  }
+
+  .menu-panel:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+  }
+
+  .menu-top .menu-button {
+    display: inline-flex;
+  }
+
+  .menu-links li {
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .menu-links :global(a) {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    font-size: 18px;
+    text-decoration: none;
+  }
+
+  @media (max-width: 760px) {
+    .header-inner {
+      padding-block: 14px;
+    }
+
+    .nav-links {
+      display: none;
+    }
+
+    .menu-button {
+      display: inline-flex;
+    }
+
+    .lang-switch {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+</style>

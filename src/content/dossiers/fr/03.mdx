@@ -1,0 +1,66 @@
+---
+num: 3
+title: "Base d'assurance en SQL"
+headline: "Une base d'assurance habitation, interrogée en SQL"
+featured: false
+summary: "30 335 contrats chargés dans MySQL, 12 questions métier traitées en SQL."
+highlight: "30 335 contrats reliés à leur commune"
+lede: "Construire une base MySQL à partir de deux fichiers CSV, puis répondre à des questions métier en SQL : de la préparation des données aux requêtes d'agrégation."
+lineage: ["2 fichiers CSV", "MySQL · schéma en étoile", "12 requêtes métier"]
+meta:
+  - label: "Données"
+    value: "30 335 contrats d'assurance habitation, référentiel des communes"
+  - label: "Outils"
+    value: "MySQL, phpMyAdmin, SQL"
+  - label: "Livrables"
+    value: "Document technique, 12 requêtes, présentation"
+stats:
+  - value: "30 335"
+    label: "contrats chargés et reliés à leur commune"
+  - value: "12"
+    label: "questions métier traitées en SQL"
+  - value: "2"
+    label: "tables liées par une contrainte d'intégrité"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet3-Requetes-SQL"
+    primary: true
+---
+
+<Section label="Contexte" title="Deux fichiers, aucune base">
+
+Un assureur habitation dispose de deux fichiers : ses contrats (adresse, surface, type de logement, formule, cotisation mensuelle) et un référentiel géographique des communes françaises. Ces données n'étaient pas réunies dans une base interrogeable.
+
+</Section>
+
+<Section label="Besoin" title="Des réponses sans extraction manuelle">
+
+Répondre à des questions métier précises sans extractions manuelles : où se trouvent les contrats, combien coûte la cotisation selon le territoire, quelles formules sont souscrites dans chaque région.
+
+</Section>
+
+<Section label="Démarche" title="Préparer, modéliser, interroger">
+
+Les fichiers CSV ont d'abord été préparés (séparateurs, doublons, tailles de champs), puis documentés dans un **dictionnaire de données** qui fixe le type de chaque colonne.
+
+Le modèle retenu est un schéma en étoile simple : une table de faits `contrat` et une table de dimension `region`. Le code commune sert de clé primaire au référentiel et de clé étrangère aux contrats, en relation un-à-plusieurs. Les tables utilisent le moteur InnoDB, indispensable pour que la contrainte de clé étrangère soit réellement appliquée : aucun contrat ne peut pointer vers une commune inexistante.
+
+Douze requêtes ont ensuite répondu aux questions métier, de la plus simple à la plus complète : filtres (`WHERE`), jointures (`INNER JOIN`), agrégations (`COUNT`, `AVG`, `ROUND`), regroupements avec condition (`GROUP BY`, `HAVING`) et classements (`ORDER BY`, `LIMIT`). Par exemple : les dix départements où la cotisation moyenne est la plus élevée, les communes qui comptent au moins 150 contrats, ou le nombre de formules « Intégral » en Pays de la Loire.
+
+</Section>
+
+<Section label="Résultats" title="Une base qui se reconstruit à l'identique">
+
+<Stats items={frontmatter.stats} />
+
+Le chargement s'est fait sans erreur grâce au travail de préparation et aux types de colonnes définis en amont. La base est documentée (dictionnaire de données, script de création des tables) et peut être reconstruite à l'identique.
+
+</Section>
+
+<Section label="Limites et pistes" title="Un socle pour la suite">
+
+- Les requêtes sont descriptives : elles répondent à des questions posées, sans visualisation ni analyse statistique des résultats.
+- Des index sur les colonnes les plus filtrées (département, type de logement) accéléreraient les requêtes sur un volume plus important.
+- C'est sur ce socle que j'ai construit les projets suivants, avec des requêtes plus avancées (fonctions de fenêtre dans le dossier n°5).
+
+</Section>

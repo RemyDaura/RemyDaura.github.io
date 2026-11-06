@@ -1,0 +1,89 @@
+---
+/**
+ * Une chaîne d'étapes reliées par des flèches : le lignage d'un projet,
+ * les étapes d'un run, la construction de ce site.
+ * Liste ordonnée : les lecteurs d'écran annoncent le nombre d'étapes et leur ordre.
+ */
+interface Props {
+  steps: string[];
+  /** Nom de la chaîne, pour les lecteurs d'écran. */
+  label?: string;
+  /** Mettre en valeur la première étape (source) et la dernière (livrable). */
+  emphasis?: boolean;
+  size?: 'sm' | 'md';
+}
+
+const { steps, label, emphasis = false, size = 'md' } = Astro.props;
+---
+
+<ol class:list={['chain', `chain-${size}`, { 'chain-emphasis': emphasis }]} aria-label={label}>
+  {
+    steps.map((step, i) => (
+      <li>
+        {i > 0 && (
+          <span class="arrow" aria-hidden="true">
+            →
+          </span>
+        )}
+        <span class="step">{step}</span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .chain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .arrow {
+    color: var(--text-4);
+  }
+
+  .step {
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+  }
+
+  .chain-md {
+    font-size: 13px;
+  }
+
+  .chain-md .step {
+    padding: 6px 10px;
+  }
+
+  .chain-sm {
+    font-size: 12px;
+  }
+
+  .chain-sm .step {
+    padding: 4px 8px;
+    border-color: var(--line);
+    color: var(--text-2);
+  }
+
+  .chain-emphasis li:first-child .step {
+    color: var(--source);
+  }
+
+  .chain-emphasis li:last-child .step {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+  }
+</style>

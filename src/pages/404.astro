@@ -1,0 +1,44 @@
+---
+/**
+ * Page d'erreur. GitHub Pages sert ce même fichier pour toute adresse inconnue,
+ * en français comme en anglais : le texte anglais est donc présent aussi.
+ */
+import Section from '../components/trace/Section.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../i18n/ui';
+import { homePath } from '../lib/dossiers';
+
+const fr = useTranslations('fr');
+const en = useTranslations('en');
+---
+
+<BaseLayout
+  lang="fr"
+  title={`${fr.notFound.title} · Rémy Daura`}
+  description={fr.notFound.lede}
+  alternates={{ fr: homePath('fr'), en: homePath('en') }}
+  nav={{ label: fr.nav.label, items: [{ label: fr.dossierNav.all, href: homePath('fr', '#dossiers') }] }}
+>
+  <div class="trace">
+    <Section id="perdu" as="h1" label={fr.notFound.kicker} title={fr.notFound.title} intro={fr.notFound.lede} numbered={false}>
+      <div class="actions">
+        <a class="btn btn-primary" href={homePath('fr')}>{fr.notFound.home}</a>
+        <a class="btn" href={homePath('fr', '#dossiers')}>{fr.notFound.dossiers}</a>
+      </div>
+    </Section>
+    <Section id="lost" lang="en" label={en.notFound.kicker} title={en.notFound.title} intro={en.notFound.lede} numbered={false}>
+      <div class="actions">
+        <a class="btn" href={homePath('en')}>{en.notFound.home}</a>
+        <a class="btn" href={homePath('en', '#dossiers')}>{en.notFound.dossiers}</a>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

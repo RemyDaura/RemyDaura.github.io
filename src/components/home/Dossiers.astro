@@ -1,0 +1,242 @@
+---
+/**
+ * 03 · Dossiers : le dossier le plus récent en grand, puis les autres dossiers principaux.
+ */
+import Section from '../trace/Section.astro';
+import Chain from '../ui/Chain.astro';
+import { HOME } from '../../i18n/home';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { dossierPath, getDossiers, pad } from '../../lib/dossiers';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { dossiers: copy } = HOME[lang];
+
+const featured = (await getDossiers(lang)).filter((d) => d.data.featured);
+const [spotlight, ...rows] = featured;
+---
+
+<Section id="dossiers" label={copy.label} title={copy.title} intro={copy.intro} aside={copy.aside(featured.length)}>
+  {
+    spotlight && (
+      <article class="spotlight" aria-labelledby="dossier-vedette">
+        <div class="spotlight-head">
+          <p class="spotlight-num">
+            {t.dossier.number(pad(spotlight.data.num))}
+            {spotlight.data.kind && ` · ${spotlight.data.kind}`}
+          </p>
+          {spotlight.data.status === 'production' && (
+            <span class="tag tag-ok">
+              <span class="state-mark" aria-hidden="true"></span>
+              {t.dossier.production}
+            </span>
+          )}
+        </div>
+        <h3 id="dossier-vedette" class="spotlight-title">
+          {spotlight.data.title}
+        </h3>
+        <Chain steps={spotlight.data.lineage} label={t.dossier.lineage} emphasis />
+        <p class="spotlight-summary">{spotlight.data.summary}</p>
+        {spotlight.data.stats.length > 0 && (
+          <dl class="spotlight-stats">
+            {spotlight.data.stats.map((s) => (
+              <div>
+                <dt>{s.label}</dt>
+                <dd>{s.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <a class="spotlight-link" href={dossierPath(lang, spotlight.data.num)}>
+          {t.dossier.open}
+          <span class="visually-hidden">, {spotlight.data.title}</span>
+        </a>
+      </article>
+    )
+  }
+
+  <ul class="rows" role="list">
+    {
+      rows.map((d) => (
+        <li>
+          <a class="row" href={dossierPath(lang, d.data.num)}>
+            <span class="row-num" aria-hidden="true">
+              {pad(d.data.num)}
+            </span>
+            <span class="row-main">
+              <span class="row-title">
+                <span class="visually-hidden">{t.dossier.number(pad(d.data.num))}, </span>
+                {d.data.title}
+              </span>
+              <span class="row-lineage">{d.data.lineage.join(' → ')}</span>
+            </span>
+            <span class="row-highlight">{d.data.highlight}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .spotlight {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 28px;
+    border: 1px solid var(--accent);
+    background: var(--panel);
+  }
+
+  .spotlight-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+  }
+
+  .spotlight-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .tag-ok .state-mark {
+    width: 7px;
+    height: 7px;
+  }
+
+  .spotlight-title {
+    font-size: clamp(24px, 3vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .spotlight-summary {
+    max-width: 760px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .spotlight-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    gap: 16px;
+    padding-top: 4px;
+  }
+
+  .spotlight-stats div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 4px;
+  }
+
+  .spotlight-stats dd {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 500;
+  }
+
+  .spotlight-stats dt {
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  .spotlight-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .rows li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) minmax(0, 240px);
+    column-gap: 28px;
+    row-gap: 8px;
+    align-items: baseline;
+    padding: 24px 0;
+    text-decoration: none;
+  }
+
+  .row-num {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .row-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: color 0.15s ease;
+  }
+
+  .row:hover .row-title {
+    color: var(--accent);
+  }
+
+  .row-lineage {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  .row-highlight {
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  @media (max-width: 760px) {
+    .spotlight {
+      padding: 20px;
+    }
+
+    .row {
+      grid-template-columns: 36px minmax(0, 1fr);
+      column-gap: 14px;
+      padding: 20px 0;
+    }
+
+    .row-num {
+      font-size: 18px;
+    }
+
+    .row-title {
+      font-size: 19px;
+    }
+
+    .row-highlight {
+      grid-column: 2;
+    }
+  }
+</style>

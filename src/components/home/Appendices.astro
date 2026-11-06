@@ -1,0 +1,94 @@
+---
+/**
+ * 08 · Annexes : les autres dossiers, du plus récent au plus ancien.
+ */
+import Section from '../trace/Section.astro';
+import { HOME } from '../../i18n/home';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { dossierPath, getDossiers, pad } from '../../lib/dossiers';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { appendices } = HOME[lang];
+const others = (await getDossiers(lang)).filter((d) => !d.data.featured);
+---
+
+<Section
+  id="annexes"
+  label={appendices.label}
+  title={appendices.title}
+  intro={appendices.intro(others.length)}
+  aside={appendices.aside(others.length)}
+>
+  <ul class="cards" role="list">
+    {
+      others.map((d) => (
+        <li>
+          <a class="card" href={dossierPath(lang, d.data.num)}>
+            <span class="card-num">
+              <span class="visually-hidden">{t.dossier.number(pad(d.data.num))}</span>
+              <span aria-hidden="true">{t.dossier.code(pad(d.data.num))}</span>
+            </span>
+            <span class="card-title">{d.data.title}</span>
+            <span class="card-summary">{d.data.summary}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    min-height: 132px;
+    padding: 20px;
+    background: var(--bg);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+  }
+
+  .card:hover {
+    background: var(--panel);
+  }
+
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .card:hover .card-title {
+    color: var(--accent);
+  }
+
+  .card-summary {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-3);
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+num: 4
+title: "Étude de santé publique"
+headline: "Pourquoi la faim persiste alors que la production suffit"
+featured: false
+summary: "Pourquoi la faim persiste alors que la production mondiale suffit à 111 % des besoins."
+highlight: "La production suffit à 111 % des besoins"
+lede: "Une étude sur la sous-nutrition mondiale pour la FAO : la production alimentaire n'est pas le problème - sa distribution l'est."
+lineage: ["4 fichiers FAO", "Python · pandas", "3 recommandations"]
+meta:
+  - label: "Période étudiée"
+    value: "2013-2017"
+  - label: "Outils"
+    value: "Python, Pandas, Matplotlib, Seaborn"
+  - label: "Sources"
+    value: "4 fichiers FAO"
+stats:
+  - value: "111 %"
+    label: "de la population mondiale nourrissable avec les calories disponibles en 2017"
+  - value: "13 %"
+    label: "de la production mondiale de céréales détournée vers l'alimentation animale"
+  - value: "784 M"
+    label: "de personnes en sous-nutrition (9,8 % de la population mondiale)"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet4-Etude-Sante-Python"
+    primary: true
+---
+
+<Section label="Contexte" title="784 millions de personnes en sous-nutrition">
+
+La FAO souhaite comprendre les mécanismes de la sous-nutrition mondiale pour orienter ses pistes d'action. En 2017, 9,8 % de la population mondiale - près de 784 millions de personnes - était en situation de sous-nutrition.
+
+</Section>
+
+<Section label="Besoin" title="Un paradoxe à expliquer, chiffre par chiffre">
+
+Répondre à une question à première vue paradoxale : pourquoi la faim persiste-t-elle alors que la production alimentaire mondiale est abondante ? Il fallait un socle de données solide et entièrement traçable, chaque chiffre présenté devant pouvoir être justifié par le code source.
+
+</Section>
+
+<Section label="Démarche" title="Suivre les calories, jusqu'aux fuites">
+
+Quatre fichiers FAO ont été assemblés par jointures internes (`pd.merge`, `how="inner"`), pour garantir que les analyses ne portent que sur des pays disposant de l'ensemble des données nécessaires (disponibilité alimentaire et population, notamment).
+
+Le calcul central de l'étude repose sur une agrégation des calories disponibles pour l'alimentation humaine : en les rapportant au besoin calorique minimal (2 500 kcal/jour), la production mondiale permettrait théoriquement de nourrir 111 % de la population - la preuve que la quantité produite n'est pas le facteur limitant.
+
+L'analyse s'est ensuite concentrée sur les deux « fuites » majeures du système : les pertes après récolte (avant même la distribution), et l'usage de céréales pour l'alimentation animale plutôt qu'humaine. Une indexation booléenne et la méthode `.isin()` ont permis de cibler ces sous-ensembles précisément, jusqu'à des cas très spécifiques comme le manioc en Thaïlande, dont 80 % de la production part à l'export.
+
+Pour objectiver les disparités d'accès à la nourriture, les pays ont été comparés par leur disponibilité calorique par habitant : certains dépassent largement les besoins recommandés quand d'autres tombent en dessous du minimum vital de 2 500 kcal/jour.
+
+Conformité RGPD : les jeux de données FAO sont agrégés au niveau pays (quantités, populations), aucune donnée permettant d'identifier un individu n'est présente.
+
+</Section>
+
+<Section label="Résultats" title="Ce n'est pas la quantité qui manque">
+
+<Stats items={frontmatter.stats} />
+
+Trois recommandations en ont découlé : investir dans les infrastructures de stockage et de transport pour réduire les pertes post-récolte ; réévaluer la part des céréales allouée à l'alimentation animale plutôt qu'humaine, en particulier dans les régions en tension ; et orienter le commerce international pour éviter les dépendances excessives (comme celle du manioc thaïlandais) et favoriser une redistribution plus équitable des surplus.
+
+</Section>
+
+<Section label="Limites et pistes" title="Ce que l'échelle du pays cache">
+
+- L'analyse reste à l'échelle du pays : elle ne révèle pas les disparités infra-nationales (régions, zones rurales et urbaines).
+- Les données FAO ont leur propre méthodologie d'estimation, avec les incertitudes que cela comporte pour certains pays peu documentés.
+- Le sujet du commerce international mériterait d'être approfondi au-delà du seul cas du manioc thaïlandais, pour identifier d'autres dépendances structurelles similaires.
+
+</Section>

@@ -1,0 +1,123 @@
+---
+num: 14
+title: "Pipeline automatisé des prix des carburants"
+headline: "Pipeline automatisé des prix des carburants"
+kind: "Projet personnel"
+status: "production"
+featured: true
+summary: "Chaque matin, GitHub Actions enchaîne extraction, chargement, transformations et tests, sans intervention. Les tests arrêtent tout avant qu'une donnée douteuse n'arrive à l'écran."
+highlight: "En production, chaque matin"
+lede: "Chaque matin, les prix de près de 9 800 stations passent d'une API publique à BigQuery, sont nettoyés et testés avec dbt, puis publiés dans un tableau de bord. Sans intervention."
+lineage: ["API DGCCRF", "Python · Parquet", "BigQuery", "dbt · 15 tests", "Tableau de bord"]
+meta:
+  - label: "Contexte"
+    value: "Projet personnel, spécialisation data engineering"
+  - label: "Outils"
+    value: "Python, BigQuery, dbt, GitHub Actions, Docker, Data Studio"
+  - label: "Source"
+    value: "Flux DGCCRF, Licence Ouverte 2.0"
+  - label: "Coût"
+    value: "0 €, BigQuery en bac à sable"
+stats:
+  - value: "≈ 9 800"
+    label: "stations chargées chaque matin"
+  - value: "15"
+    label: "tests dbt à chaque run"
+  - value: "17"
+    label: "prix suspects détectés au premier relevé"
+links:
+  - label: "Voir le code"
+    href: "https://github.com/RemyDaura/DE-Pipeline-Prix-Carburants"
+    primary: true
+  - label: "Ouvrir le tableau de bord"
+    href: "https://datastudio.google.com/reporting/77d153bb-1926-4ad1-a366-4deee23bc762"
+cta: "Un pipeline à construire ?"
+---
+
+<Section label="Contexte" title="Une source vivante, sans historique">
+
+<Columns>
+<Column>
+
+Mes projets précédents partaient d'un fichier déjà préparé. Celui-ci part d'un flux public qui change toutes les dix minutes, et doit produire chaque jour un résultat fiable sans que j'y touche.
+
+Le flux est un instantané : chaque mise à jour écrase la précédente. Aucun historique n'existe sans le construire. Et la donnée est imparfaite : stations qui ne mettent plus leurs prix à jour, erreurs de saisie, champs manquants.
+
+</Column>
+<Column>
+
+<Callout title="Trois questions à résoudre">
+
+1. Comment évolue le prix de chaque carburant, en France et dans les Bouches-du-Rhône ?
+2. Quels départements sont les plus chers par rapport à la moyenne nationale ?
+3. Quelles sont les stations les moins chères autour de Marseille aujourd'hui ?
+
+</Callout>
+
+</Column>
+</Columns>
+
+</Section>
+
+<Section id="lignage" label="Lignage" title="Le chemin d'un prix, de l'API à l'écran" aside="4 modèles dbt · 15 tests" intro="Les vrais noms des fichiers et des modèles du dépôt. Chaque couche a sa responsabilité, et ses tests.">
+
+<PipelineGraph lang="fr" />
+
+<Figure src="dossiers/14/lineage.png" alt="Graphe de lignage généré par dbt docs : raw.prix_carburants alimente stg_prix_carburants, puis int_prix_qualifies, puis les deux marts, avec les tests rattachés à chaque modèle." caption="Le même lignage, tel que dbt docs le génère à partir du code." sizes="(min-width: 1240px) 1100px, 100vw" />
+
+</Section>
+
+<Section label="Pièce à conviction" title="Le tableau de bord, alimenté chaque matin">
+
+<Gallery>
+<Figure src="dossiers/14/evolution.png" alt="Page Évolution du tableau de bord : prix moyen du gazole en France (2,238 €) et dans les Bouches-du-Rhône (2,235 €), en baisse du 3 au 5 novembre 2026." caption="Page « Évolution » : prix moyen pondéré du gazole, France et Bouches-du-Rhône, du 3 au 5 novembre 2026." href="https://datastudio.google.com/reporting/77d153bb-1926-4ad1-a366-4deee23bc762" hrefLabel="Ouvrir le tableau de bord" />
+<Figure src="dossiers/14/departements.png" alt="Page Départements : écart de chaque département à la moyenne nationale du gazole au dernier relevé, Paris en tête avec 0,107 € de plus." caption="Page « Départements » : l'écart de chaque département à la moyenne nationale." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/14/marseille.png" alt="Page Marseille : les dix stations les moins chères des Bouches-du-Rhône au dernier relevé, avec une carte des prix." caption="Page « Marseille » : les stations les moins chères des Bouches-du-Rhône." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
+
+</Section>
+
+<Section label="Découvertes" title="Ce que les tests ont trouvé" intro="Des problèmes que je n'aurais pas vus à l'œil, la plupart dès le premier jour de données (30 470 prix).">
+
+<Findings>
+<Finding value="17" title="prix suspects">Par exemple de l'E85 affiché à 1,99 € pour une moyenne nationale d'environ 0,90 €. Signalés par un test d'avertissement, exclus des moyennes.</Finding>
+<Finding value="4" title="stations sans département">Département retrouvé grâce au code postal. La colonne `departement_deduit_du_cp` garde la trace de la correction.</Finding>
+<Finding value="16 → 5,6 %" title="de prix écartés">Un seuil de fraîcheur de 7 jours excluait trop de prix valables. La distribution réelle de l'ancienneté l'a fixé à 30 jours.</Finding>
+<Finding value="×2 → ×1" title="dédoublonnage vérifié">Deux runs le même jour : la table brute garde les deux relevés, les marts n'en gardent que le plus récent.</Finding>
+</Findings>
+
+</Section>
+
+<Section label="Choix techniques" title="Ce que j'ai décidé, et pourquoi">
+
+| Choix | Pourquoi |
+| --- | --- |
+| Chargement par load job | Le bac à sable BigQuery interdit le streaming et les INSERT. Le load job ajoute un fichier entier, sans toucher à l'existant. |
+| Marts recréés à chaque run | MERGE est interdit dans le bac à sable, et le volume reste faible : reconstruire prend quelques secondes. |
+| Calculs dans dbt, pas dans l'outil de visualisation | Moyennes pondérées calculées sur les sommes exactes, testées et réutilisables : ni moyenne de moyennes, ni valeurs déjà arrondies. |
+| Règles métier paramétrables | Le seuil de fraîcheur est une variable dbt (`jours_max_depuis_maj`), modifiable sans toucher au SQL. |
+| Déclencheur externe | Le planificateur intégré de GitHub Actions ne lançait pas les runs de ce dépôt. Chaque matin, cron-job.org appelle l'API GitHub avec un jeton limité à ce seul dépôt. |
+| Aucune clé dans le dépôt | En local, l'authentification passe par gcloud. Sur GitHub, un compte de service limité à BigQuery, rangé dans les secrets. |
+
+</Section>
+
+<Section label="Limites et suite" title="Ce qui reste à faire">
+
+<Columns>
+<Column title="Limites connues">
+
+- Historique glissant d'environ 60 jours, imposé par le bac à sable.
+- 96 départements métropolitains couverts par les données.
+- Classement des stations limité au dernier relevé.
+
+</Column>
+<Column title="Prochaines étapes" accent>
+
+- Authentification sans aucune clé, avec Workload Identity Federation.
+- Ingestion sur Cloud Run, déclenchée par Cloud Scheduler.
+- Un assistant qui répond en langage naturel, en générant du SQL sur les marts.
+
+</Column>
+</Columns>
+
+</Section>

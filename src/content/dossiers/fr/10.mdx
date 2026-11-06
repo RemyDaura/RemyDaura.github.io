@@ -1,0 +1,85 @@
+---
+num: 10
+title: "Où investir pour l'accès à l'eau potable"
+headline: "Où investir pour l'accès à l'eau potable"
+featured: true
+summary: "Un tableau de bord Power BI pour une ONG : entre avoir de l'eau et avoir une eau vraiment propre, l'écart est de 63 points."
+highlight: "Un écart de 63 points révélé"
+lede: "Un tableau de bord Power BI à trois niveaux de lecture, pour aider une ONG à décider où concentrer un futur financement, sans décider à sa place."
+lineage: ["données d'accès à l'eau", "Power BI · DAX", "3 vues de décision"]
+meta:
+  - label: "Client"
+    value: "DWFA (accès à l'eau potable)"
+  - label: "Outils"
+    value: "Power BI, DAX"
+  - label: "Livrables"
+    value: "Dashboard en 3 vues, blueprint d'indicateurs"
+stats:
+  - value: "89 %"
+    label: "d'accès basique à l'eau dans le monde en 2017"
+  - value: "26 %"
+    label: "seulement d'accès à une eau réellement propre (« safely managed »)"
+  - value: "62,9"
+    label: "points d'écart entre les deux : le vrai sujet"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet10-Etude-Eau-Potable"
+    primary: true
+---
+
+<Section label="Contexte" title="Un financement, trois domaines possibles">
+
+DWFA œuvre pour l'accès à l'eau potable à travers trois domaines d'expertise : la création de services là où rien n'existe, la modernisation de services existants, et le consulting auprès des gouvernements.
+
+L'association a soumis une demande de financement. Si elle est accordée, les fonds seront investis dans l'un de ces trois domaines, dans un pays encore indéterminé.
+
+</Section>
+
+<Section label="Besoin" title="Éclairer la décision, sans la prendre">
+
+Donner à DWFA les données pour prendre cette décision en connaissance de cause. Pas une recommandation unique imposée par le dashboard, mais un outil de décision à trois niveaux de lecture : mondial, régional, national.
+
+</Section>
+
+<Section label="Démarche" title="Deux pièges évités, 21 visuels accessibles">
+
+Cinq tables sources, issues de l'OMS et de la Banque mondiale :
+
+- l'accès à l'eau, avec une distinction centrale entre l'accès *basique* (avoir de l'eau) et l'accès *safely managed* (une eau réellement propre) ;
+- la population ;
+- la mortalité attribuée à l'eau insalubre ;
+- la stabilité politique ;
+- une table de référence reliant 194 pays à 6 régions OMS.
+
+Période couverte : 2000 à 2017 pour l'accès à l'eau, jusqu'à 2018 pour la population et la stabilité politique.
+
+Le prétraitement a demandé de contourner deux pièges. D'abord, la table Population contient cinq lignes par pays et par année (Total, Urbain, Rural, Homme, Femme) : sans filtre systématique, la population mondiale se retrouve comptée cinq fois. Ensuite, une moyenne simple donnerait à Monaco le même poids qu'à la Chine : chaque indicateur a donc été construit comme une mesure DAX pondérée par la population.
+
+Avant de construire le dashboard, un **blueprint** a formalisé, pour chacune des trois vues, le besoin utilisateur, les mesures retenues et la visualisation choisie. Le modèle de données suit un schéma en étoile, avec des relations 1:N strictes et des mesures DAX plutôt que des colonnes calculées, pour rester léger en mémoire.
+
+Le cahier des charges imposait des critères d'accessibilité : texte alternatif rédigé pour chacun des 21 visuels, contrastes conformes au ratio WCAG minimum de 4,5:1 (le bleu marine utilisé dépasse 9:1), étiquettes de données visibles sans interaction, et un ordre de tabulation logique.
+
+</Section>
+
+<Section label="Résultats" title="Un problème de qualité de l'eau, pas d'accès">
+
+<Stats items={frontmatter.stats} />
+
+Le constat central du dashboard : ce n'est pas un problème d'accès à l'eau, mais un problème de qualité de l'eau. En Afrique subsaharienne, l'accès basique tombe à 62 % et l'accès à une eau de qualité à seulement 7 %. La vue nationale permet de descendre jusqu'au pays : la Sierra Leone, par exemple, combine un accès basique de 60,8 %, une population majoritairement rurale et une stabilité politique suffisante pour être accompagnée.
+
+Trois recommandations en ont découlé, une par domaine d'intervention :
+
+- **création de services** en Afrique subsaharienne rurale (Tchad 38,7 %, Soudan du Sud 40,7 %, Éthiopie 41,1 %) ;
+- **modernisation** en Asie du Sud et du Sud-Est, où l'infrastructure existe déjà mais reste de mauvaise qualité (le Laos affiche 82 % d'accès basique pour seulement 16 % de qualité) ;
+- **consulting gouvernemental** dans des pays stables à mortalité liée à l'eau élevée (Sierra Leone, Bénin, Comores).
+
+</Section>
+
+<Section label="Limites et pistes" title="Des données arrêtées en 2017">
+
+- Les données s'arrêtent à 2017 : des évolutions récentes (crises, investissements, conflits) ne sont pas reflétées, et ces recommandations devraient être croisées avec des données terrain plus actuelles.
+- Les indicateurs sont nationaux ; ils ne révèlent pas les disparités internes à un pays.
+- Choix assumé de ne pas interpoler les valeurs manquantes : l'OMS publie déjà ses données avec une méthodologie d'estimation intégrée, et les données manquantes sont souvent concentrées sur les pays les moins bien documentés, précisément les plus fragiles. Interpoler aurait introduit un biais systématique.
+- Perspectives évoquées : mise à jour dès publication des nouvelles données JMP, création d'un indice composite DWFA, publication sur Power BI Service pour un accès terrain en temps réel.
+
+</Section>

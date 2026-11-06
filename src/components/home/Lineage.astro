@@ -1,0 +1,20 @@
+---
+/**
+ * 05 · Lignage : le parcours, modélisé comme un projet dbt.
+ */
+import Section from '../trace/Section.astro';
+import LineageGraph from '../ui/LineageGraph.astro';
+import { HOME } from '../../i18n/home';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { lineage } = HOME[lang];
+---
+
+<Section id="lignage" label={lineage.label} title={lineage.title} intro={lineage.intro} aside={lineage.aside}>
+  <LineageGraph columns={lineage.columns} label={lineage.title} />
+</Section>

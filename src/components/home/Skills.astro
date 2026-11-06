@@ -1,0 +1,103 @@
+---
+/**
+ * 06 · Schéma : les compétences, chacune reliée aux dossiers qui la prouvent.
+ */
+import Section from '../trace/Section.astro';
+import { HOME } from '../../i18n/home';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { dossierPath, getDossiers, pad } from '../../lib/dossiers';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { skills } = HOME[lang];
+
+// Titre de chaque dossier, pour l'infobulle et les lecteurs d'écran
+const titles = new Map((await getDossiers(lang)).map((d) => [d.data.num, d.data.title]));
+for (const row of skills.rows) {
+  for (const e of row.evidence) {
+    if ('dossier' in e && !titles.has(e.dossier)) {
+      throw new Error(`Compétence "${row.skill}" : le dossier ${e.dossier} n'existe pas`);
+    }
+  }
+}
+---
+
+<Section id="schema" label={skills.label} title={skills.title} intro={skills.intro} aside={skills.aside(skills.rows.length)}>
+  <div class="table-scroll" role="region" aria-label={t.tableOf(skills.title)} tabindex="0">
+    <table class="data-table">
+      <thead>
+        <tr>
+          {skills.headers.map((h) => <th scope="col">{h}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          skills.rows.map((row) => (
+            <tr>
+              <th scope="row">{row.skill}</th>
+              <td>{row.tools}</td>
+              <td class="evidence">
+                <ul role="list">
+                  {row.evidence.map((e) =>
+                    'dossier' in e ? (
+                      <li>
+                        <a href={dossierPath(lang, e.dossier)} title={titles.get(e.dossier)}>
+                          {t.dossier.code(pad(e.dossier))}
+                          <span class="visually-hidden">, {titles.get(e.dossier)}</span>
+                        </a>
+                      </li>
+                    ) : (
+                      <li>
+                        <a href="#terrain">{skills.terrainLabel}</a>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</Section>
+
+<style>
+  .evidence ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .evidence li {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .evidence li + li::before {
+    content: '·';
+    padding: 0 8px;
+    color: var(--text-3);
+  }
+
+  .evidence a {
+    display: inline-flex;
+    align-items: center;
+    min-width: 28px;
+    min-height: 28px;
+    color: var(--text);
+  }
+
+  .evidence a:hover {
+    color: var(--accent);
+  }
+</style>

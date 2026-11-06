@@ -1,0 +1,66 @@
+---
+num: 2
+title: "Analyse des ventes d'un e-commerce"
+headline: "Plus de ventes, mais pas plus de chiffre d'affaires"
+featured: false
+summary: "Sous Excel : pourquoi plus de ventes n'a pas donné plus de chiffre d'affaires."
+highlight: "Les ventes montent, le chiffre d'affaires stagne"
+lede: "Mon premier projet : un rapport mensuel sous Excel pour une boutique en ligne, qui montre pourquoi la hausse des ventes ne se retrouve pas dans le chiffre d'affaires."
+lineage: ["Données de ventes brutes", "Excel · tableaux croisés", "Rapport mensuel"]
+meta:
+  - label: "Client"
+    value: "Boutique en ligne (cas d'étude)"
+  - label: "Outils"
+    value: "Excel, tableaux croisés dynamiques"
+  - label: "Livrables"
+    value: "Rapport mensuel, tableau de bord des clients affiliés"
+stats:
+  - value: "5"
+    label: "analyses mensuelles au format tendance, constat, conclusion"
+  - value: "6"
+    label: "mois de suivi des clients affiliés, par catégorie et par client"
+  - value: "2"
+    label: "catégories qui ont pris le relais de la high-tech"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet2-Analyse-Ventes-Excel"
+    primary: true
+---
+
+<Section label="Contexte" title="Une boutique qui change de stratégie">
+
+Une boutique en ligne vient de changer de stratégie : la catégorie high-tech a disparu du catalogue en septembre 2019, au profit de la nourriture et des biens de consommation. La direction veut un rapport mensuel pour suivre l'activité et vérifier que la nouvelle stratégie fonctionne.
+
+</Section>
+
+<Section label="Besoin" title="Vérifier que la nouvelle stratégie fonctionne">
+
+Suivre les indicateurs clés (chiffre d'affaires, nombre de ventes, panier moyen, taux de conversion), comprendre le comportement d'achat des visiteurs, et suivre mois par mois les ventes des clients affiliés.
+
+</Section>
+
+<Section label="Démarche" title="Une tendance, un constat, une conclusion">
+
+Les données brutes ont d'abord été nettoyées (erreurs de saisie, doublons), puis les indicateurs calculés dans des tableaux croisés dynamiques. Le taux de conversion, par exemple, rapporte le nombre d'achats au nombre de visites sur le site. Une analyse de Pareto et une courbe de Lorenz ont servi à étudier la répartition des ventes.
+
+Le rapport présente cinq analyses, toutes construites sur le même modèle pour être lues vite par la direction : une **tendance**, un **constat**, une **conclusion**. Un second livrable suit les ventes des clients affiliés de septembre à février, par catégorie et par client.
+
+</Section>
+
+<Section label="Résultats" title="Les ventes montent, le chiffre d'affaires stagne">
+
+<Stats items={frontmatter.stats} />
+
+Le constat principal : le nombre de ventes augmente fortement, mais le chiffre d'affaires stagne en fin de période. Le panier moyen a donc probablement baissé. En parallèle, le taux de conversion recule sans interruption jusqu'à son point le plus bas en février 2020 : il faut de plus en plus de visites pour obtenir une vente, signe d'un problème de parcours utilisateur ou d'adéquation entre le trafic et l'offre.
+
+Deux signaux plus positifs : les sessions les plus longues génèrent les paniers les plus élevés, ce qui invite à encourager l'exploration du site ; et la nourriture est devenue le premier segment, compensant la disparition de la high-tech.
+
+</Section>
+
+<Section label="Limites et pistes" title="Ce qu'il faudrait confirmer">
+
+- La baisse du panier moyen est déduite de l'écart entre ventes et chiffre d'affaires : elle mériterait d'être confirmée en calculant directement le panier moyen mois par mois.
+- Le lien entre temps passé sur le site et montant du panier est une corrélation, pas une preuve que retenir les visiteurs plus longtemps augmente leurs achats.
+- Excel suffit pour ce volume, mais le même suivi gagnerait à être automatisé dans un outil de BI dès que les données augmentent, ce que j'ai fait sur les projets suivants.
+
+</Section>

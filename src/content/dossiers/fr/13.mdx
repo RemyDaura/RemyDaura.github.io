@@ -1,0 +1,76 @@
+---
+num: 13
+title: "Piloter un projet data augmenté par l'IA"
+headline: "Piloter un projet data augmenté par l'IA"
+featured: true
+summary: "Fiabiliser un pipeline de données existant : trois méthodes de validation comparées, dont une découverte inattendue sur les limites de mon propre code."
+highlight: "8 catégories d'anomalies sur 9 retrouvées"
+lede: "Fiabiliser le contrôle qualité d'un pipeline de données existant, en comparant trois méthodes de validation plutôt qu'en choisissant par habitude, et en documentant honnêtement ce qui a changé de direction en cours de route."
+lineage: ["pipeline existant", "Pandera · Great Expectations · IA", "rapport"]
+meta:
+  - label: "Contexte"
+    value: "Projet de fin de formation, OpenClassrooms"
+  - label: "Outils"
+    value: "Python, Pandera, Great Expectations, IA générative"
+  - label: "Durée"
+    value: "Environ 3 semaines"
+stats:
+  - value: "8/9"
+    label: "catégories d'anomalies retrouvées automatiquement"
+  - value: "2"
+    label: "bugs de reproductibilité trouvés et corrigés dans le notebook original"
+  - value: "+65 %"
+    label: "de code nécessaire pour Great Expectations, pour une couverture identique à Pandera"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet13-Projet-Data-Augmente-IA"
+    primary: true
+---
+
+<Section label="Contexte" title="Améliorer un livrable existant, avec méthode">
+
+Dernier projet de la formation Data Analyst, en deux missions distinctes : améliorer un livrable déjà produit (le dossier n°6, sur les données d'un caviste) grâce à l'IA, de façon critique et documentée, puis construire un portfolio professionnel, dont ce site est la nouvelle version.
+
+Ce dossier détaille la première mission : comment décider, avec méthode plutôt qu'avec un a priori, quel outil utiliser pour fiabiliser un pipeline de données.
+
+</Section>
+
+<Section label="Besoin" title="Des règles de qualité rejouables">
+
+Le dossier n°6 identifiait manuellement 9 catégories d'anomalies dans les données d'un caviste (prix négatifs, stocks incohérents, doublons, identifiants cassés entre systèmes), réparties dans une dizaine de blocs de code distincts. Rien ne garantissait que ces vérifications seraient rejouées à l'identique sur un futur export, et rien n'alertait automatiquement en cas de nouvelle anomalie.
+
+Objectif : centraliser ces règles de qualité de façon reproductible et automatisable, sans complexifier l'outillage au-delà des besoins réels d'une petite structure sans équipe data dédiée.
+
+</Section>
+
+<Section label="Démarche" title="Trois méthodes, testées sur les mêmes données">
+
+Trois méthodes ont été comparées, d'abord sur documentation sourcée, puis par test réel sur les données :
+
+| Méthode | Ce qu'elle a détecté | Limite observée |
+| --- | --- | --- |
+| Pandera, schéma de validation Python léger | 5/5 anomalies de prix et de stock, en environ 9 lignes de code | Ne détecte que les règles explicitement écrites |
+| Great Expectations, sur les mêmes règles | Mêmes résultats que Pandera, plus un rapport HTML automatique | Environ 65 % de code en plus pour la même couverture |
+| IA générative, données brutes, sans indication préalable | 2 catégories d'anomalies absentes des deux schémas | Résultat non reproductible automatiquement |
+
+La troisième méthode a produit le résultat le plus intéressant du projet : elle a retrouvé la quasi-totalité des anomalies déjà connues, mais a surtout révélé **deux angles morts dans mon propre schéma Pandera** : une règle de cohérence de stock qui ne testait qu'un seul sens, et un calcul d'anomalie qui fusionnait par erreur deux causes distinctes. Elle a aussi trouvé deux catégories d'anomalies entièrement nouvelles (doublons de fiches, compteurs de ventes négatifs) qu'aucun des deux schémas ne testait.
+
+Plutôt que de choisir un outil et de m'y tenir, la démarche retenue a donc évolué : utiliser l'IA générative en amont pour explorer un nouveau jeu de données, puis formaliser les règles confirmées dans un schéma Pandera reproductible.
+
+</Section>
+
+<Section label="Résultats" title="L'IA a trouvé ce que mon schéma ratait">
+
+<Stats items={frontmatter.stats} />
+
+Le notebook original ne s'exécutait d'ailleurs pas entièrement sans intervention avant cette mission : une colonne était supprimée deux fois, et une variable de marge était calculée sur le mauvais tableau de données. Les deux ont été corrigées et documentées directement dans le notebook amélioré.
+
+</Section>
+
+<Section label="Limites et pistes" title="Explorer avec l'IA, surveiller avec un schéma">
+
+- Le risque de collision d'identifiants trouvé par la méthode IA (deux codes non standards réutilisant un identifiant déjà attribué) reste documenté, mais pas encore traduit en règle automatisée.
+- La méthode IA générative n'est pas reproductible automatiquement d'une exécution à l'autre : elle sert à explorer, pas à surveiller en continu.
+- Le choix de Pandera plutôt que Great Expectations serait à réévaluer si le volume de données ou le nombre d'équipes impliquées venait à grandir significativement.
+
+</Section>

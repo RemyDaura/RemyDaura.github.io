@@ -1,0 +1,22 @@
+---
+/**
+ * Grille de découvertes :
+ *   <Findings>
+ *     <Finding value="17" title="prix suspects">Texte...</Finding>
+ *   </Findings>
+ */
+---
+
+<div class="findings">
+  <slot />
+</div>
+
+<style>
+  .findings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+</style>

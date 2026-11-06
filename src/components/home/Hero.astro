@@ -1,0 +1,180 @@
+---
+/**
+ * 01 · Source : accroche, liens principaux et fiche "select * from profil;".
+ */
+import Link from '../ui/Link.astro';
+import { SITE } from '../../data/site';
+import { HOME } from '../../i18n/home';
+import { useTranslations, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { hero } = HOME[lang];
+---
+
+<section id="source" aria-labelledby="source-titre" class="trace-section is-numbered hero">
+  <span class="trace-node" aria-hidden="true"></span>
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="section-head">
+        <p class="section-eyebrow"><span class="eyebrow-num"></span>{hero.label}</p>
+      </div>
+      <h1 id="source-titre">{hero.title}</h1>
+      <p class="hero-lede">{hero.lede}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#dossiers">{hero.follow}</a>
+        <a class="btn" href={SITE.cv}>{t.contact.cvDownload}</a>
+        <span class="hero-links">
+          <Link href={SITE.github}>GitHub</Link>
+          <Link href={SITE.linkedin}>LinkedIn</Link>
+          <a href={`mailto:${SITE.email}`}>{t.contact.email}</a>
+        </span>
+      </div>
+    </div>
+
+    <figure class="profile panel">
+      <figcaption class="profile-query">
+        {hero.profileQuery[0]} <span class="profile-table">{hero.profileQuery[1]}</span><span class="profile-semi"
+          >;</span
+        >
+      </figcaption>
+      <dl class="profile-rows">
+        {
+          hero.profile.map((row) => (
+            <div class="profile-row">
+              <dt>{row.key}</dt>
+              <dd class:list={{ ok: row.ok }}>{row.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    --section-pt: 84px;
+    padding-bottom: 80px;
+  }
+
+  .hero-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-end;
+  }
+
+  .hero-text {
+    flex: 999 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  h1 {
+    font-size: clamp(46px, 7vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    max-width: 12ch;
+  }
+
+  .hero-lede {
+    max-width: 620px;
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--text-2);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding-left: 6px;
+    font-size: 15px;
+  }
+
+  .profile {
+    flex: 1 1 340px;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .profile-query {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  .profile-table {
+    color: var(--text);
+  }
+
+  .profile-semi {
+    color: var(--accent);
+  }
+
+  .profile-rows {
+    padding: 6px 16px 10px;
+  }
+
+  .profile-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+    gap: 12px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .profile-row:last-child {
+    border-bottom: 0;
+  }
+
+  dt {
+    padding: 9px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 20px;
+    color: var(--text-3);
+  }
+
+  dd {
+    padding: 9px 0;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  dd.ok {
+    color: var(--ok);
+    font-weight: 500;
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      --section-pt: 44px;
+      padding-bottom: 56px;
+    }
+
+    .hero-lede {
+      font-size: 18px;
+    }
+
+    .hero-grid {
+      gap: 36px;
+    }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+num: 4
+title: "Public health study"
+headline: "Why hunger persists when production is enough"
+featured: false
+summary: "Why hunger persists when world food production covers 111% of needs."
+highlight: "Production covers 111% of needs"
+lede: "A study of global undernourishment for the FAO: food production is not the problem, its distribution is."
+lineage: ["4 FAO files", "Python · pandas", "3 recommendations"]
+meta:
+  - label: "Period studied"
+    value: "2013-2017"
+  - label: "Tools"
+    value: "Python, Pandas, Matplotlib, Seaborn"
+  - label: "Sources"
+    value: "4 FAO files"
+stats:
+  - value: "111%"
+    label: "of the world population could be fed with the calories available in 2017"
+  - value: "13%"
+    label: "of world cereal production diverted to animal feed"
+  - value: "784M"
+    label: "people undernourished (9.8% of the world population)"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet4-Etude-Sante-Python"
+    primary: true
+---
+
+<Section label="Context" title="784 million people undernourished">
+
+The FAO wants to understand the mechanisms behind global undernourishment to guide its courses of action. In 2017, 9.8% of the world population, nearly 784 million people, was undernourished.
+
+</Section>
+
+<Section label="Need" title="A paradox to explain, figure by figure">
+
+Answer a question that looks paradoxical at first sight: why does hunger persist when world food production is plentiful? This required a solid, fully traceable data foundation, where every figure presented could be justified by the source code.
+
+</Section>
+
+<Section label="Approach" title="Follow the calories, down to the leaks">
+
+Four FAO files were combined with inner joins (`pd.merge`, `how="inner"`), to make sure the analyses only cover countries with all the data required (food availability and population in particular).
+
+The core calculation of the study aggregates the calories available for human consumption: compared with the minimum calorie requirement (2,500 kcal a day), world production could in theory feed 111% of the population, proof that the quantity produced is not the limiting factor.
+
+The analysis then focused on the two major "leaks" in the system: post-harvest losses (before distribution even starts), and the use of cereals for animal feed rather than human food. Boolean indexing and the `.isin()` method made it possible to target these subsets precisely, down to very specific cases such as cassava in Thailand, 80% of which is exported.
+
+To measure the disparities in access to food objectively, countries were compared on their calorie availability per person: some far exceed the recommended needs while others fall below the vital minimum of 2,500 kcal a day.
+
+GDPR compliance: the FAO datasets are aggregated at country level (quantities, populations), and contain no data that could identify an individual.
+
+</Section>
+
+<Section label="Results" title="Quantity is not what is missing">
+
+<Stats items={frontmatter.stats} />
+
+Three recommendations followed: invest in storage and transport infrastructure to reduce post-harvest losses; reassess the share of cereals used for animal rather than human food, especially in regions under strain; and steer international trade to avoid excessive dependencies (such as the one on Thai cassava) and encourage a fairer redistribution of surpluses.
+
+</Section>
+
+<Section label="Limits and next steps" title="What the country level hides">
+
+- The analysis stays at country level: it does not reveal sub-national disparities (regions, rural and urban areas).
+- FAO data has its own estimation methodology, with the uncertainty this brings for some poorly documented countries.
+- International trade deserves a deeper look beyond the single case of Thai cassava, to identify other similar structural dependencies.
+
+</Section>

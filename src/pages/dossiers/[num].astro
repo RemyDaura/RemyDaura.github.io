@@ -1,0 +1,13 @@
+---
+import DossierPage from '../../components/dossier/DossierPage.astro';
+import { getDossiers, pad, type Dossier } from '../../lib/dossiers';
+
+export async function getStaticPaths() {
+  const entries = await getDossiers('fr');
+  return entries.map((entry) => ({ params: { num: pad(entry.data.num) }, props: { entry } }));
+}
+
+const { entry } = Astro.props as { entry: Dossier };
+---
+
+<DossierPage lang="fr" entry={entry} />

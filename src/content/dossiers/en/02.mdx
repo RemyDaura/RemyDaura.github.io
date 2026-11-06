@@ -1,0 +1,66 @@
+---
+num: 2
+title: "E-commerce sales analysis"
+headline: "More sales, but no more revenue"
+featured: false
+summary: "In Excel: why more sales did not bring more revenue."
+highlight: "Sales go up, revenue stalls"
+lede: "My first project: a monthly Excel report for an online shop, showing why rising sales do not show up in revenue."
+lineage: ["Raw sales data", "Excel · pivot tables", "Monthly report"]
+meta:
+  - label: "Client"
+    value: "Online shop (case study)"
+  - label: "Tools"
+    value: "Excel, pivot tables"
+  - label: "Deliverables"
+    value: "Monthly report, affiliate customers dashboard"
+stats:
+  - value: "5"
+    label: "monthly analyses in a trend, finding, conclusion format"
+  - value: "6"
+    label: "months of affiliate customer tracking, by category and by customer"
+  - value: "2"
+    label: "categories that took over from high-tech"
+links:
+  - label: "View the project on GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet2-Analyse-Ventes-Excel"
+    primary: true
+---
+
+<Section label="Context" title="A shop changing its strategy">
+
+An online shop has just changed strategy: the high-tech category left the catalogue in September 2019, in favour of food and consumer goods. Management wants a monthly report to track activity and check that the new strategy is working.
+
+</Section>
+
+<Section label="Need" title="Check that the new strategy works">
+
+Track the key indicators (revenue, number of sales, average basket, conversion rate), understand how visitors buy, and follow affiliate customers' sales month by month.
+
+</Section>
+
+<Section label="Approach" title="A trend, a finding, a conclusion">
+
+The raw data was cleaned first (typos, duplicates), then the indicators were calculated in pivot tables. The conversion rate, for example, divides the number of purchases by the number of visits to the site. A Pareto analysis and a Lorenz curve were used to study how sales are distributed.
+
+The report presents five analyses, all built on the same pattern so management can read them quickly: a **trend**, a **finding**, a **conclusion**. A second deliverable tracks affiliate customers' sales from September to February, by category and by customer.
+
+</Section>
+
+<Section label="Results" title="Sales go up, revenue stalls">
+
+<Stats items={frontmatter.stats} />
+
+The main finding: the number of sales rises sharply, but revenue stalls at the end of the period. The average basket has therefore probably fallen. At the same time, the conversion rate declines steadily down to its lowest point in February 2020: it takes more and more visits to get a sale, a sign of a user journey problem or of a mismatch between traffic and the offer.
+
+Two more positive signals: the longest sessions generate the largest baskets, which suggests encouraging visitors to explore the site; and food has become the leading segment, making up for the loss of high-tech.
+
+</Section>
+
+<Section label="Limits and next steps" title="What would need confirming">
+
+- The fall in the average basket is inferred from the gap between sales and revenue: it should be confirmed by calculating the average basket directly, month by month.
+- The link between time spent on the site and basket size is a correlation, not proof that keeping visitors longer increases their purchases.
+- Excel is enough for this volume, but the same tracking would benefit from being automated in a BI tool as soon as the data grows, which is what I did in the following projects.
+
+</Section>

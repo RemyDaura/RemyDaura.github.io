@@ -1,0 +1,181 @@
+/*
+  La trace verticale : un rail à gauche de chaque section, avec un noeud aligné sur
+  l'intitulé de la section. La première section du conteneur .trace ouvre la trace
+  (noeud plein, rail qui part du noeud), la dernière la ferme (rail qui s'arrête au noeud).
+
+  Sans JavaScript (ou avec "réduire les animations"), la trace est dessinée en entier,
+  comme sur la maquette. Avec JavaScript, la classe "trace-live" est posée sur <html> :
+  le rail devient une piste grise qui se remplit au fil de la lecture
+  (src/scripts/trace.ts calcule --trace-p, entre 0 et 1, pour chaque section).
+*/
+
+.trace {
+  counter-reset: trace;
+}
+
+.trace-section {
+  /* Centre du noeud aligné sur la ligne de l'intitulé (hauteur de ligne 20px) */
+  --node-y: calc(var(--section-pt) + 10px - var(--node) / 2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: var(--section-pt) 0 var(--section-pb) calc(var(--rail-col) + var(--rail-gap));
+}
+
+.trace-section.is-numbered {
+  counter-increment: trace;
+}
+
+/* Rail : ::before = piste, ::after = remplissage (mode "live" seulement) */
+.trace-section::before,
+.trace-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--rail-col) / 2 - var(--rail-w) / 2);
+  width: var(--rail-w);
+  background: var(--accent);
+  pointer-events: none;
+}
+
+.trace-section::after {
+  display: none;
+}
+
+.trace > .trace-section:first-of-type::before,
+.trace > .trace-section:first-of-type::after {
+  top: calc(var(--node-y) + var(--node) / 2);
+}
+
+.trace > .trace-section:last-of-type::before,
+.trace > .trace-section:last-of-type::after {
+  bottom: auto;
+  height: calc(var(--node-y) + var(--node) / 2);
+}
+
+.trace > .trace-section:only-of-type::before,
+.trace > .trace-section:only-of-type::after {
+  display: none;
+}
+
+.trace-node {
+  position: absolute;
+  z-index: 1;
+  top: var(--node-y);
+  left: calc((var(--rail-col) - var(--node)) / 2);
+  width: var(--node);
+  height: var(--node);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.trace > .trace-section:first-of-type > .trace-node,
+.trace > .trace-section:last-of-type > .trace-node {
+  background: var(--accent);
+}
+
+/* En-tête de section : "03 · DOSSIERS" à gauche, annotation de table à droite */
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.section-eyebrow,
+.section-aside {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--text-3);
+}
+
+.section-eyebrow {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.trace-section.is-numbered .eyebrow-num::before {
+  content: counter(trace, decimal-leading-zero) '\00a0·\00a0';
+}
+
+.section-title {
+  max-width: 36ch;
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* --- Mode "live" : la trace suit la lecture ----------------------------------- */
+
+.trace-live .trace-section::before {
+  background: var(--line);
+}
+
+.trace-live .trace-section::after {
+  display: block;
+  transform: scaleY(var(--trace-p, 0));
+  transform-origin: top;
+}
+
+.trace-live .trace > .trace-section:only-of-type::after {
+  display: none;
+}
+
+.trace-live .trace-node {
+  border-color: var(--line-strong);
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.trace-live .trace > .trace-section:first-of-type > .trace-node,
+.trace-live .trace > .trace-section:last-of-type > .trace-node {
+  background: var(--bg);
+}
+
+.trace-live .trace-section[data-reached] > .trace-node {
+  border-color: var(--accent);
+}
+
+.trace-live .trace > .trace-section:first-of-type[data-reached] > .trace-node,
+.trace-live .trace > .trace-section:last-of-type[data-reached] > .trace-node {
+  background: var(--accent);
+}
+
+.trace-live .trace-section[data-current] > .trace-node {
+  box-shadow: 0 0 0 5px rgb(242 176 76 / 0.18);
+}
+
+.trace-live .trace-section[data-current] > .section-head .section-eyebrow {
+  color: var(--accent);
+}
+
+@media print {
+  .trace-section::before,
+  .trace-section::after,
+  .trace-node {
+    display: none;
+  }
+
+  .trace-section {
+    padding-left: 0;
+  }
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-subtitle {
+  font-size: 16px;
+  color: var(--text-3);
+}

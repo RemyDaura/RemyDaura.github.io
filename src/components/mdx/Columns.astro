@@ -1,0 +1,19 @@
+---
+/**
+ * Deux colonnes (ou plus) côte à côte, empilées sur petit écran :
+ *   <Columns><Column> texte </Column><Column> encadré </Column></Columns>
+ */
+---
+
+<div class="columns">
+  <slot />
+</div>
+
+<style>
+  .columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+  }
+</style>

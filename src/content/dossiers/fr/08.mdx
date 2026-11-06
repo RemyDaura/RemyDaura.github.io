@@ -1,0 +1,74 @@
+---
+num: 8
+title: "Le profil des étudiants Data, année après année"
+headline: "Le profil des étudiants Data, sans reprise manuelle d'une année sur l'autre"
+featured: true
+summary: "Un pipeline dbt et Snowflake entièrement automatisé, qui a aussi révélé une chute des inscriptions de 255 à 69 étudiants en trois ans."
+highlight: "De 255 à 69 inscrits en trois ans"
+lede: "Un pipeline dbt/Snowflake entièrement automatisé pour dresser le profil sociodémographique des étudiants d'un organisme de formation, qui a aussi mis au jour une baisse d'effectifs préoccupante."
+lineage: ["Snowflake", "dbt", "modèle documenté et testé"]
+meta:
+  - label: "Outils"
+    value: "dbt, Snowflake, SQL, données INSEE"
+  - label: "Livrables"
+    value: "Pipeline automatisé, présentation, fichier d'analyse final"
+stats:
+  - value: "255 → 69"
+    label: "évolution des inscriptions entre 2022 et 2025"
+  - value: "41 % → 20 %"
+    label: "part de femmes, de l'année 2023 à la stagnation actuelle"
+  - value: "257"
+    label: "étudiants dans la seule tranche 30-34 ans"
+links:
+  - label: "Voir le projet sur GitHub"
+    href: "https://github.com/RemyDaura/DA-Projet8-Analyse-Evolution-Dynamique-Sociodemographiques-DBT"
+    primary: true
+---
+
+<Section label="Contexte" title="Connaître ses étudiants pour bien les accompagner">
+
+Un organisme de formation en forte croissance sur ses filières Data doit, pour continuer à bien accompagner ses étudiants, commencer par les connaître précisément.
+
+</Section>
+
+<Section label="Besoin" title="Trois objectifs">
+
+Trois objectifs fixés par la commanditaire : définir le profil type des étudiants (âge, origine géographique), mesurer l'évolution de ces profils au fil des années, et les comparer à la population française grâce aux données de l'INSEE.
+
+</Section>
+
+<Section label="Démarche" title="Un processus automatisé, pas un rapport ponctuel">
+
+L'objectif n'était pas de produire un rapport ponctuel, mais un processus automatisé et pérenne : les fichiers bruts internes sont chargés dans Snowflake, puis nettoyés, testés et transformés via dbt de bout en bout.
+
+La conformité RGPD a été pensée dès la conception : données pseudonymisées via un identifiant unique, principe de minimisation appliqué en supprimant les données superflues, et traitement transparent des valeurs manquantes, avec une catégorie « Non renseigné » plutôt qu'une suppression de ligne, pour ne pas fausser les effectifs totaux.
+
+Le point de vigilance le plus important est apparu en phase de fiabilisation : le fichier source comptait une ligne par *inscription*, pas par *étudiant*. Un étudiant réinscrit plusieurs fois était donc compté en double, voire en triple. Une règle de dédoublonnement (ne conserver que l'inscription la plus récente par étudiant) a été codée directement dans dbt, plutôt que corrigée à la main.
+
+L'architecture technique distingue trois niveaux dans Snowflake :
+
+- des tables brutes physiques (`raw_students`, `raw_insee`) ;
+- des vues de nettoyage dbt, non matérialisées pour économiser le stockage (`stg_students`, `stg_insee`) ;
+- une table finale matérialisée (`mart_students_profiling`), pour un accès instantané aux statistiques.
+
+Des tests de qualité sont codés dans le schéma dbt : unicité et non-nullité sur l'identifiant étudiant, valeurs acceptées sur le genre. L'enrichissement avec les données INSEE a demandé un travail d'harmonisation : orthographe exacte des régions françaises, alignement des tranches d'âge.
+
+</Section>
+
+<Section label="Résultats" title="Des reconversions, en Île-de-France, de moins en moins nombreuses">
+
+<Stats items={frontmatter.stats} />
+
+Le profil qui se dégage est celui d'un public de professionnels en reconversion (25-39 ans très majoritaires, pas de profils post-bac), fortement concentré en Île-de-France (336 étudiants, contre 63 en Occitanie et 52 en Auvergne-Rhône-Alpes).
+
+Trois recommandations en ont découlé : auditer en urgence les canaux d'acquisition face à la chute des effectifs, comprendre ce qui a permis la quasi-parité de 2023 pour tenter de la reproduire, et orienter une partie du budget d'acquisition vers les régions hors Île-de-France.
+
+</Section>
+
+<Section label="Limites et pistes" title="Mesurer n'est pas expliquer">
+
+- La qualité de la donnée sur le genre s'est nettement améliorée dans le temps (63 % de valeurs non renseignées en 2022), ce qui limite la comparabilité des tout premiers chiffres de parité.
+- Les causes de la chute des inscriptions et du recul de la parité depuis 2024 restent à investiguer côté métier : le pipeline mesure et fiabilise, il n'explique pas à lui seul les causes.
+- Le pipeline dbt est conçu pour être rejoué automatiquement à l'arrivée d'une nouvelle promotion, sans reprise manuelle : les tests de qualité s'exécutent avant même que les nouveaux chiffres soient exploités.
+
+</Section>

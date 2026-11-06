@@ -1,0 +1,80 @@
+---
+/**
+ * Une étape de la trace : intitulé numéroté ("03 · DOSSIERS"), annotation à droite,
+ * titre, introduction, puis le contenu.
+ *
+ * Utilisée par les pages et directement dans les dossiers MDX :
+ *   <Section label="Contexte" title="Une source vivante, sans historique"> ... </Section>
+ * La numérotation est automatique (compteur CSS). La première et la dernière section
+ * d'un conteneur .trace ouvrent et ferment la trace (voir trace.css).
+ */
+import { slugify } from '../../lib/text';
+
+interface Props {
+  /** Intitulé court, affiché en capitales : "Contexte". */
+  label: string;
+  /** Titre de la section (h2). */
+  title: string;
+  /** Ancre ; déduite de l'intitulé si absente. */
+  id?: string;
+  /** Annotation à droite de l'intitulé, façon nom de table : "mart_dossiers · 5 lignes". */
+  aside?: string;
+  /** Ligne de précision collée au titre (entreprise, lieu...). */
+  subtitle?: string;
+  /** Paragraphe d'introduction sous le titre. */
+  intro?: string;
+  /** Numéroter la section (faux pour l'en-tête d'un dossier). */
+  numbered?: boolean;
+  /** Langue du contenu, si elle diffère de celle de la page. */
+  lang?: string;
+  /** Niveau du titre : h2 par défaut, h1 pour une page d'une seule section (404). */
+  as?: 'h1' | 'h2';
+  class?: string;
+}
+
+const {
+  label,
+  title,
+  id = slugify(label),
+  aside,
+  subtitle,
+  intro,
+  numbered = true,
+  lang,
+  as: Heading = 'h2',
+  class: className,
+} = Astro.props;
+
+const titleId = `${id}-titre`;
+---
+
+<section
+  id={id}
+  lang={lang}
+  aria-labelledby={titleId}
+  class:list={['trace-section', { 'is-numbered': numbered }, className]}
+>
+  <span class="trace-node" aria-hidden="true"></span>
+  <div class="section-head">
+    <p class="section-eyebrow"><span class="eyebrow-num"></span>{label}</p>
+    {aside && <p class="section-aside">{aside}</p>}
+  </div>
+  {
+    subtitle ? (
+      <div class="title-group">
+        <Heading id={titleId} class="section-title">
+          {title}
+        </Heading>
+        <p class="section-subtitle">{subtitle}</p>
+      </div>
+    ) : (
+      <Heading id={titleId} class="section-title">
+        {title}
+      </Heading>
+    )
+  }
+  {intro && <p class="lede">{intro}</p>}
+  <div class="section-body">
+    <slot />
+  </div>
+</section>

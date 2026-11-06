@@ -1,0 +1,76 @@
+---
+/**
+ * Image optimisée avec légende :
+ *   <Figure src="dossiers/14/evolution.png" alt="..." caption="..." />
+ * `src` est relatif à src/assets/. Astro génère des versions WebP à plusieurs largeurs.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Link from '../ui/Link.astro';
+
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  /** Lien affiché sous l'image ("Ouvrir le tableau de bord"). */
+  href?: string;
+  hrefLabel?: string;
+  /** Largeur d'affichage maximale, pour choisir les tailles générées. */
+  sizes?: string;
+}
+
+const { src, alt, caption, href, hrefLabel, sizes = '(min-width: 1240px) 1100px, 100vw' } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/**/*.{png,jpg,jpeg,webp}');
+const loader = images[`/src/assets/${src}`];
+if (!loader) throw new Error(`Figure : image introuvable dans src/assets/ (${src})`);
+const image = (await loader()).default;
+const widths = [480, 800, 1200, image.width].filter((w, i, all) => w <= image.width && all.indexOf(w) === i);
+---
+
+<figure class="figure">
+  <Image src={image} alt={alt} widths={widths} sizes={sizes} loading="lazy" decoding="async" class="figure-img" />
+  {
+    (caption || href) && (
+      <figcaption class="figure-caption">
+        {caption && <span>{caption}</span>}
+        {href && (
+          <Link href={href} class="figure-link">
+            {hrefLabel}
+          </Link>
+        )}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .figure {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .figure :global(.figure-img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+  }
+
+  .figure-caption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-3);
+  }
+
+  .figure-caption :global(.figure-link) {
+    font-weight: 500;
+    color: var(--text);
+  }
+</style>

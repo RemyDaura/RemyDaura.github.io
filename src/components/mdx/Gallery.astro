@@ -1,10 +1,16 @@
 ---
 /**
  * Plusieurs figures : la première en pleine largeur, les suivantes deux par deux.
+ *   <Gallery even> : toutes deux par deux (deux figures de même importance).
  */
+interface Props {
+  even?: boolean;
+}
+
+const { even = false } = Astro.props;
 ---
 
-<div class="gallery">
+<div class:list={['gallery', { 'gallery-even': even }]}>
   <slot />
 </div>
 
@@ -15,7 +21,7 @@
     gap: 28px 24px;
   }
 
-  .gallery > :global(:first-child) {
+  .gallery:not(.gallery-even) > :global(:first-child) {
     grid-column: 1 / -1;
   }
 

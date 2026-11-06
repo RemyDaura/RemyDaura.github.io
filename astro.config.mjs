@@ -9,6 +9,10 @@ export default defineConfig({
   site: 'https://remydaura.github.io',
   trailingSlash: 'always',
 
+  // CSS intégré à chaque page : aucun fichier bloquant à télécharger avant le premier affichage
+  // (environ 7 Ko compressés par page, mesuré avec Lighthouse).
+  build: { inlineStylesheets: 'always' },
+
   // Français à la racine, anglais sous /en/
   i18n: {
     locales: ['fr', 'en'],

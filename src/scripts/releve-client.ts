@@ -6,18 +6,20 @@
  * En cas d'échec (hors ligne, fichier absent ou non conforme), l'instantané embarqué reste affiché.
  */
 import { PIPELINE } from '../data/site';
-import { DEFAULT_LANG, isLang, type Lang } from '../i18n/ui';
+import { DEFAULT_LANG, isLang, useTranslations, type Lang } from '../i18n/ui';
 import {
   FUEL_CODES,
   SNAPSHOT,
   checkReleve,
   computeStatus,
+  historySeries,
   type FuelCode,
   type LastRun,
   type Releve,
   type ReleveStatus,
 } from '../lib/releve';
 import { statusBarView, widgetView } from '../lib/releve-view';
+import { createHistoryChart } from './releve-chart';
 
 export interface LiveData {
   releve: Releve;
@@ -108,6 +110,9 @@ export function initWidget(root: HTMLElement): void {
   const lang = pageLang();
   const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('button[data-fuel]'));
   const runLink = root.querySelector<HTMLAnchorElement>('[data-field="run-link"]');
+  const historyFigure = root.querySelector<HTMLElement>('[data-history]');
+  const chart = historyFigure ? createHistoryChart(historyFigure, lang) : null;
+  const t = useTranslations(lang);
   let data = snapshotData();
   let fuel: FuelCode = 'gazole';
 
@@ -126,6 +131,8 @@ export function initWidget(root: HTMLElement): void {
     setText(root, 'note', view.note);
     root.querySelector<HTMLElement>('[data-field="note"]')?.toggleAttribute('hidden', view.note === '');
     for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.fuel === fuel));
+
+    chart?.update(historySeries(data.releve, fuel), t.releve.fuels[fuel]);
 
     const runUrl = data.releve.run_url ?? data.lastRun?.html_url;
     if (runLink && runUrl) {

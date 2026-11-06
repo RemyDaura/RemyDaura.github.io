@@ -6,6 +6,7 @@ import Section from '../trace/Section.astro';
 import { HOME } from '../../i18n/home';
 import { useTranslations, type Lang } from '../../i18n/ui';
 import { dossierPath, getDossiers, pad } from '../../lib/dossiers';
+import { formatPeriodShort } from '../../lib/format';
 
 interface Props {
   lang: Lang;
@@ -30,8 +31,9 @@ const others = (await getDossiers(lang)).filter((d) => !d.data.featured);
         <li>
           <a class="card" href={dossierPath(lang, d.data.num)}>
             <span class="card-num">
-              <span class="visually-hidden">{t.dossier.number(pad(d.data.num))}</span>
+              <span class="visually-hidden">{t.dossier.number(pad(d.data.num))}, </span>
               <span aria-hidden="true">{t.dossier.code(pad(d.data.num))}</span>
+              <span class="card-period">{formatPeriodShort(d.data.period, lang)}</span>
             </span>
             <span class="card-title">{d.data.title}</span>
             <span class="card-summary">{d.data.summary}</span>
@@ -43,15 +45,20 @@ const others = (await getDossiers(lang)).filter((d) => !d.data.featured);
 </Section>
 
 <style>
+  /* Bordures portées par les cartes : une dernière ligne incomplète ne laisse pas de case grise. */
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-    gap: 1px;
     margin: 0;
     padding: 0;
     list-style: none;
-    border: 1px solid var(--line);
-    background: var(--line);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .cards li {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
 
   .card {
@@ -71,9 +78,17 @@ const others = (await getDossiers(lang)).filter((d) => !d.data.featured);
   }
 
   .card-num {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 12px;
     font-family: var(--font-mono);
     font-size: 13px;
     color: var(--accent);
+  }
+
+  .card-period {
+    color: var(--text-3);
   }
 
   .card-title {

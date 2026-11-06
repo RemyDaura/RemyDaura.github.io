@@ -61,9 +61,9 @@ export interface HomeContent {
 
 const fr: HomeContent = {
   meta: {
-    title: "Rémy Daura · Data Analyst, en spécialisation data engineering",
+    title: "Rémy D'AURA · Data Analyst, en spécialisation data engineering",
     description:
-      "Portfolio de Rémy Daura : 13 dossiers documentés, dont un pipeline de données en production (Python, BigQuery, dbt, GitHub Actions), et une expérience en entreprise. Disponible pour un CDD de 6 à 8 mois.",
+      "Portfolio de Rémy D'AURA : 13 dossiers documentés, dont un pipeline de données en production (Python, BigQuery, dbt, GitHub Actions), et une expérience en entreprise. Disponible pour un CDD de 6 à 8 mois.",
   },
   hero: {
     label: "Source",
@@ -132,7 +132,7 @@ const fr: HomeContent = {
       {
         title: "Sources",
         nodes: [
-          { name: "src_bts_sio", desc: "2021-2023 · développement, SQL, réseau", tone: "source" },
+          { name: "src_bts_sio_slam", desc: "2021-2023 · BTS SIO option SLAM : développement d'applications, bases de données SQL", tone: "source" },
           { name: "src_openclassrooms", desc: "2025-2026 · Data Analyst, titre RNCP niveau 6", tone: "source" },
         ],
       },
@@ -214,9 +214,9 @@ const fr: HomeContent = {
 
 const en: HomeContent = {
   meta: {
-    title: "Rémy Daura · Data Analyst, specialising in data engineering",
+    title: "Rémy D'AURA · Data Analyst, specialising in data engineering",
     description:
-      "Portfolio of Rémy Daura: 13 documented case files, including a data pipeline in production (Python, BigQuery, dbt, GitHub Actions), and industry experience. Available for a 6 to 8 month contract.",
+      "Portfolio of Rémy D'AURA: 13 documented case files, including a data pipeline in production (Python, BigQuery, dbt, GitHub Actions), and industry experience. Available for a 6 to 8 month contract.",
   },
   hero: {
     label: "Source",
@@ -285,7 +285,7 @@ const en: HomeContent = {
       {
         title: "Sources",
         nodes: [
-          { name: "src_bts_sio", desc: "2021-2023 · two-year IT degree: development, SQL, networking", tone: "source" },
+          { name: "src_bts_sio_slam", desc: "2021-2023 · two-year IT degree, software development option: applications, SQL databases", tone: "source" },
           { name: "src_openclassrooms", desc: "2025-2026 · Data Analyst, RNCP level 6", tone: "source" },
         ],
       },

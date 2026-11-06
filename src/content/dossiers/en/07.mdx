@@ -7,6 +7,9 @@ summary: "Three decision levels in a single tool to track Sanitoral's projects."
 highlight: "+20% drift on IT project deadlines"
 lede: "A project steering tool designed as a funnel: from the overall strategic picture down to operational detail, in three clicks."
 lineage: ["Monthly tracking files", "Power Query · Power BI", "3 reading levels"]
+period:
+  start: "2026-01-04"
+  end: "2026-02-24"
 meta:
   - label: "Client"
     value: "Sanitoral"
@@ -56,6 +59,13 @@ Data preparation was designed to last: in Power Query, an automated cleaning pip
 The data model cascades around a central pivot table, `Projects_plans`. Upstream, one-to-many relationships with the Geography and Project Type axes let a Director filter by country or type. Downstream, one-to-one relationships keep actual data (costs, duration) separate from forecasts, so what is planned and what is observed are never mixed.
 
 The result is cascading navigation: a "Helicopter" view for the Executive Board, with immediate indicators (budget spent, projects at risk), from which three clicks lead to the corrective action on a specific project.
+
+<Gallery>
+<Figure src="dossiers/07/vue-dg.png" alt="Executive view of the dashboard: 28 of 104 projects on alert, 60.20M total actual cost, map of projects on alert and on track, projects on alert by region." caption="“Helicopter” view for senior management: indicators, map and projects on alert by region. The dashboard is in French." />
+<Figure src="dossiers/07/vue-regionale.png" alt="Regional view: total actual cost by country and number of projects on alert or on track by country, with an adjustable alert threshold." caption="Regional view: which country is the weak link." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/07/vue-pays.png" alt="Country view: table of projects with planned cost, actual cost, cost and schedule variances and alert icons by phase, next to actual cost by phase." caption="Country view: each project in detail, down to the phase that drifts." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/07/modele.png" alt="Power BI data model: the central Projects_plans table linked to the Project type, Projects_locations, Country_Profiles, Deliverables_status, Actual_Costs and Actual_Duration tables." caption="The model: a pivot table, Projects_plans, between the analysis axes and the actual data." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

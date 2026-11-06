@@ -7,6 +7,9 @@ summary: "168 countries, 4 clusters, 30 priority markets for organic poultry exp
 highlight: "30 priority markets"
 lede: "An export market study for an organic poultry producer, with no pre-selected countries: the segmentation alone picked the targets."
 lineage: ["FAO · World Bank", "PCA · HCA · K-means", "30 priority markets"]
+period:
+  start: "2026-05-15"
+  end: "2026-07-31"
 meta:
   - label: "Client"
     value: "La Poule qui Chante (fictional company)"
@@ -54,6 +57,11 @@ A PCA summarised these 12 variables into 3 retained axes (60.6% of variance expl
 Two independent clustering methods were used: hierarchical clustering (Ward's method) and K-means (tested with K = 4, 8 and 10 using the silhouette coefficient, the Davies-Bouldin index and the elbow method). Both converge on 4 clusters, computed directly on the 12 standardised variables rather than on the PCA axes, so no precision is lost. Brazil and the United States, extreme outliers as the world's leading exporters, were excluded from the clustering: they are export competitors, not target markets.
 
 Agreement between the two methods exceeds 90%, confirmed by the Adjusted Rand Index (a metric unaffected by the arbitrary numbering of clusters): the clusters reflect a real structure in the data, not an artefact of the algorithm.
+
+<Gallery>
+<Figure src="dossiers/11/eboulis.png" alt="Scree plot and cumulative explained variance of the PCA: the first component explains 26.9% of the variance, the first three about 60%." caption="Three components kept: 60.6% of the variance, a trade-off between rigour and readability. The charts are in French." />
+<Figure src="dossiers/11/cercle-correlations.png" alt="Correlation circle on the first two PCA components (26.9% and 19.8% of the variance): each arrow is one of the 12 variables." caption="The correlation circle: what each component contrasts." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

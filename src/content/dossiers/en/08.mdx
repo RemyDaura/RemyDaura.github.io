@@ -7,6 +7,9 @@ summary: "A fully automated dbt and Snowflake pipeline, which also revealed enro
 highlight: "From 255 to 69 enrolments in three years"
 lede: "A fully automated dbt/Snowflake pipeline to build the socio-demographic profile of a training organisation's students, which also uncovered a worrying drop in numbers."
 lineage: ["Snowflake", "dbt", "documented, tested model"]
+period:
+  start: "2026-02-24"
+  end: "2026-03-17"
 meta:
   - label: "Tools"
     value: "dbt, Snowflake, SQL, INSEE data"
@@ -62,6 +65,11 @@ Quality tests are coded in the dbt schema: uniqueness and not-null on the studen
 The profile that emerges is that of professionals changing careers (25-39-year-olds are the vast majority, with no school leavers), heavily concentrated in the Île-de-France region around Paris (336 students, compared with 63 in Occitanie and 52 in Auvergne-Rhône-Alpes).
 
 Three recommendations followed: urgently audit the acquisition channels given the drop in numbers, understand what made the near gender parity of 2023 possible in order to reproduce it, and direct part of the acquisition budget to regions outside Île-de-France.
+
+<Gallery even>
+<Figure src="dossiers/08/inscrits-annee.png" alt="Line chart of enrolments per year: 255 in 2022, 203 in 2023, 84 in 2024, 69 in 2025." caption="Enrolments falling since 2022. The charts are in French." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/08/tranches-age.png" alt="Bar chart of students by age group: 31 (20-24), 82 (25-29), 257 (30-34), 117 (35-39), 56 (40-44), 34 (45-49), 3 (50-54), 28 (55-59), 3 (60 and over)." caption="Career changers: the 30-34 age group dominates." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

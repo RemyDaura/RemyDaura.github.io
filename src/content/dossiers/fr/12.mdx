@@ -7,6 +7,9 @@ summary: "Quatre algorithmes mis en concurrence pour distinguer automatiquement 
 highlight: "98 % des faux billets détectés"
 lede: "Construire, comparer et choisir un algorithme de machine learning capable de distinguer un vrai billet d'un faux à partir de six mesures géométriques."
 lineage: ["1 500 billets", "4 modèles en concurrence", "script de production"]
+period:
+  start: "2026-07-31"
+  end: "2026-09-04"
 meta:
   - label: "Client"
     value: "ONCFM (organisation de lutte contre le faux-monnayage)"
@@ -56,6 +59,13 @@ Le modèle final n'a pas été choisi sur la seule performance : à égalité st
 <Stats items={frontmatter.stats} />
 
 La régression logistique a été retenue comme modèle final : performance strictement identique au Random Forest (mêmes erreurs, même recall), mais directement interprétable via ses coefficients, un argument décisif pour expliquer une décision à des équipes non techniques. Le livrable final inclut un script en ligne de commande capable de traiter un billet unique ou un fichier complet, avec les probabilités associées à chaque prédiction.
+
+<Gallery even>
+<Figure src="dossiers/12/matrice-confusion.png" alt="Matrice de confusion de la régression logistique sur 300 billets de test : 98 faux billets détectés, 2 faux billets classés vrais, 1 vrai billet classé faux, 199 vrais billets reconnus." caption="Régression logistique : 2 faux billets manqués sur 100, 1 fausse alerte sur 200 vrais billets." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/12/coefficients.png" alt="Coefficients de la régression logistique sur variables standardisées : la longueur pèse le plus vers « vrai », les marges basse et haute vers « faux », la diagonale presque rien." caption="Un modèle qu'on peut expliquer : chaque mesure pèse pour « vrai » ou pour « faux »." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
+
+<Figure src="dossiers/12/script-prediction.png" alt="Démonstration en ligne de commande : predict_billets.py reçoit les six mesures d'un billet et répond « Prediction : VRAI », avec une probabilité de 98,59 %." caption="Le script de production : une ligne de commande, une prédiction et sa probabilité." />
 
 </Section>
 

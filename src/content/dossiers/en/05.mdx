@@ -7,6 +7,9 @@ summary: "A normalised SQL database and advanced analytical queries, to prepare 
 highlight: "5 entities in 3NF, 3 strategic queries"
 lede: "The DATAImmo project: designing, building and querying a normalised real estate database, compliant and already usable for strategic analysis."
 lineage: ["DVF · INSEE · reference data", "MySQL · 3NF", "3 analytical queries"]
+period:
+  start: "2025-10-03"
+  end: "2025-12-04"
 meta:
   - label: "Tools"
     value: "MySQL, SQL (window functions, conditional aggregation)"
@@ -50,6 +53,12 @@ Three queries then demonstrated what the database can do:
 - a ranking of the 3 most expensive towns in each department, with a `RANK() OVER (PARTITION BY ...)` window function;
 - a ratio of transactions per 1,000 inhabitants, to measure demographic momentum;
 - a conditional aggregation (`AVG` with `CASE WHEN`), to compare the price per m² of 2-room and 3-room flats in a single query.
+
+<Gallery>
+<Figure src="dossiers/05/resultat-ratio.png" alt="Query result: Paris 2nd arrondissement first with 5.88 transactions per 1,000 inhabitants, ahead of the 1st arrondissement (4.96), La Baule-Escoublac (4.74) and Arcachon (4.73)." caption="Transactions per 1,000 inhabitants: central Paris and coastal towns lead." />
+<Figure src="dossiers/05/requete-ratio.png" alt="SQL query that counts sales per municipality and relates them to population per 1,000 inhabitants, for municipalities over 10,000 inhabitants, then keeps the top 20." caption="The ratio query, filtered on municipalities over 10,000 inhabitants." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/05/requete-rank.png" alt="SQL query with a subquery and RANK() OVER (PARTITION BY department ORDER BY average property value DESC), keeping the 3 most expensive municipalities in five departments." caption="Window function: the 3 most expensive municipalities in each department studied." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

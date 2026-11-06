@@ -52,9 +52,10 @@ const widths = [480, 800, 1200, image.width].filter((w, i, all) => w <= image.wi
     min-width: 0;
   }
 
+  /* Jamais agrandie au-delà de sa taille réelle : une capture étirée devient floue. */
   .figure :global(.figure-img) {
     display: block;
-    width: 100%;
+    max-width: 100%;
     height: auto;
     border: 1px solid var(--line);
   }

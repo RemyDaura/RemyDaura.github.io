@@ -7,6 +7,9 @@ summary: "30,335 contracts loaded into MySQL, 12 business questions answered in 
 highlight: "30,335 contracts linked to their town"
 lede: "Building a MySQL database from two CSV files, then answering business questions in SQL: from data preparation to aggregation queries."
 lineage: ["2 CSV files", "MySQL · star schema", "12 business queries"]
+period:
+  start: "2025-08-13"
+  end: "2025-08-26"
 meta:
   - label: "Data"
     value: "30,335 home insurance contracts, French towns reference table"
@@ -46,6 +49,11 @@ The CSV files were prepared first (separators, duplicates, field sizes), then do
 The chosen model is a simple star schema: a `contrat` fact table and a `region` dimension table. The town code is the primary key of the reference table and a foreign key in the contracts table, in a one-to-many relationship. The tables use the InnoDB engine, which is essential for the foreign key constraint to actually be enforced: no contract can point to a town that does not exist.
 
 Twelve queries then answered the business questions, from the simplest to the most complete: filters (`WHERE`), joins (`INNER JOIN`), aggregations (`COUNT`, `AVG`, `ROUND`), conditional grouping (`GROUP BY`, `HAVING`) and rankings (`ORDER BY`, `LIMIT`). For example: the ten departments with the highest average premium, the towns with at least 150 contracts, or the number of "Intégral" plans in the Pays de la Loire region.
+
+<Gallery>
+<Figure src="dossiers/03/schema-contrat-region.png" alt="Data model: the Contrat table (address, floor area, property type, plan, monthly premium) linked to the Region table by municipality code, in a one-to-many relationship." caption="The schema: a Contrat fact table and a Region dimension, joined on the municipality code. The diagrams are in French." />
+<Figure src="dossiers/03/requete-jointure.png" alt="SQL query: a join between contrat and region on the municipality code, filtered on department 71 and houses, listing contract types and plans." caption="One of the 12 queries: contract types and plans for houses in Saône-et-Loire (department 71)." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

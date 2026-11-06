@@ -1,6 +1,6 @@
 {
   "name": "remydaura-portfolio",
-  "description": "Portfolio de Rémy Daura, Data Analyst en spécialisation data engineering",
+  "description": "Portfolio de Rémy D'AURA, Data Analyst en spécialisation data engineering",
   "type": "module",
   "version": "2.0.0",
   "private": true,
@@ -24,7 +24,9 @@
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
-    "astro": "^7.4.7"
+    "astro": "^7.4.7",
+    "satori": "^0.63.2",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",

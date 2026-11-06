@@ -7,6 +7,9 @@ summary: "Une base SQL normalisée et des requêtes analytiques avancées, pour 
 highlight: "5 entités en 3NF, 3 requêtes stratégiques"
 lede: "Projet DATAImmo : concevoir, implémenter et interroger une base de données immobilière normalisée, conforme et déjà exploitable pour des analyses stratégiques."
 lineage: ["DVF · INSEE · référentiel", "MySQL · 3NF", "3 requêtes analytiques"]
+period:
+  start: "2025-10-03"
+  end: "2025-12-04"
 meta:
   - label: "Outils"
     value: "MySQL, SQL (fonctions de fenêtre, agrégation conditionnelle)"
@@ -50,6 +53,12 @@ Trois requêtes ont ensuite démontré la capacité analytique de la base :
 - un classement des 3 communes les plus chères par département, avec une fonction de fenêtre `RANK() OVER (PARTITION BY ...)` ;
 - un ratio de transactions pour 1 000 habitants, pour mesurer le dynamisme démographique ;
 - une agrégation conditionnelle (`AVG` avec `CASE WHEN`), pour comparer en une seule requête le prix au m² des appartements de 2 et 3 pièces.
+
+<Gallery>
+<Figure src="dossiers/05/resultat-ratio.png" alt="Résultat de la requête : le 2e arrondissement de Paris en tête avec 5,88 transactions pour 1 000 habitants, devant le 1er arrondissement (4,96), La Baule-Escoublac (4,74) et Arcachon (4,73)." caption="Le ratio de transactions pour 1 000 habitants : le centre de Paris et les communes littorales en tête." />
+<Figure src="dossiers/05/requete-ratio.png" alt="Requête SQL qui compte les ventes par commune et les rapporte à la population pour 1 000 habitants, sur les communes de plus de 10 000 habitants, puis garde les 20 premières." caption="La requête du ratio, filtrée sur les communes de plus de 10 000 habitants." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/05/requete-rank.png" alt="Requête SQL avec une sous-requête et RANK() OVER (PARTITION BY département ORDER BY valeur foncière moyenne DESC), qui garde les 3 communes les plus chères de cinq départements." caption="Fonction de fenêtre : les 3 communes les plus chères de chaque département étudié." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

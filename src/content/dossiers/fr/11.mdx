@@ -7,6 +7,9 @@ summary: "168 pays, 4 groupes, 30 marchés prioritaires pour un export de volail
 highlight: "30 marchés prioritaires"
 lede: "Une étude de marché à l'export pour un producteur de volaille bio, sans présélection de pays : la segmentation seule a désigné les cibles."
 lineage: ["FAO · Banque mondiale", "ACP · CAH · K-means", "30 marchés prioritaires"]
+period:
+  start: "2026-05-15"
+  end: "2026-07-31"
 meta:
   - label: "Client"
     value: "La Poule qui Chante (entreprise fictive)"
@@ -54,6 +57,11 @@ Une ACP a résumé ces 12 variables en 3 axes retenus (60,6 % de variance expli
 Deux méthodes de clustering indépendantes ont été utilisées : une CAH (méthode de Ward) et un K-means (testé à K = 4, 8 et 10 via le coefficient de silhouette, l'indice de Davies-Bouldin et la méthode du coude). Les deux convergent vers 4 groupes, calculés directement sur les 12 variables standardisées plutôt que sur les axes de l'ACP, pour ne perdre aucune précision. Le Brésil et les États-Unis, outliers extrêmes en tant que premiers exportateurs mondiaux, ont été exclus du clustering : ce sont des concurrents à l'export, pas des marchés cibles.
 
 La concordance entre les deux méthodes dépasse 90 %, confirmée par l'Adjusted Rand Index (une métrique insensible au numérotage arbitraire des clusters) : les groupes reflètent une structure réelle des données, pas un artefact de l'algorithme.
+
+<Gallery>
+<Figure src="dossiers/11/eboulis.png" alt="Éboulis des valeurs propres et variance cumulée de l'ACP : la première composante explique 26,9 % de la variance, les trois premières environ 60 %." caption="Trois axes retenus : 60,6 % de la variance, un compromis entre rigueur et lisibilité." />
+<Figure src="dossiers/11/cercle-correlations.png" alt="Cercle des corrélations sur les deux premiers axes de l'ACP (26,9 % et 19,8 % de la variance) : chaque flèche représente une des 12 variables." caption="Le cercle des corrélations : ce que chaque axe oppose." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

@@ -7,10 +7,13 @@ summary: "4 clients concentrent 7,3 % du chiffre d'affaires d'une librairie en 
 highlight: "7,3 % du chiffre d'affaires porté par 4 clients"
 lede: "Un bilan de performance pour une librairie en ligne, qui a révélé une concentration cachée du chiffre d'affaires et un comportement d'achat inversé entre jeunes et seniors."
 lineage: ["Produits · clients · transactions", "Python · tests statistiques", "3 leviers d'action"]
+period:
+  start: "2026-03-17"
+  end: "2026-04-17"
 meta:
   - label: "Client"
     value: "Librairie Lapage"
-  - label: "Période"
+  - label: "Période étudiée"
     value: "2021-2022"
   - label: "Outils"
     value: "Python, tests statistiques (Spearman, Kruskal-Wallis)"
@@ -50,6 +53,12 @@ La découverte la plus significative est venue d'une courbe de Lorenz et d'un co
 Sur les clients particuliers, un test de Shapiro-Wilk a montré que les montants d'achat ne suivent pas une distribution normale, ce qui a écarté le test de Pearson au profit d'une corrélation de Spearman entre âge et fréquence d'achat (r = 0,21, faible mais significative).
 
 Un paradoxe est ensuite apparu : les seniors achètent souvent mais avec de petits paniers, les jeunes achètent rarement mais avec de très gros paniers. Un test de Levene a écarté l'ANOVA classique au profit d'un test de Kruskal-Wallis (p = 0,0) et d'un Eta² de 0,111, confirmant que ce paradoxe s'explique par la catégorie de livres achetée : les jeunes se concentrent sur une catégorie nettement plus chère que celle privilégiée par les seniors.
+
+<Gallery>
+<Figure src="dossiers/09/ca-journalier.png" alt="Chiffre d'affaires journalier sur deux ans (en gris) et sa moyenne mobile sur 30 jours (en rouge), qui reste autour de 16 000 € par jour." caption="La moyenne mobile sur 30 jours lisse les variations et révèle une tendance de fond stable." />
+<Figure src="dossiers/09/lorenz.png" alt="Courbe de Lorenz du chiffre d'affaires par client, nettement sous la diagonale d'égalité parfaite." caption="Un chiffre d'affaires concentré (Gini de 0,44) : quatre clients professionnels pèsent 7,3 % du total." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/09/age-categorie.png" alt="Boîtes à moustaches de l'âge des clients par catégorie de livres : médiane autour de 42 ans pour la catégorie 0, 47 ans pour la catégorie 1, 24 ans pour la catégorie 2." caption="Le paradoxe expliqué : les jeunes se concentrent sur la catégorie 2." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

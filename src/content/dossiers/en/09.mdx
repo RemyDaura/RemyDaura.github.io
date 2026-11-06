@@ -7,10 +7,13 @@ summary: "4 customers account for 7.3% of an online bookshop's revenue; a genera
 highlight: "7.3% of revenue from 4 customers"
 lede: "A performance review for an online bookshop, which revealed a hidden concentration of revenue and opposite buying behaviour between young and older customers."
 lineage: ["Products · customers · transactions", "Python · statistical tests", "3 levers for action"]
+period:
+  start: "2026-03-17"
+  end: "2026-04-17"
 meta:
   - label: "Client"
     value: "Lapage bookshop"
-  - label: "Period"
+  - label: "Period studied"
     value: "2021-2022"
   - label: "Tools"
     value: "Python, statistical tests (Spearman, Kruskal-Wallis)"
@@ -50,6 +53,12 @@ The most significant finding came from a Lorenz curve and a Gini coefficient of 
 For individual customers, a Shapiro-Wilk test showed that purchase amounts do not follow a normal distribution, which ruled out Pearson's test in favour of a Spearman correlation between age and purchase frequency (r = 0.21, weak but significant).
 
 A paradox then appeared: older customers buy often but with small baskets, younger customers buy rarely but with very large baskets. A Levene test ruled out a classic ANOVA in favour of a Kruskal-Wallis test (p = 0.0) and an eta squared of 0.111, confirming that the paradox is explained by the category of books bought: younger customers focus on a category that is much more expensive than the one older customers prefer.
+
+<Gallery>
+<Figure src="dossiers/09/ca-journalier.png" alt="Daily revenue over two years (grey) and its 30-day moving average (red), which stays around €16,000 a day." caption="The 30-day moving average smooths out the variations and shows a stable underlying trend. The charts are in French." />
+<Figure src="dossiers/09/lorenz.png" alt="Lorenz curve of revenue per customer, well below the line of perfect equality." caption="Concentrated revenue (Gini 0.44): four business customers account for 7.3% of the total." sizes="(min-width: 760px) 540px, 100vw" />
+<Figure src="dossiers/09/age-categorie.png" alt="Box plots of customer age by book category: median around 42 for category 0, 47 for category 1, 24 for category 2." caption="The paradox explained: young customers focus on category 2." sizes="(min-width: 760px) 540px, 100vw" />
+</Gallery>
 
 </Section>
 

@@ -6,6 +6,9 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+/** Date au format AAAA-MM-JJ. */
+const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { error: 'date attendue au format AAAA-MM-JJ' });
+
 const dossiers = defineCollection({
   loader: glob({ pattern: '{fr,en}/[0-9][0-9].mdx', base: './src/content/dossiers' }),
   schema: z.object({
@@ -28,6 +31,10 @@ const dossiers = defineCollection({
     lede: z.string(),
     /** Chemin de la donnée, de la source au livrable. */
     lineage: z.array(z.string()).min(2),
+    /** Dates de réalisation ; sans fin, le dossier est en cours. */
+    period: z
+      .object({ start: isoDate, end: isoDate.optional() })
+      .refine((p) => p.end === undefined || p.end >= p.start, { error: 'la fin du dossier précède son début' }),
     meta: z.array(z.object({ label: z.string(), value: z.string() })).min(1),
     stats: z.array(z.object({ value: z.string(), label: z.string() })).max(4).default([]),
     links: z.array(z.object({ label: z.string(), href: z.url(), primary: z.boolean().default(false) })).default([]),

@@ -17,17 +17,16 @@ export const SITE = {
  */
 export const PIPELINE = {
   /**
-   * Passer à true quand le pipeline publiera releve.json (étape 7). Tant que c'est faux,
-   * le navigateur n'appelle rien et le site affiche l'instantané embarqué.
+   * Lire le relevé publié chaque matin. Mettre à false pour n'afficher que l'instantané
+   * embarqué (src/data/releve.snapshot.json), sans aucun appel réseau.
    */
-  live: false,
+  live: true,
   repo: 'https://github.com/RemyDaura/DE-Pipeline-Prix-Carburants',
   dashboard: 'https://datastudio.google.com/reporting/77d153bb-1926-4ad1-a366-4deee23bc762',
-  /**
-   * Fichier JSON publié chaque matin par le pipeline (étape 7, pas encore en ligne).
-   * Tant qu'il n'existe pas, le site affiche l'instantané de src/data/releve.snapshot.json.
-   */
+  /** Fichier JSON publié chaque matin par le pipeline (ingestion/publier.py du dépôt DE). */
   releveUrl: 'https://remydaura.github.io/DE-Pipeline-Prix-Carburants/releve.json',
+  /** Documentation dbt publiée par le même run. */
+  docs: 'https://remydaura.github.io/DE-Pipeline-Prix-Carburants/',
   /** Dernier run du workflow, via l'API publique de GitHub (sans jeton, 60 appels/h par visiteur). */
   runsApi:
     'https://api.github.com/repos/RemyDaura/DE-Pipeline-Prix-Carburants/actions/workflows/pipeline.yml/runs?per_page=1',

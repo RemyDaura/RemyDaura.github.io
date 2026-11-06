@@ -10,7 +10,6 @@ import { PIPELINE } from '../../data/site';
 import { HOME } from '../../i18n/home';
 import { useTranslations, type Lang } from '../../i18n/ui';
 import { dossierPath } from '../../lib/dossiers';
-import { formatDayShort } from '../../lib/format';
 import { FUEL_CODES, SNAPSHOT, computeStatus } from '../../lib/releve';
 import { widgetView } from '../../lib/releve-view';
 
@@ -22,7 +21,8 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const { freshness } = HOME[lang];
 const view = widgetView(SNAPSHOT, computeStatus(SNAPSHOT, null, new Date()), lang, 'gazole');
-const aside = `mart_prix_jour_departement · ${t.status.day(formatDayShort(SNAPSHOT.jour, lang))}`;
+// La date du relevé est dans la barre d'état, mise à jour en direct : pas ici, où elle resterait figée.
+const aside = 'mart_prix_jour_departement';
 ---
 
 <Section id="fraicheur" label={freshness.label} title={freshness.title} intro={freshness.intro} aside={aside}>

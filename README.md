@@ -94,8 +94,11 @@ La barre d'état et la section « Fraîcheur » affichent l'un de trois états, 
 | En retard | Relevé plus ancien | carré orange |
 | Échec | Le dernier run du pipeline a échoué | croix rouge |
 
-Tant que `PIPELINE.live` vaut `false` dans `src/data/site.ts`, le navigateur n'appelle rien et le site affiche
-l'instantané de `src/data/releve.snapshot.json`.
+Le relevé est publié chaque matin par `ingestion/publier.py` (dépôt DE) sur
+[remydaura.github.io/DE-Pipeline-Prix-Carburants/releve.json](https://remydaura.github.io/DE-Pipeline-Prix-Carburants/releve.json),
+avec la documentation dbt. L'état du dernier run est lu via l'API publique de GitHub Actions.
+Hors ligne, ou si `PIPELINE.live` vaut `false` dans `src/data/site.ts`, le site affiche l'instantané de
+`src/data/releve.snapshot.json`.
 
 ## Accessibilité
 

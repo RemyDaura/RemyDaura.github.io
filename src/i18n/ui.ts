@@ -68,7 +68,7 @@ const fr = {
     lateNote: (date: string) => `Le run du matin n'a pas encore publié de relevé. Valeurs du dernier relevé valide, le ${date}.`,
     failedNote: (date: string) =>
       `Rien n'a été publié par le dernier run : les données douteuses s'arrêtent avant l'écran. Valeurs du dernier relevé valide, le ${date}.`,
-    snapshotNote: "Instantané embarqué dans le site, en attendant le relevé publié chaque matin.",
+    snapshotNote: "Instantané embarqué dans le site : le relevé publié ce matin n'a pas pu être lu.",
     runningNote: "Un run est en cours : le relevé sera mis à jour dans quelques minutes.",
     method:
       "Moyennes pondérées par le nombre de stations, sur les prix de moins de 30 jours et hors prix suspects. Source : flux DGCCRF, Licence Ouverte 2.0.",
@@ -168,7 +168,7 @@ const en: UI = {
     lateNote: (date: string) => `This morning's run has not published a snapshot yet. Values from the last valid snapshot, ${date}.`,
     failedNote: (date: string) =>
       `The last run published nothing: questionable data stops before the screen. Values from the last valid snapshot, ${date}.`,
-    snapshotNote: "Snapshot bundled with the site, until the file published every morning is online.",
+    snapshotNote: "Snapshot bundled with the site: this morning's published file could not be read.",
     runningNote: "A run is in progress: the snapshot will update in a few minutes.",
     method:
       "Averages weighted by number of stations, on prices less than 30 days old, suspicious prices excluded. Source: DGCCRF feed (French consumer authority), Open Licence 2.0.",
